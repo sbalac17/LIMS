@@ -1,0 +1,21 @@
+﻿@using LIMS.Models
+@model LabSampleStatus?
+
+@switch (Model)
+{
+    case LabSampleStatus.InProgress:
+        <span class="label label-warning">In Progress</span>
+        break;
+
+    case LabSampleStatus.Approved:
+        <span class="label label-success">Approved</span>
+        break;
+
+    case LabSampleStatus.Rejected:
+        <span class="label label-danger">Rejected</span>
+        break;
+
+    default:
+        <span class="label label-default">Unknown</span>
+        break;
+}

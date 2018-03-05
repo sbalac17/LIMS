@@ -1,0 +1,87 @@
+﻿@model LIMS.Models.LabsDetailsViewModel
+@{
+    ViewBag.Title = "Lab details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model.IsLabManager)
+{
+    <div class="btn-group">
+        @Html.ActionLink("Edit", "Edit", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("View Report", "Report", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-warning" })
+        
+        @if (User.IsAdmin())
+        {
+            @Html.ActionLink("Delete", "Delete", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-danger" })
+        }
+    </div>
+}
+
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Lab.CollegeName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lab.CollegeName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lab.CourseCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lab.CourseCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lab.WeekNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lab.WeekNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lab.TestId)
+        </dt>
+        <dd>
+            @Html.ActionLink(Model.Lab.TestId, "Details", "Tests", new { test = Model.Lab.TestId }, null)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lab.Location)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lab.Location)
+        </dd>
+        <dt>Members</dt>
+        <dd>
+            <div class="btn-group">
+                @Html.ActionLink("View", "Members", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-default" })
+                @if (Model.IsLabManager)
+                {
+                    @Html.ActionLink("Add", "AddMember", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-success" })
+                }
+            </div>
+        </dd>
+        <dt>Reagents</dt>
+        <dd>
+            <div class="btn-group">
+                @Html.ActionLink("View", "Reagents", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Add", "AddReagent", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-success" })
+            </div>
+        </dd>
+        <dt>Samples</dt>
+        <dd>
+            <div class="btn-group">
+                @Html.ActionLink("View", "Samples", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-default" })
+                @if (Model.IsLabManager)
+                {
+                    @Html.ActionLink("Add", "AddSample", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-success" })
+                }
+            </div>
+        </dd>
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Back to work setup", "Index")
+</p>

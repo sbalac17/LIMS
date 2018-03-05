@@ -1,0 +1,76 @@
+﻿@model LIMS.Models.LabsReagentsViewModel
+@{
+    ViewBag.Title = "Lab reagents";
+}
+
+<h2>@ViewBag.Title</h2>
+@Html.ActionLink("Add", "AddReagent", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-success" })
+<hr />
+
+@if (Model.UsedReagents == null || Model.UsedReagents.Count == 0)
+{
+    <div class="alert alert-info">
+        No reagents have been used by this lab yet.
+    </div>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.UsedReagents.First().Reagent.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.UsedReagents.First().Reagent.ManufacturerCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.UsedReagents.First().Reagent.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.UsedReagents.First().UsedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.UsedReagents.First().Quantity)
+            </th>
+            @if (Model.IsLabManager)
+            {
+                <th class="col-md-2">
+                    Operations
+                </th>
+            }
+        </tr>
+        </thead>
+
+        @foreach (var result in Model.UsedReagents)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => result.Reagent.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.Reagent.ManufacturerCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.Reagent.ExpiryDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.UsedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.Quantity)
+                </td>
+                @if (Model.IsLabManager)
+                {
+                    <td>
+                        @Html.ActionLink("Remove", "RemoveReagent", "Labs", new { lab = Model.Lab.LabId, usedReagentId = result.UsedReagentId }, new { @class = "btn btn-danger" })
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+}
+
+<p>
+    @Html.ActionLink("Back to lab details", "Details", new { lab = Model.Lab.LabId })
+</p>

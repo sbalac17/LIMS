@@ -1,0 +1,165 @@
+﻿@model LIMS.Models.LabsReportViewModel
+@{
+    ViewBag.Title = "Certificate of Analysis";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Lab.CollegeName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lab.CollegeName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lab.CourseCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lab.CourseCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lab.WeekNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lab.WeekNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lab.TestId)
+        </dt>
+        <dd>
+            @Html.ActionLink(Model.Lab.TestId, "Details", "Tests", new { test = Model.Lab.TestId }, null)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lab.Location)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lab.Location)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <h3>Members</h3>
+    <hr />
+    
+    @if (Model.Members == null || Model.Members.Count == 0)
+    {
+        <div class="alert alert-info">
+            Lab has no members.
+        </div>
+    }
+    else
+    {
+        <ul class="list-group">
+            @foreach (var member in Model.Members)
+            {
+                <li class="list-group-item">
+                    @Html.Partial("_LabMember", member)
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+<div>
+    <h3>Assigned Samples</h3>
+    <hr />
+    
+    @if (Model.LabSamples == null || Model.LabSamples.Count == 0)
+    {
+        <div class="alert alert-info">
+            Lab has no assigned samples.
+        </div>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.LabSamples.First().Sample.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.LabSamples.First().Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.LabSamples.First().Sample.AddedDate)
+                </th>
+            </tr>
+            </thead>
+        
+            @foreach (var sample in Model.LabSamples)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => sample.Sample.Description)
+                    </td>
+                    <td>
+                        @Html.Partial("_LabSampleStatus", sample.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => sample.Sample.AddedDate)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+
+<div>
+    <h3>Used Reagents</h3>
+    <hr />
+    
+    @if (Model.UsedReagents == null || Model.UsedReagents.Count == 0)
+    {
+        <div class="alert alert-info">
+            Lab has no used reagents.
+        </div>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.UsedReagents.First().Reagent.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.UsedReagents.First().Reagent.ManufacturerCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.UsedReagents.First().Reagent.ExpiryDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.UsedReagents.First().Quantity)
+                </th>
+            </tr>
+            </thead>
+
+            @foreach (var usedReagent in Model.UsedReagents)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => usedReagent.Reagent.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => usedReagent.Reagent.ManufacturerCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => usedReagent.Reagent.ExpiryDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => usedReagent.Quantity)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+
+<p>
+    @Html.ActionLink("Back to lab details", "Details", new { lab = Model.Lab.LabId })
+</p>

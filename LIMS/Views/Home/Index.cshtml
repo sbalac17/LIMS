@@ -1,0 +1,44 @@
+﻿@model LIMS.Models.HomeViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>LIMS</h1>
+    <p class="lead">The <em>Centennial College</em> laboratory information management system.</p>
+</div>
+
+@if (!Request.IsAuthenticated)
+{
+    <div>
+        <h2>Getting started</h2>
+        <p>
+            Login to or register a new account and then speak to your lab manager about getting access to labs.
+        </p>
+    </div>
+}
+else
+{
+    @Html.ActionLink("Make yourself admin (need to logout after)", "Promote", "Home", null, new { @class = "btn btn-danger" })
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Work Setup</h2>
+            <p>
+                Access labs by searching for a course code.
+            </p>
+            @Html.ActionLink("Work Setup »", "Index", "Labs", null, new { @class = "btn btn-default" })
+        </div>
+        
+        @foreach (var lab in Model.RecentLabs)
+        {
+            <div class="col-md-4">
+                <h2>@lab.CourseCode (week @lab.WeekNumber)</h2>
+                <p>Test code: @Html.ActionLink(lab.TestId, "Details", "Tests", new { test = lab.TestId }, null)</p>
+                <p>
+                    @Html.ActionLink("Open »", "Details", "Labs", new { lab = lab.LabId }, new { @class = "btn btn-default" })
+                </p>
+            </div>
+        }
+    </div>
+}

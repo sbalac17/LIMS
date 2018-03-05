@@ -1,0 +1,47 @@
+﻿@model LIMS.Models.Test
+@{
+    ViewBag.Title = "Test details";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="btn-group">
+    @if (User.IsPrivileged())
+    {
+        @Html.ActionLink("Add Sample", "AddSample", "Tests", new { test = Model.TestId }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Edit", "Edit", new { test = Model.TestId }, new { @class = "btn btn-primary" })
+    }
+    @if (User.IsAdmin())
+    {
+        @Html.ActionLink("Delete", "Delete", new { test = Model.TestId }, new { @class = "btn btn-danger" })
+    }
+</div>
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TestId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TestId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            <p>
+                @Html.DisplayFor(model => model.Description)
+            </p>
+        </dd>
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Back to tests", "Index")
+</p>

@@ -1,0 +1,76 @@
+﻿@model LIMS.Models.TestsSearchViewModel
+@{
+    ViewBag.Title = "Tests";
+}
+
+<h2>@ViewBag.Title</h2>
+@if (User.IsPrivileged())
+{
+    <span class="input-group-btn">
+        @Html.ActionLink("Create new", "Create", "Tests", null, new { @class = "btn btn-success" })
+    </span>
+}
+<hr />
+
+@using (Html.BeginForm("Index", "Tests", FormMethod.Get, new { @class = "form-group" }))
+{
+    <div class="input-group">
+        @Html.TextBoxFor(m => m.Query, new { @class = "form-control", placeholder = "Query" })
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </span>
+    </div>
+}
+
+@if (Model.Results != null && Model.Results.Count == 0)
+{
+    <div class="alert alert-info">
+        No tests matched the query provided.
+    </div>
+}
+else if (Model.Results != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().TestCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().Name)
+                </th>
+                <th class="col-md-4">
+                    Operations
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var result in Model.Results)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => result.TestCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.Name)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        @Html.ActionLink("Details", "Details", "Tests", new { test = result.TestCode }, new { @class = "btn btn-default" })
+                        
+                        @if (User.IsPrivileged())
+                        {
+                            @Html.ActionLink("Add Sample", "AddSample", "Tests", new { test = result.TestCode }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Edit", "Edit", "Tests", new { test = result.TestCode }, new { @class = "btn btn-primary" })
+                        }
+                        
+                        @if (User.IsAdmin())
+                        {
+                            @Html.ActionLink("Delete", "Delete", "Tests", new { test = result.TestCode }, new { @class = "btn btn-danger" })
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+}

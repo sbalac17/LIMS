@@ -1,0 +1,105 @@
+﻿@model LIMS.Models.LabsSearchViewModel
+
+@{
+    ViewBag.Title = "Work Setup";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (User.IsPrivileged())
+{
+    <span class="input-group-btn">
+        @Html.ActionLink("Create new", "Create", "Labs", null, new { @class = "btn btn-success" })
+    </span>
+}
+
+<hr />
+
+@using (Html.BeginForm("Index", "Labs", FormMethod.Get, new { @class = "form-group" }))
+{
+    <div class="input-group">
+        @Html.TextBoxFor(m => m.Query, new { @class = "form-control", placeholder = "Course Code" })
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </span>
+    </div>
+}
+
+@if (Model.Results != null && Model.Results.Count == 0)
+{
+    <div class="alert alert-info">
+        No labs matched the course or test code provided.
+    </div>
+}
+else if (Model.Results != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().CollegeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().CourseCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().FacultyName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().WeekNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().TestCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().Location)
+                </th>
+                <th class="col-md-3">
+                    Operations
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var result in Model.Results)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => result.CollegeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.CourseCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.FacultyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.WeekNumber)
+                </td>
+                <td>
+                    @Html.ActionLink(result.TestCode, "Details", "Tests", new { test = result.TestCode }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.Location)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        @if (result.IsMember)
+                        {
+                            @Html.ActionLink("Open", "Details", "Labs", new { lab = result.Id }, new { @class = "btn btn-default" })
+                        }
+
+                        @if (User.IsPrivileged())
+                        {
+                            @Html.ActionLink("View Report", "Report", "Labs", new { lab = result.Id }, new { @class = "btn btn-warning" })
+                        }
+
+                        @if (User.IsAdmin())
+                        {
+                            @Html.ActionLink("Delete", "Delete", "Labs", new { lab = result.Id }, new { @class = "btn btn-danger" })
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+}

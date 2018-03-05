@@ -1,0 +1,78 @@
+﻿@model LIMS.Models.ReagentsCreateViewModel
+@{
+    ViewBag.Title = "Create reagent";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+@using (Html.BeginForm("Create", "Reagents", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Quantity, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Quantity, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ExpiryDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <div class="input-group date datetimepicker">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                @Html.EditorFor(m => m.ExpiryDate, new { htmlAttributes = new { @class = "form-control", placeholder = "DD/MM/YYYY" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.ExpiryDate, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ManufacturerCode, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.ManufacturerCode, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ManufacturerCode, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-success" value="Create" />
+        </div>
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Back to reagents", "Index")
+</p>
+
+
+@section Styles {
+    @Styles.Render("~/Content/datetimepicker")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datetimepicker")
+
+    <script type="text/javascript">
+        $(function ()
+        {
+            $('.datetimepicker').datetimepicker({
+                useCurrent: true,
+                format: "DD/MM/YYYY",
+                minDate: new Date(2000, 0),
+                maxDate: new Date(2050, 0)
+            });
+        });
+    </script>
+}

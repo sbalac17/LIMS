@@ -1,0 +1,60 @@
+﻿@model LIMS.Models.LabsMembersViewModel
+@{
+    ViewBag.Title = "Lab members";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model.IsLabManager)
+{
+    @Html.ActionLink("Add", "AddMember", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-success" })
+}
+
+<hr />
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.Lab.Members.First().User.UserName)
+            </th>
+            @if (Model.IsLabManager)
+            {
+                <th>
+                    @Html.DisplayNameFor(m => m.Members.First().LastActive)
+                </th>
+            }
+            <th class="col-md-2">
+                Operations
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var result in Model.Members)
+    {
+        <tr>
+            <td>
+                @Html.Partial("_LabMember", result)
+            </td>
+            @if (Model.IsLabManager)
+            {
+                <td>
+                    @if (result.LastActive.HasValue)
+                    {
+                        @Html.DisplayFor(m => result.LastActive)
+                    }
+                </td>
+            }
+            <td>
+                @if (Model.IsLabManager && !result.IsLabManager)
+                {
+                    @Html.ActionLink("Remove", "RemoveMember", "Labs", new { lab = Model.Lab.LabId, userId = result.User.Id }, new { @class = "btn btn-danger" })
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+<p>
+    @Html.ActionLink("Back to lab details", "Details", new { lab = Model.Lab.LabId })
+</p>

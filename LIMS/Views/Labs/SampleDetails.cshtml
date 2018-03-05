@@ -1,0 +1,133 @@
+﻿@using LIMS.Models
+@model LIMS.Models.LabsSampleDetailsViewModel
+@{
+    ViewBag.Title = "Lab sample details";
+}
+
+<h2>@ViewBag.Title</h2>
+@if (Model.IsLabManager)
+{
+    <div class="btn-group">
+        @Html.ActionLink("Edit", "EditSample", new { lab = Model.LabSample.LabId, sample = Model.LabSample.SampleId }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Remove", "RemoveSample", new { lab = Model.LabSample.LabId, sample = Model.LabSample.SampleId }, new { @class = "btn btn-danger" })
+    </div>
+}
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LabSample.Sample.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LabSample.Sample.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LabSample.Status)
+        </dt>
+        <dd>
+            @Html.Partial("_LabSampleStatus", Model.LabSample.Status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LabSample.Sample.AddedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LabSample.Sample.AddedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LabSample.AssignedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LabSample.AssignedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LabSample.Notes)
+        </dt>
+        <dd>
+            <pre>@Html.DisplayFor(model => model.LabSample.Notes)</pre>
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <h3>Comments</h3>
+    <hr />
+
+    @if (Model.Comments != null && Model.Comments.Count > 0)
+    {
+        <ul class="media-list">
+            @foreach (var r in Model.Comments)
+            {
+                <li class="media">
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            @Html.Partial("_LabMember", r)
+                            <small>@Html.DisplayFor(m => r.Comment.Date)</small>
+                        </h4>
+                        <div class="well well-sm">
+                            @if (r.Comment.Message != null)
+                            {
+                                @r.Comment.Message
+                            }
+
+                            @if (r.Comment.NewStatus.HasValue)
+                            {
+                                <div>
+                                    <em>Changed status to </em>
+                                    @Html.Partial("_LabSampleStatus", r.Comment.NewStatus)
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            There are no comments on this lab sample yet.
+        </div>
+    }
+
+    @using (Html.BeginForm("SamplePostComment", "Labs", new { lab = Model.LabSample.LabId, sample = Model.LabSample.SampleId }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div style="margin-bottom: 12px">
+                @Html.TextAreaFor(m => m.Message, new { @class = "form-control", placeholder = "Comment" })
+                @Html.ValidationSummary(null, new { @class = "text-danger" })
+                <div class="input-group-btn">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary" name="SelectedButton" value="0">Post</button>
+                    </div>
+
+                    @if (Model.IsLabManager)
+                    {
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                @if (Model.LabSample.Status != LabSampleStatus.InProgress)
+                                {
+                                    <button type="submit" class="btn btn-warning" name="SelectedButton" value="1">In Progress</button>
+                                }
+                                @if (Model.LabSample.Status != LabSampleStatus.Approved)
+                                {
+                                    <button type="submit" class="btn btn-success" name="SelectedButton" value="2">Approve</button>
+                                }
+                                @if (Model.LabSample.Status != LabSampleStatus.Rejected)
+                                {
+                                    <button type="submit" class="btn btn-danger" name="SelectedButton" value="3">Reject</button>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<p>
+    @Html.ActionLink("Back to samples", "Samples", new { lab = Model.LabSample.LabId })
+</p>

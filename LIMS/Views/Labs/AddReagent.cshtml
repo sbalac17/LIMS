@@ -1,0 +1,73 @@
+﻿@model LIMS.Models.LabsAddReagentViewModel
+@{
+    ViewBag.Title = "Add reagent to lab";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+@using (Html.BeginForm("AddReagent", "Labs", new { lab = Model.Lab.LabId }, FormMethod.Get, new { @class = "form-group" }))
+{
+    <div class="input-group">
+        @Html.TextBoxFor(m => m.Query, new { @class = "form-control", placeholder = "Query" })
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </span>
+    </div>
+}
+
+@if (Model.Results != null && Model.Results.Count == 0)
+{
+    <div class="alert alert-info">
+        No reagents matched the query provided.
+    </div>
+}
+else if (Model.Results != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().ExpiryDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().ManufacturerCode)
+                </th>
+                <th class="col-md-2">
+                    Operations
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var result in Model.Results)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => result.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.ExpiryDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.ManufacturerCode)
+                </td>
+                <td>
+                    @Html.ActionLink("Add", "ConfirmAddReagent", "Labs", new { lab = Model.Lab.LabId, reagent = result.ReagentId }, new { @class = "btn btn-success" })
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<p>
+    @Html.ActionLink("Back to lab details", "Details", new { lab = Model.Lab.LabId })
+</p>

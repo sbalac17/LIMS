@@ -1,0 +1,90 @@
+﻿@model LIMS.Models.SamplesSearchViewModel
+@{
+    ViewBag.Title = "Samples";
+}
+
+<h2>@ViewBag.Title</h2>
+@if (User.IsPrivileged())
+{
+    <span class="input-group-btn">
+        @Html.ActionLink("Add", "Create", "Samples", null, new { @class = "btn btn-success" })
+    </span>
+}
+<hr />
+
+@using (Html.BeginForm("Index", "Samples", FormMethod.Get, new { @class = "form-group" }))
+{
+    <div class="input-group">
+        @Html.TextBoxFor(m => m.Query, new { @class = "form-control", placeholder = "Query" })
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </span>
+    </div>
+}
+
+@if (Model.Results != null && Model.Results.Count == 0)
+{
+    <div class="alert alert-info">
+        No samples matched the query provided.
+    </div>
+}
+else if (Model.Results != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().Sample.TestId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().Sample.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().Sample.AddedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().LabSample)
+                </th>
+                <th class="col-md-4">
+                    Operations
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var result in Model.Results)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(result.Sample.TestId, "Details", "Tests", new { test = result.Sample.TestId }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.Sample.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.Sample.AddedDate)
+                </td>
+                <td>
+                    @if (result.LabSample != null)
+                    {
+                        @Html.ActionLink("Open", "Details", "Labs", new { lab = result.LabSample.LabId }, new { @class = "btn btn-default" })
+                    }
+                </td>
+                <td>
+                    <span class="btn-group">
+                        @Html.ActionLink("Details", "Details", "Samples", new { sample = result.Sample.SampleId }, new { @class = "btn btn-default" })
+                        
+                        @if (User.IsPrivileged())
+                        {
+                            @Html.ActionLink("Edit", "Edit", "Samples", new { sample = result.Sample.SampleId }, new { @class = "btn btn-primary" })
+                        }
+
+                        @if (User.IsAdmin())
+                        {
+                            @Html.ActionLink("Delete", "Delete", "Samples", new { sample = result.Sample.SampleId }, new { @class = "btn btn-danger" })
+                        }
+                    </span>
+                </td>
+            </tr>
+        }
+    </table>
+}

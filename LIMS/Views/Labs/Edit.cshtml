@@ -1,0 +1,66 @@
+﻿@model LIMS.Models.LabsEditViewModel
+@{
+    ViewBag.Title = "Edit lab";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+@using (Html.BeginForm(new { lab = Model.Lab.LabId }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, null, new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CollegeName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.CollegeName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CollegeName, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseCode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.CourseCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CourseCode, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.WeekNumber, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.WeekNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.WeekNumber, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TestCode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.TestCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TestCode, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Location, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Back to lab details", "Details", new { lab = Model.Lab.LabId })
+</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

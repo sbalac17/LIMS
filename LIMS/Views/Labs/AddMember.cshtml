@@ -1,0 +1,69 @@
+﻿@model LIMS.Models.LabsAddMemberViewModel
+@{
+    ViewBag.Title = "Add user to lab";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+@using (Html.BeginForm("AddMember", "Labs", new { lab = Model.Lab.LabId }, FormMethod.Get, new { @class = "form-group" }))
+{
+    <div class="input-group">
+        @Html.TextBoxFor(m => m.Query, new { @class = "form-control", placeholder = "Query" })
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </span>
+    </div>
+}
+
+@if (Model.Results != null && Model.Results.Count == 0)
+{
+    <div class="alert alert-info">
+        No users matched the query provided.
+    </div>
+}
+else if (Model.Results != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().User.UserName)
+                </th>
+                <th class="col-md-2">
+                    Operations
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var result in Model.Results)
+        {
+            <tr>
+                <td>
+                    @Html.Partial("_LabMember", result)
+                </td>
+                <td>
+                    @if (result.IsMember)
+                    {
+                        if (!result.IsLabManager)
+                        {
+                            @Html.ActionLink("Remove", "RemoveMember", "Labs", new { lab = Model.Lab.LabId, userId = result.User.Id }, new { @class = "btn btn-danger" })
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("PostAddMember", "Labs", new { lab = Model.Lab.LabId, userId = result.User.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="submit" value="Add" class="btn btn-success" />
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<p>
+    @Html.ActionLink("Back to lab details", "Details", new { lab = Model.Lab.LabId })
+</p>

@@ -1,0 +1,8 @@
+﻿@model LIMS.IUserWithLabManager
+
+@Html.DisplayFor(m => Model.User.UserName)
+                
+@if (Model.IsLabManager)
+{
+    <span class="label label-primary">Lab Manager</span>
+}

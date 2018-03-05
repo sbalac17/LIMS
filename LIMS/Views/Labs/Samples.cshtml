@@ -1,0 +1,87 @@
+﻿@model LIMS.Models.LabsSamplesViewModel
+@{
+    ViewBag.Title = "Lab samples";
+}
+
+<h2>@ViewBag.Title</h2>
+@if (Model.IsLabManager)
+{
+    <div class="btn-group">
+        @Html.ActionLink("Add", "AddSample", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-success" })
+    </div>
+}
+<hr />
+
+@using (Html.BeginForm("Samples", "Labs", new { lab = Model.Lab.LabId }, FormMethod.Get, new { @class = "form-group" }))
+{
+    <div class="input-group">
+        @Html.TextBoxFor(m => m.Query, new { @class = "form-control", placeholder = "Query" })
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </span>
+    </div>
+}
+
+@if (string.IsNullOrWhiteSpace(Model.Query) && Model.LabSamples.Count == 0)
+{
+    <div class="alert alert-info">
+        No samples are assigned to this lab.
+    </div>
+}
+else if (!string.IsNullOrWhiteSpace(Model.Query) && Model.LabSamples.Count == 0)
+{
+    <div class="alert alert-info">
+        No labs matched the course or test code provided.
+    </div>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.LabSamples.First().Sample.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.LabSamples.First().Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.LabSamples.First().Sample.AddedDate)
+            </th>
+            <th class="col-md-4">
+                Operations
+            </th>
+        </tr>
+        </thead>
+
+        @foreach (var result in Model.LabSamples)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => result.Sample.Description)
+                </td>
+                <td>
+                    @Html.Partial("_LabSampleStatus", result.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.Sample.AddedDate)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        @Html.ActionLink("Details", "SampleDetails", "Labs", new { lab = Model.Lab.LabId, sample = result.SampleId }, new { @class = "btn btn-default" })
+
+                        @if (Model.IsLabManager)
+                        {
+                            @Html.ActionLink("Edit", "EditSample", "Labs", new { lab = Model.Lab.LabId, sample = result.SampleId }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Remove", "RemoveSample", "Labs", new { lab = Model.Lab.LabId, sample = result.SampleId }, new { @class = "btn btn-danger" })
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<p>
+    @Html.ActionLink("Back to lab details", "Details", new { lab = Model.Lab.LabId })
+</p>

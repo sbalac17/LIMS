@@ -1,0 +1,29 @@
+﻿@model LIMS.Models.LabsRemoveMemberViewModel
+@{
+    ViewBag.Title = "Remove lab member";
+}
+
+<h2>@ViewBag.Title</h2>
+<h3>Are you sure you want to remove this user from the lab?</h3>
+<hr />
+
+<div>
+    @using (Html.BeginForm("PostRemoveMember", "Labs", new { lab = Model.Lab.LabId, userId = Model.UserId }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, null, new { @class = "text-danger" })
+
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(m => m.UserName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(m => m.UserName)
+            </dd>
+        </dl>
+
+        @Html.ActionLink("Cancel", "Members", new { lab = Model.Lab.LabId }, new { @class = "btn btn-default" })
+        <input type="submit" value="Remove" class="btn btn-danger" />
+    }
+</div>

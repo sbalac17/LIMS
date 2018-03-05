@@ -1,0 +1,54 @@
+﻿@model LIMS.Models.TestsDeleteViewModel
+@{
+    ViewBag.Title = "Delete test";
+}
+
+<h2>@ViewBag.Title</h2>
+<h3>Are you sure you want to delete this test?</h3>
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Test.TestId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Test.TestId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Test.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Test.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Test.Description)
+        </dt>
+        <dd>
+            <p>
+                @Html.DisplayFor(model => model.Test.Description)
+            </p>
+        </dd>
+    </dl>
+    
+    @if (Model.CannotDelete)
+    {
+        <div class="alert alert-danger">
+            This test is being used by labs or samples and cannot be deleted until nothing references it.
+        </div>
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    }
+</div>
+
+<p>
+    @Html.ActionLink("Back to tests", "Index")
+</p>

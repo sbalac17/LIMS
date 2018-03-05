@@ -1,0 +1,65 @@
+﻿@model LIMS.Models.LabsAddSampleViewModel
+@{
+    ViewBag.Title = "Add sample to lab";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+@using (Html.BeginForm("AddSample", "Labs", new { lab = Model.Lab.LabId }, FormMethod.Get, new { @class = "form-group" }))
+{
+    <div class="input-group">
+        @Html.TextBoxFor(m => m.Query, new { @class = "form-control", placeholder = "Query" })
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </span>
+    </div>
+}
+
+@if (Model.Results != null && Model.Results.Count == 0)
+{
+    <div class="alert alert-info">
+        No samples matched the query provided.
+    </div>
+}
+else if (Model.Results != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Results.First().AddedDate)
+                </th>
+                <th class="col-md-2">
+                    Operations
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var result in Model.Results)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => result.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => result.AddedDate)
+                </td>
+                <td>
+                    @using (Html.BeginForm("ConfirmAddSample", "Labs", new { lab = Model.Lab.LabId, sample = result.SampleId }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="submit" value="Add" class="btn btn-success" />
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<p>
+    @Html.ActionLink("Back to lab details", "Details", new { lab = Model.Lab.LabId })
+</p>
