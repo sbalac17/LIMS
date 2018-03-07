@@ -55,29 +55,27 @@
 
     @if (Model.Comments != null && Model.Comments.Count > 0)
     {
-        <ul class="media-list">
+        <ul class="p-0 mb-3">
             @foreach (var r in Model.Comments)
             {
-                <li class="media">
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            @Html.Partial("_LabMember", r)
-                            <small>@Html.DisplayFor(m => r.Comment.Date)</small>
-                        </h4>
-                        <div class="well well-sm">
-                            @if (r.Comment.Message != null)
-                            {
-                                @r.Comment.Message
-                            }
-
-                            @if (r.Comment.NewStatus.HasValue)
-                            {
-                                <div>
-                                    <em>Changed status to </em>
-                                    @Html.Partial("_LabSampleStatus", r.Comment.NewStatus)
-                                </div>
-                            }
-                        </div>
+                <li class="mb-3 card">
+                    <div class="card-header">
+                        @Html.Partial("_LabMember", r)
+                        <small>@Html.DisplayFor(m => r.Comment.Date)</small>
+                    </div>
+                    <div class="card-body">
+                        @if (r.Comment.Message != null)
+                        {
+                            @r.Comment.Message
+                        }
+                        
+                        @if (r.Comment.NewStatus.HasValue)
+                        {
+                            <div class="text-muted">
+                                <em>Changed status to </em>
+                                @Html.Partial("_LabSampleStatus", r.Comment.NewStatus)
+                            </div>
+                        }
                     </div>
                 </li>
             }
