@@ -19,25 +19,33 @@
 }
 else
 {
-    @Html.ActionLink("Make yourself admin (need to logout after)", "Promote", "Home", null, new { @class = "btn btn-danger" })
+    <p>
+        @Html.ActionLink("Make yourself admin (need to logout after)", "Promote", "Home", null, new { @class = "btn btn-danger" })
+    </p>
 
     <div class="row">
         <div class="col-md-4">
-            <h2>Work Setup</h2>
-            <p>
-                Access labs by searching for a course code.
-            </p>
-            @Html.ActionLink("Work Setup »", "Index", "Labs", null, new { @class = "btn btn-default" })
+            <div class="card">
+                <div class="card-body">
+                    <h2>Work Setup</h2>
+                    <p>
+                        Access labs by searching for a course code.
+                    </p>
+                    @Html.ActionLink("Work Setup »", "Index", "Labs", null, new { @class = "btn btn-primary" })
+                </div>
+            </div>
         </div>
-        
+
         @foreach (var lab in Model.RecentLabs)
         {
             <div class="col-md-4">
-                <h2>@lab.CourseCode (week @lab.WeekNumber)</h2>
-                <p>Test code: @Html.ActionLink(lab.TestId, "Details", "Tests", new { test = lab.TestId }, null)</p>
-                <p>
-                    @Html.ActionLink("Open »", "Details", "Labs", new { lab = lab.LabId }, new { @class = "btn btn-default" })
-                </p>
+                <div class="card">
+                    <div class="card-body">
+                        <h2>@lab.CourseCode (week @lab.WeekNumber)</h2>
+                        <p>Test code: @Html.ActionLink(lab.TestId, "Details", "Tests", new { test = lab.TestId }, null)</p>
+                        @Html.ActionLink("Open »", "Details", "Labs", new { lab = lab.LabId }, new { @class = "btn btn-primary" })
+                    </div>
+                </div>
             </div>
         }
     </div>

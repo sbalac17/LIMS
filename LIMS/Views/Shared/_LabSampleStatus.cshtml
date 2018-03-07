@@ -4,18 +4,18 @@
 @switch (Model)
 {
     case LabSampleStatus.InProgress:
-        <span class="label label-warning">In Progress</span>
+        <span class="badge badge-warning">In Progress</span>
         break;
 
     case LabSampleStatus.Approved:
-        <span class="label label-success">Approved</span>
+        <span class="badge badge-success">Approved</span>
         break;
 
     case LabSampleStatus.Rejected:
-        <span class="label label-danger">Rejected</span>
+        <span class="badge badge-danger">Rejected</span>
         break;
 
     default:
-        <span class="label label-default">Unknown</span>
+        <span class="badge badge-secondary">Unknown</span>
         break;
 }

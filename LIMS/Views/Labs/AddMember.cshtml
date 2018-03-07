@@ -10,7 +10,7 @@
 {
     <div class="input-group">
         @Html.TextBoxFor(m => m.Query, new { @class = "form-control", placeholder = "Query" })
-        <span class="input-group-btn">
+        <span class="input-group-append">
             <button type="submit" class="btn btn-primary">Search</button>
         </span>
     </div>
@@ -30,7 +30,7 @@ else if (Model.Results != null)
                 <th>
                     @Html.DisplayNameFor(m => m.Results.First().User.UserName)
                 </th>
-                <th class="col-md-2">
+                <th class="w-25">
                     Operations
                 </th>
             </tr>

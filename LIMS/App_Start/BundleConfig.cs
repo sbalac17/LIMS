@@ -25,14 +25,15 @@ namespace LIMS
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/font-awesome.css",
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
                       "~/Scripts/moment.js",
-                      "~/Scripts/bootstrap-datetimepicker.js"));
+                      "~/Scripts/tempusdominus-bootstrap-4.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/datetimepicker").Include(
-                      "~/Content/bootstrap-datetimepicker.css"));
+                      "~/Content/tempusdominus-bootstrap-4.min.css"));
         }
     }
 }

@@ -10,43 +10,43 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div>
         @Html.ValidationSummary(true, null, new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LabSample.Sample.TestId, new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.LabSample.Sample.TestId, new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.ActionLink(Model.LabSample.Sample.TestId, "Details", "Tests", new { test = Model.LabSample.Sample.TestId }, null)
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.LabSample.Sample.Description, new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.LabSample.Sample.Description, new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DisplayFor(m => m.LabSample.Sample.Description)
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.LabSample.Sample.AddedDate, new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.LabSample.Sample.AddedDate, new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DisplayFor(m => m.LabSample.Sample.AddedDate)
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.LabSample.AssignedDate, new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.LabSample.AssignedDate, new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.DisplayFor(m => m.LabSample.AssignedDate)
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Notes, new { @class = "control-label col-md-2" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Notes, new { @class = "col-form-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Notes, null, new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+        <div class="form-group row">
+            <div class="offset-md-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </div>

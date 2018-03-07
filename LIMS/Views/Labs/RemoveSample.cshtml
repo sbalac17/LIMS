@@ -11,29 +11,29 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, null, new { @class = "text-danger" })
 
-        <dl class="dl-horizontal">
-            <dt>
+        <dl class="row">
+            <dt class="col-md-2 col-form-label">
                 @Html.DisplayNameFor(model => model.LabSample.Sample.Description)
             </dt>
-            <dd>
+            <dd class="col-md-10">
                 @Html.DisplayFor(model => model.LabSample.Sample.Description)
             </dd>
-            <dt>
+            <dt class="col-md-2 col-form-label">
                 @Html.DisplayNameFor(model => model.LabSample.Sample.AddedDate)
             </dt>
-            <dd>
+            <dd class="col-md-10">
                 @Html.DisplayFor(model => model.LabSample.Sample.AddedDate)
             </dd>
-            <dt>
+            <dt class="col-md-2 col-form-label">
                 @Html.DisplayNameFor(model => model.LabSample.AssignedDate)
             </dt>
-            <dd>
+            <dd class="col-md-10">
                 @Html.DisplayFor(model => model.LabSample.AssignedDate)
             </dd>
-            <dt>
+            <dt class="col-md-2 col-form-label">
                 @Html.DisplayNameFor(model => model.LabSample.Notes)
             </dt>
-            <dd>
+            <dd class="col-md-10">
                 <pre>@Html.DisplayFor(model => model.LabSample.Notes)</pre>
             </dd>
         </dl>

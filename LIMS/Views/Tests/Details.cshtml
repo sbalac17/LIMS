@@ -7,7 +7,7 @@
 <div class="btn-group">
     @if (User.IsPrivileged())
     {
-        @Html.ActionLink("Add Sample", "AddSample", "Tests", new { test = Model.TestId }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Add Sample", "AddSample", "Tests", new { test = Model.TestId }, new { @class = "btn btn-success" })
         @Html.ActionLink("Edit", "Edit", new { test = Model.TestId }, new { @class = "btn btn-primary" })
     }
     @if (User.IsAdmin())
@@ -18,23 +18,23 @@
 <hr />
 
 <div>
-    <dl class="dl-horizontal">
-        <dt>
+    <dl class="row">
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.TestId)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.TestId)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             <p>
                 @Html.DisplayFor(model => model.Description)
             </p>

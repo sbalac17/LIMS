@@ -13,17 +13,16 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, null, new { @class = "text-danger" })
 
-        <dl class="dl-horizontal">
-
-            <dt>
+        <dl class="row">
+            <dt class="col-md-2 col-form-label">
                 @Html.DisplayNameFor(m => m.UserName)
             </dt>
-            <dd>
+            <dd class="col-md-10">
                 @Html.DisplayFor(m => m.UserName)
             </dd>
         </dl>
 
-        @Html.ActionLink("Cancel", "Members", new { lab = Model.Lab.LabId }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Cancel", "Members", new { lab = Model.Lab.LabId }, new { @class = "btn btn-secondary" })
         <input type="submit" value="Remove" class="btn btn-danger" />
     }
 </div>

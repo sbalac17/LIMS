@@ -7,35 +7,35 @@
 <hr />
 
 <div>
-    <dl class="dl-horizontal">
-        <dt>
+    <dl class="row">
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Lab.CollegeName)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Lab.CollegeName)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Lab.CourseCode)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Lab.CourseCode)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Lab.WeekNumber)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Lab.WeekNumber)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Lab.TestId)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.ActionLink(Model.Lab.TestId, "Details", "Tests", new { test = Model.Lab.TestId }, null)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Lab.Location)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Lab.Location)
         </dd>
     </dl>

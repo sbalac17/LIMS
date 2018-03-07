@@ -21,58 +21,58 @@
 <hr />
 
 <div>
-    <dl class="dl-horizontal">
-        <dt>
+    <dl class="row">
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Lab.CollegeName)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Lab.CollegeName)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Lab.CourseCode)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Lab.CourseCode)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Lab.WeekNumber)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Lab.WeekNumber)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Lab.TestId)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.ActionLink(Model.Lab.TestId, "Details", "Tests", new { test = Model.Lab.TestId }, null)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Lab.Location)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Lab.Location)
         </dd>
-        <dt>Members</dt>
-        <dd>
+        <dt class="col-md-2 col-form-label">Members</dt>
+        <dd class="col-md-10">
             <div class="btn-group">
-                @Html.ActionLink("View", "Members", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-default" })
+                @Html.ActionLink("View", "Members", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-secondary" })
                 @if (Model.IsLabManager)
                 {
                     @Html.ActionLink("Add", "AddMember", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-success" })
                 }
             </div>
         </dd>
-        <dt>Reagents</dt>
-        <dd>
+        <dt class="col-md-2 col-form-label">Reagents</dt>
+        <dd class="col-md-10">
             <div class="btn-group">
-                @Html.ActionLink("View", "Reagents", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-default" })
+                @Html.ActionLink("View", "Reagents", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-secondary" })
                 @Html.ActionLink("Add", "AddReagent", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-success" })
             </div>
         </dd>
-        <dt>Samples</dt>
-        <dd>
+        <dt class="col-md-2 col-form-label">Samples</dt>
+        <dd class="col-md-10">
             <div class="btn-group">
-                @Html.ActionLink("View", "Samples", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-default" })
+                @Html.ActionLink("View", "Samples", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-secondary" })
                 @if (Model.IsLabManager)
                 {
                     @Html.ActionLink("Add", "AddSample", "Labs", new { lab = Model.Lab.LabId }, new { @class = "btn btn-success" })

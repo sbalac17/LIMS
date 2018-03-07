@@ -7,9 +7,7 @@
 
 @if (User.IsPrivileged())
 {
-    <span class="input-group-btn">
-        @Html.ActionLink("Add", "Create", "Reagents", null, new { @class = "btn btn-success" })
-    </span>
+    @Html.ActionLink("Add", "Create", "Reagents", null, new { @class = "btn btn-success" })
 }
 
 <hr />
@@ -18,7 +16,7 @@
 {
     <div class="input-group">
         @Html.TextBoxFor(m => m.Query, new { @class = "form-control", placeholder = "Query" })
-        <span class="input-group-btn">
+        <span class="input-group-append">
             <button type="submit" class="btn btn-primary">Search</button>
         </span>
     </div>
@@ -47,7 +45,7 @@ else if (Model.Results != null)
                 <th>
                     @Html.DisplayNameFor(m => m.Results.First().ManufacturerCode)
                 </th>
-                <th class="col-md-4">
+                <th class="w-25">
                     Operations
                 </th>
             </tr>
@@ -70,7 +68,7 @@ else if (Model.Results != null)
                 </td>
                 <td>
                     <div class="btn-group">
-                        @Html.ActionLink("Details", "Details", "Reagents", new { reagent = result.ReagentId }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Details", "Details", "Reagents", new { reagent = result.ReagentId }, new { @class = "btn btn-secondary" })
 
                         @if (User.IsPrivileged())
                         {

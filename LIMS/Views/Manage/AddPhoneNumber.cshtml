@@ -5,7 +5,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { role = "form" }))
 {
     @Html.AntiForgeryToken()
     <h4>Add a phone number</h4>
@@ -18,8 +18,8 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Submit" />
+        <div class="offset-md-2 col-md-10">
+            <input type="submit" class="btn btn-secondary" value="Submit" />
         </div>
     </div>
 }

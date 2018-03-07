@@ -17,23 +17,23 @@
 <hr />
 
 <div>
-    <dl class="dl-horizontal">
-        <dt>
+    <dl class="row">
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Sample.Description)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Sample.Description)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Sample.AddedDate)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.DisplayFor(model => model.Sample.AddedDate)
         </dd>
-        <dt>
+        <dt class="col-md-2 col-form-label">
             @Html.DisplayNameFor(model => model.Sample.Test)
         </dt>
-        <dd>
+        <dd class="col-md-10">
             @Html.ActionLink(Model.Sample.TestId, "Details", "Tests", new { test = Model.Sample.TestId }, null)
         </dd>
     </dl>
