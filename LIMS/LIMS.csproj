@@ -202,6 +202,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Api\ApiControllerBase.cs" />
+    <Compile Include="Controllers\Api\LogsApiController.cs" />
     <Compile Include="Controllers\Api\ReagentsApiController.cs" />
     <Compile Include="Controllers\Api\ValidateModelAttribute.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />

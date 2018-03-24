@@ -23,7 +23,7 @@ namespace LIMS.Controllers.Api
 
         public Task LogAsync(string message)
         {
-            return LogsDao.Add(this, message);
+            return LogsDao.Create(this, message);
         }
     }
 }

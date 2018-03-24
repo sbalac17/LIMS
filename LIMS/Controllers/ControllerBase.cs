@@ -39,7 +39,7 @@ namespace LIMS.Controllers
 
         public Task LogAsync(string message)
         {
-            return LogsDao.Add(this, message);
+            return LogsDao.Create(this, message);
         }
 
         protected override void Dispose(bool disposing)
