@@ -35,7 +35,7 @@ namespace LIMS.Controllers
                         CourseCode = r.Lab.CourseCode,
                         FacultyName = lm.User.UserName,
                         WeekNumber = r.Lab.WeekNumber,
-                        TestCode = r.Lab.TestId,
+                        TestId = r.Lab.TestId,
                         Location = r.Lab.Location,
                     };
             }
@@ -56,7 +56,7 @@ namespace LIMS.Controllers
                         CourseCode = r.CourseCode,
                         FacultyName = labManager.User.UserName,
                         WeekNumber = r.WeekNumber,
-                        TestCode = r.TestId,
+                        TestId = r.TestId,
                         Location = r.Location
                     };
             }
@@ -86,9 +86,9 @@ namespace LIMS.Controllers
         [Authorize(Roles = Roles.Privileged)]
         public async Task<ActionResult> Create(LabsCreateViewModel model)
         {
-            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestCode);
+            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestId);
             if (test == null)
-                ModelState.AddModelError(nameof(LabsEditViewModel.TestCode), "Test does not exist.");
+                ModelState.AddModelError(nameof(LabsEditViewModel.TestId), "Test does not exist.");
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -156,9 +156,9 @@ namespace LIMS.Controllers
         [LabMember(LabManager = true)]
         public async Task<ActionResult> Edit(Lab lab, LabsEditViewModel model)
         {
-            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestCode);
+            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestId);
             if (test == null)
-                ModelState.AddModelError(nameof(LabsEditViewModel.TestCode), "Test does not exist.");
+                ModelState.AddModelError(nameof(LabsEditViewModel.TestId), "Test does not exist.");
 
             if (!ModelState.IsValid)
                 return View(model);

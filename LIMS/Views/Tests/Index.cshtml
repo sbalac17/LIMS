@@ -32,7 +32,7 @@ else if (Model.Results != null)
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(m => m.Results.First().TestCode)
+                    @Html.DisplayNameFor(m => m.Results.First().TestId)
                 </th>
                 <th>
                     @Html.DisplayNameFor(m => m.Results.First().Name)
@@ -47,24 +47,24 @@ else if (Model.Results != null)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(m => result.TestCode)
+                    @Html.DisplayFor(m => result.TestId)
                 </td>
                 <td>
                     @Html.DisplayFor(m => result.Name)
                 </td>
                 <td>
                     <div class="btn-group">
-                        @Html.ActionLink("Details", "Details", "Tests", new { test = result.TestCode }, new { @class = "btn btn-secondary" })
+                        @Html.ActionLink("Details", "Details", "Tests", new { test = result.TestId }, new { @class = "btn btn-secondary" })
                         
                         @if (User.IsPrivileged())
                         {
-                            @Html.ActionLink("Add Sample", "AddSample", "Tests", new { test = result.TestCode }, new { @class = "btn btn-success" })
-                            @Html.ActionLink("Edit", "Edit", "Tests", new { test = result.TestCode }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Add Sample", "AddSample", "Tests", new { test = result.TestId }, new { @class = "btn btn-success" })
+                            @Html.ActionLink("Edit", "Edit", "Tests", new { test = result.TestId }, new { @class = "btn btn-primary" })
                         }
                         
                         @if (User.IsAdmin())
                         {
-                            @Html.ActionLink("Delete", "Delete", "Tests", new { test = result.TestCode }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Delete", "Delete", "Tests", new { test = result.TestId }, new { @class = "btn btn-danger" })
                         }
                     </div>
                 </td>

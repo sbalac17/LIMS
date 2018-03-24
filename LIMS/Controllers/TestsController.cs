@@ -52,7 +52,7 @@ namespace LIMS.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Details", new { test = model.TestCode });
+            return RedirectToAction("Details", new { test = model.TestId });
         }
 
         [Route("Tests/{test}")]

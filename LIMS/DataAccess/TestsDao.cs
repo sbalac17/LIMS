@@ -31,7 +31,7 @@ namespace LIMS.DataAccess
             }
 
             var results = await queryResults
-                .Select(t => new TestsSearchViewModel.Result { TestCode = t.TestId, Name = t.Name })
+                .Select(t => new TestsSearchViewModel.Result { TestId = t.TestId, Name = t.Name })
                 .ToListAsync();
 
             return results;
@@ -39,13 +39,13 @@ namespace LIMS.DataAccess
 
         public static async Task<Test> Create(IRequestContext context, TestsCreateViewModel model)
         {
-            var existingTest = await context.DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestCode);
+            var existingTest = await context.DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestId);
             if (existingTest != null)
                 throw new Exception("Test code must be unique.");
 
             var test = new Test
             {
-                TestId = model.TestCode,
+                TestId = model.TestId,
                 Name = model.Name,
                 Description = model.Description,
             };
@@ -53,15 +53,15 @@ namespace LIMS.DataAccess
             context.DbContext.Tests.Add(test);
             await context.DbContext.SaveChangesAsync();
 
-            await context.LogAsync($"Test ID '{model.TestCode}' created");
+            await context.LogAsync($"Test ID '{model.TestId}' created");
 
             return test;
         }
 
-        public static async Task<Test> Read(IRequestContext context, string testCode)
+        public static async Task<Test> Read(IRequestContext context, string testId)
         {
             var query = from t in context.DbContext.Tests
-                where t.TestId == testCode
+                where t.TestId == testId
                 select t;
 
             return await query.SingleOrDefaultAsync();
@@ -79,9 +79,9 @@ namespace LIMS.DataAccess
             return test;
         }
 
-        public static async Task<Test> Delete(IRequestContext context, string testCode)
+        public static async Task<Test> Delete(IRequestContext context, string testId)
         {
-            var test = await Read(context, testCode);
+            var test = await Read(context, testId);
             if (test == null)
                 return null;
 

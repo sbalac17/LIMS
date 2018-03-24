@@ -13,7 +13,7 @@ namespace LIMS.Models
         public class Result
         {
             [Display(Name = "Test Code")]
-            public string TestCode { get; set; }
+            public string TestId { get; set; }
 
             [Display(Name = "Name")]
             public string Name { get; set; }
@@ -26,7 +26,7 @@ namespace LIMS.Models
         [Required]
         [StringLength(20, MinimumLength = 3)]
         [RegularExpression("^[A-Z0-9]*$", ErrorMessage = "Test Code may only contain A-Z and 0-9.")]
-        public string TestCode { get; set; }
+        public string TestId { get; set; }
         
         [Display(Name = "Name")]
         [Required]
@@ -47,7 +47,7 @@ namespace LIMS.Models
 
         public TestsEditViewModel(Test test)
         {
-            TestCode = test.TestId;
+            TestId = test.TestId;
             Name = test.Name;
             Description = test.Description;
         }
@@ -55,7 +55,7 @@ namespace LIMS.Models
         [Display(Name = "Test Code")]
         [StringLength(20, MinimumLength = 3)]
         [RegularExpression("^[A-Z0-9]*$", ErrorMessage = "Test Code may only contain A-Z and 0-9.")]
-        public string TestCode { get; }
+        public string TestId { get; }
 
         [Display(Name = "Name")]
         [Required]

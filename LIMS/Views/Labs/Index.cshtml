@@ -49,7 +49,7 @@ else if (Model.Results != null)
                     @Html.DisplayNameFor(m => m.Results.First().WeekNumber)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Results.First().TestCode)
+                    @Html.DisplayNameFor(m => m.Results.First().TestId)
                 </th>
                 <th>
                     @Html.DisplayNameFor(m => m.Results.First().Location)
@@ -76,7 +76,7 @@ else if (Model.Results != null)
                     @Html.DisplayFor(m => result.WeekNumber)
                 </td>
                 <td>
-                    @Html.ActionLink(result.TestCode, "Details", "Tests", new { test = result.TestCode }, null)
+                    @Html.ActionLink(result.TestId, "Details", "Tests", new { test = result.TestId }, null)
                 </td>
                 <td>
                     @Html.DisplayFor(m => result.Location)

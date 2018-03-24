@@ -31,7 +31,7 @@ namespace LIMS.Models
         public int WeekNumber { get; set; }
 
         [Display(Name = "Test Code")]
-        public string TestCode { get; set; }
+        public string TestId { get; set; }
 
         [Display(Name = "Location")]
         public string Location { get; set; }
@@ -72,7 +72,7 @@ namespace LIMS.Models
         [Required]
         [StringLength(20, MinimumLength = 3)]
         [RegularExpression("^[A-Z0-9]*$", ErrorMessage = "Test Code may only contain A-Z and 0-9.")]
-        public string TestCode { get; set; }
+        public string TestId { get; set; }
 
         [Display(Name = "Location")]
         [Required]
@@ -141,7 +141,7 @@ namespace LIMS.Models
             CollegeName = lab.CollegeName;
             CourseCode = lab.CourseCode;
             WeekNumber = lab.WeekNumber;
-            TestCode = lab.TestId;
+            TestId = lab.TestId;
             Location = lab.Location;
         }
 

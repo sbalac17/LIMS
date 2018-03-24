@@ -28,7 +28,7 @@ namespace LIMS.Models
     {
         [Display(Name = "Test Code")]
         [Required]
-        public string TestCode { get; set; }
+        public string TestId { get; set; }
 
         [Display(Name = "Description")]
         [Required]
@@ -52,7 +52,7 @@ namespace LIMS.Models
         public SamplesEditViewModel(Sample sample)
         {
             Sample = sample;
-            TestCode = sample.TestId;
+            TestId = sample.TestId;
             Description = sample.Description;
             AddedDate = sample.AddedDate;
         }

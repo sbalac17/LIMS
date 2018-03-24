@@ -26,24 +26,24 @@ namespace LIMS.Controllers.Api
             return await TestsDao.Create(this, model);
         }
 
-        [Route("api/tests/{testCode}")]
+        [Route("api/tests/{testId}")]
         [HttpGet]
-        public async Task<IHttpActionResult> Read(string testCode)
+        public async Task<IHttpActionResult> Read(string testId)
         {
-            var result = await TestsDao.Read(this, testCode);
+            var result = await TestsDao.Read(this, testId);
             if (result == null)
                 return NotFound();
 
             return Json(result);
         }
 
-        [Route("api/tests/{testCode}")]
+        [Route("api/tests/{testId}")]
         [HttpPut]
         [Authorize(Roles = Roles.Privileged)]
         [ValidateModel]
-        public async Task<IHttpActionResult> Update(string testCode, TestsEditViewModel model)
+        public async Task<IHttpActionResult> Update(string testId, TestsEditViewModel model)
         {
-            var test = await TestsDao.Read(this, testCode);
+            var test = await TestsDao.Read(this, testId);
             if (test == null)
                 return NotFound();
 
@@ -51,13 +51,13 @@ namespace LIMS.Controllers.Api
             return Json(result);
         }
 
-        [Route("api/tests/{testCode}")]
+        [Route("api/tests/{testId}")]
         [HttpDelete]
         [Authorize(Roles = Roles.Administrator)]
         [ValidateModel]
-        public async Task<IHttpActionResult> Delete(string testCode)
+        public async Task<IHttpActionResult> Delete(string testId)
         {
-            var result = await TestsDao.Delete(this, testCode);
+            var result = await TestsDao.Delete(this, testId);
             if (result == null)
                 return NotFound();
 

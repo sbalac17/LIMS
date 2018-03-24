@@ -44,9 +44,9 @@ namespace LIMS.Controllers
         [Authorize(Roles = Roles.Privileged)]
         public async Task<ActionResult> Create(SamplesCreateViewModel model)
         {
-            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestCode);
+            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestId);
             if (test == null)
-                ModelState.AddModelError(nameof(SamplesEditViewModel.TestCode), "Test does not exist.");
+                ModelState.AddModelError(nameof(SamplesEditViewModel.TestId), "Test does not exist.");
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -107,9 +107,9 @@ namespace LIMS.Controllers
             if (sample == null)
                 return HttpNotFound();
 
-            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestCode);
+            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestId);
             if (test == null)
-                ModelState.AddModelError(nameof(SamplesEditViewModel.TestCode), "Test does not exist.");
+                ModelState.AddModelError(nameof(SamplesEditViewModel.TestId), "Test does not exist.");
 
             if (!ModelState.IsValid)
                 return View(model);
