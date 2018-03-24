@@ -33,7 +33,7 @@ namespace LIMS.Controllers.Api
         [Route("api/logs/")]
         [HttpGet]
         [Authorize]
-        public async Task<IEnumerable<Entry>> List(int? pageNumber)
+        public async Task<IEnumerable<Entry>> List(int pageNumber = 0)
         {
             var results = await LogsDao.List(this, pageNumber);
             return results.Select(e => new Entry(e));
