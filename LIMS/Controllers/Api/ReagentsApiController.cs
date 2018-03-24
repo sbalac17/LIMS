@@ -1,36 +1,67 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using LIMS.DataAccess;
 using LIMS.Models;
 
 namespace LIMS.Controllers.Api
 {
     [Route("api/reagents/")]
-    [Authorize]
     public class ReagentsApiController : ApiControllerBase
     {
+        [Route("api/reagents/")]
         [HttpGet]
-        public async Task<IEnumerable<Reagent>> Get(string query = null)
+        [Authorize]
+        public async Task<IEnumerable<Reagent>> List(string query = null)
         {
-            IQueryable<Reagent> results;
+            return await ReagentsDao.Find(this, query);
+        }
 
-            if (string.IsNullOrWhiteSpace(query))
-            {
-                results = from r in DbContext.Reagents
-                    orderby r.Name
-                    select r;
-            }
-            else
-            {
-                results = from r in DbContext.Reagents
-                    where r.Name.Contains(query)
-                    orderby r.Name
-                    select r;
-            }
+        [Route("api/reagents/")]
+        [HttpPost]
+        [Authorize(Roles = Roles.Privileged)]
+        [ValidateModel]
+        public async Task<Reagent> Create(ReagentsCreateViewModel model)
+        {
+            return await ReagentsDao.Create(this, model);
+        }
 
-            return await results.ToListAsync();
+        [Route("api/reagents/{reagentId:int}")]
+        [HttpGet]
+        public async Task<IHttpActionResult> Read(int reagentId)
+        {
+            var result = await ReagentsDao.Read(this, reagentId);
+            if (result == null)
+                return NotFound();
+
+            return Json(result);
+        }
+
+        [Route("api/reagents/{reagentId:int}")]
+        [HttpPut]
+        [Authorize(Roles = Roles.Privileged)]
+        [ValidateModel]
+        public async Task<IHttpActionResult> Update(int reagentId, ReagentsEditViewModel model)
+        {
+            var reagent = await ReagentsDao.Read(this, reagentId);
+            if (reagent == null)
+                return NotFound();
+
+            var result = await ReagentsDao.Update(this, reagent, model);
+            return Json(result);
+        }
+
+        [Route("api/reagents/{reagentId:int}")]
+        [HttpDelete]
+        [Authorize(Roles = Roles.Administrator)]
+        [ValidateModel]
+        public async Task<IHttpActionResult> Delete(int reagentId)
+        {
+            var result = await ReagentsDao.Delete(this, reagentId);
+            if (result == null)
+                return NotFound();
+
+            return Json(result);
         }
     }
 }

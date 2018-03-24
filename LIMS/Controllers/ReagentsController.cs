@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using LIMS.DataAccess;
 using LIMS.Models;
 
 namespace LIMS.Controllers
@@ -17,16 +16,10 @@ namespace LIMS.Controllers
                 return View(new ReagentsSearchViewModel());
             }
 
-            var queryResults =
-                from r in DbContext.Reagents
-                where r.Name.Contains(query)
-                orderby r.Name
-                select r;
-
             var model = new ReagentsSearchViewModel
             {
                 Query = query,
-                Results = await queryResults.ToListAsync()
+                Results = await ReagentsDao.Find(this, query)
             };
 
             return View(model);
@@ -46,24 +39,11 @@ namespace LIMS.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            long newReagentId;
+            Reagent newReagent = null;
 
             try
             {
-                var reagent = new Reagent
-                {
-                    Name = model.Name,
-                    Quantity = model.Quantity,
-                    AddedDate = DateTimeOffset.Now,
-                    ExpiryDate = model.ExpiryDate,
-                    ManufacturerCode = model.ManufacturerCode,
-                };
-
-                DbContext.Reagents.Add(reagent);
-                await DbContext.SaveChangesAsync();
-
-                newReagentId = reagent.ReagentId;
-                await LogAsync($"Created reagent ID {newReagentId}");
+                newReagent = await ReagentsDao.Create(this, model);
             }
             catch (Exception e)
             {
@@ -71,7 +51,7 @@ namespace LIMS.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Details", new { reagent = newReagentId });
+            return RedirectToAction("Details", new { reagent = newReagent?.ReagentId ?? 0 });
         }
 
         [Route("Reagents/{reagent:int}/")]
@@ -107,14 +87,7 @@ namespace LIMS.Controllers
 
             try
             {
-                reagent.Name = model.Name;
-                reagent.Quantity = model.Quantity;
-                reagent.ExpiryDate = model.ExpiryDate;
-                reagent.ManufacturerCode = model.ManufacturerCode;
-
-                await DbContext.SaveChangesAsync();
-
-                await LogAsync($"Edited reagent ID {reagent.ReagentId}");
+                await ReagentsDao.Update(this, reagent, model);
             }
             catch (Exception e)
             {

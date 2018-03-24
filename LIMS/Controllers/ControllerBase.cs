@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using LIMS.DataAccess;
 using LIMS.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -9,7 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace LIMS.Controllers
 {
-    public class ControllerBase : Controller
+    public class ControllerBase : Controller, IRequestContext
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -36,20 +37,9 @@ namespace LIMS.Controllers
         public string UserName =>
             _username ?? (_username = HttpContext.User?.Identity?.GetUserName());
 
-        protected async Task LogAsync(string message)
+        public Task LogAsync(string message)
         {
-            if (string.IsNullOrWhiteSpace(message))
-                throw new ArgumentNullException(nameof(message));
-
-            var entry = new LogEntry
-            {
-                UserId = UserId,
-                Message = message,
-                Date = DateTimeOffset.Now
-            };
-
-            DbContext.LogEntries.Add(entry);
-            await DbContext.SaveChangesAsync();
+            return LogsDao.Add(this, message);
         }
 
         protected override void Dispose(bool disposing)
