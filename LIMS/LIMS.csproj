@@ -202,6 +202,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Api\ApiControllerBase.cs" />
+    <Compile Include="Controllers\Api\LabIdMemberAttribute.cs" />
+    <Compile Include="Controllers\Api\LabsApiController.cs" />
     <Compile Include="Controllers\Api\TestsApiController.cs" />
     <Compile Include="Controllers\Api\LogsApiController.cs" />
     <Compile Include="Controllers\Api\ReagentsApiController.cs" />
@@ -215,6 +217,7 @@
     <Compile Include="Controllers\ReagentsController.cs" />
     <Compile Include="Controllers\SamplesController.cs" />
     <Compile Include="Controllers\TestsController.cs" />
+    <Compile Include="DataAccess\LabsDao.cs" />
     <Compile Include="DataAccess\LogsDao.cs" />
     <Compile Include="DataAccess\ReagentsDao.cs" />
     <Compile Include="DataAccess\TestsDao.cs" />
@@ -289,6 +292,7 @@
     <Compile Include="Models\ReagentsViewModels.cs" />
     <Compile Include="Models\SamplesViewModels.cs" />
     <Compile Include="Models\TestsViewModels.cs" />
+    <Compile Include="OwinExtensions.cs" />
     <Compile Include="PrincipalExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />

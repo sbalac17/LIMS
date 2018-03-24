@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Newtonsoft.Json;
 
 namespace LIMS.Models
 {
@@ -105,6 +106,8 @@ namespace LIMS.Models
 
         [Display(Name = "Test Code")]
         public string TestId { get; set; }
+
+        [JsonIgnore]
         public Test Test { get; set; }
 
         [Display(Name = "Location")]
@@ -153,12 +156,17 @@ namespace LIMS.Models
     {
         [Required]
         [Key, Column(Order = 0)]
+        [JsonIgnore]
         public long LabId { get; set; }
+        
+        [JsonIgnore]
         public Lab Lab { get; set; }
 
         [Required]
         [Key, Column(Order = 1)]
         public string UserId { get; set; }
+
+        [JsonIgnore]
         public ApplicationUser User { get; set; }
 
         [Required]
@@ -171,9 +179,12 @@ namespace LIMS.Models
 
     public class LogEntry
     {
+        [JsonIgnore]
         public long LogEntryId { get; set; }
 
         public string UserId { get; set; }
+
+        [JsonIgnore]
         public ApplicationUser User { get; set; }
 
         [Display(Name = "Message")]

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using LIMS.DataAccess;
 using LIMS.Models;
 using Microsoft.AspNet.Identity;
 
@@ -14,62 +14,14 @@ namespace LIMS.Controllers
     {
         public async Task<ActionResult> Index(string query = null)
         {
-            var userId = HttpContext.User.Identity.GetUserId();
-
-            IQueryable<LabsSearchResult> queryResults;
-
-            if (string.IsNullOrWhiteSpace(query))
-            {
-                // no query, show all labs the user is a member of
-                queryResults =
-                    from r in DbContext.LabMembers
-                    where r.UserId == userId
-                    orderby r.LastOpened descending
-                    join lm in DbContext.LabMembers on r.LabId equals lm.LabId
-                    where lm.IsLabManager
-                    select new LabsSearchResult
-                    {
-                        Id = r.LabId,
-                        IsMember = true,
-                        CollegeName = r.Lab.CollegeName,
-                        CourseCode = r.Lab.CourseCode,
-                        FacultyName = lm.User.UserName,
-                        WeekNumber = r.Lab.WeekNumber,
-                        TestId = r.Lab.TestId,
-                        Location = r.Lab.Location,
-                    };
-            }
-            else
-            {
-                // have query, search all labs
-                queryResults =
-                    from r in DbContext.Labs
-                    where r.CourseCode.Contains(query) || r.TestId.Contains(query)
-                    orderby r.TestId
-                    let isMember = r.Members.Any(lm => lm.UserId == userId)
-                    let labManager = r.Members.FirstOrDefault(lm => lm.IsLabManager)
-                    select new LabsSearchResult
-                    {
-                        Id = r.LabId,
-                        IsMember = isMember,
-                        CollegeName = r.CollegeName,
-                        CourseCode = r.CourseCode,
-                        FacultyName = labManager.User.UserName,
-                        WeekNumber = r.WeekNumber,
-                        TestId = r.TestId,
-                        Location = r.Location
-                    };
-            }
-            
-            var finalResults = await queryResults.ToListAsync();
-
-            if (finalResults.Count == 0 && string.IsNullOrWhiteSpace(query))
-                finalResults = null;
+            var results = await LabsDao.Find(this, query);
+            if (results.Count == 0 && string.IsNullOrWhiteSpace(query))
+                results = null;
 
             var model = new LabsSearchViewModel
             {
                 Query = query,
-                Results = finalResults
+                Results = results
             };
 
             return View(model);
@@ -86,41 +38,12 @@ namespace LIMS.Controllers
         [Authorize(Roles = Roles.Privileged)]
         public async Task<ActionResult> Create(LabsCreateViewModel model)
         {
-            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestId);
-            if (test == null)
-                ModelState.AddModelError(nameof(LabsEditViewModel.TestId), "Test does not exist.");
-
             if (!ModelState.IsValid)
                 return View(model);
 
             try
             {
-                var userId = HttpContext.User.Identity.GetUserId();
-                var user = await UserManager.FindByIdAsync(userId);
-
-                var lab = new Lab
-                {
-                    CollegeName = model.CollegeName,
-                    CourseCode = model.CourseCode,
-                    WeekNumber = model.WeekNumber,
-                    Test = test,
-                    Location = model.Location,
-                };
-
-                lab.Members = new List<LabMember>
-                {
-                    new LabMember
-                    {
-                        Lab = lab,
-                        User = user,
-                        IsLabManager = true,
-                    }
-                };
-
-                DbContext.Labs.Add(lab);
-                await DbContext.SaveChangesAsync();
-
-                await LogAsync($"Created lab ID {lab.LabId}");
+                await LabsDao.Create(this, model);
             }
             catch (Exception e)
             {
@@ -156,24 +79,12 @@ namespace LIMS.Controllers
         [LabMember(LabManager = true)]
         public async Task<ActionResult> Edit(Lab lab, LabsEditViewModel model)
         {
-            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestId);
-            if (test == null)
-                ModelState.AddModelError(nameof(LabsEditViewModel.TestId), "Test does not exist.");
-
             if (!ModelState.IsValid)
                 return View(model);
             
             try
             {
-                lab.CollegeName = model.CollegeName;
-                lab.CourseCode = model.CourseCode;
-                lab.WeekNumber = model.WeekNumber;
-                lab.Test = test;
-                lab.Location = model.Location;
-
-                await DbContext.SaveChangesAsync();
-
-                await LogAsync($"Edited lab ID {lab.LabId}");
+                await LabsDao.Update(this, lab, model);
             }
             catch (Exception e)
             {
@@ -197,10 +108,7 @@ namespace LIMS.Controllers
         [Authorize(Roles = Roles.Administrator)]
         public async Task<ActionResult> ConfirmDelete(Lab lab)
         {
-            DbContext.Labs.Remove(lab);
-            await DbContext.SaveChangesAsync();
-
-            await LogAsync($"Deleted lab ID {lab.LabId}");
+            await LabsDao.Delete(this, lab);
 
             return RedirectToAction("Index");
         }

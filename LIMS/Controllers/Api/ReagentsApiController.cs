@@ -54,7 +54,6 @@ namespace LIMS.Controllers.Api
         [Route("api/reagents/{reagentId:int}")]
         [HttpDelete]
         [Authorize(Roles = Roles.Administrator)]
-        [ValidateModel]
         public async Task<IHttpActionResult> Delete(int reagentId)
         {
             var result = await ReagentsDao.Delete(this, reagentId);
