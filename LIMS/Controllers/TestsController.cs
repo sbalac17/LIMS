@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using LIMS.DataAccess;
 using LIMS.Models;
 
 namespace LIMS.Controllers
@@ -12,24 +13,7 @@ namespace LIMS.Controllers
     {
         public async Task<ActionResult> Index(string query = null)
         {
-            IQueryable<Test> queryResults;
-            if (string.IsNullOrWhiteSpace(query))
-            {
-                queryResults = DbContext.Tests;
-            }
-            else
-            {
-                queryResults =
-                    from t in DbContext.Tests
-                    where t.TestId.Contains(query) || t.Name.Contains(query) || t.Description.Contains(query)
-                    orderby t.TestId
-                    select t;
-            }
-
-            var results = await queryResults
-                .Select(t => new TestsSearchViewModel.Result { TestCode = t.TestId, Name = t.Name })
-                .ToListAsync();
-
+            var results = await TestsDao.Find(this, query);
             if (results.Count == 0 && string.IsNullOrWhiteSpace(query))
                 results = null;
 
@@ -55,26 +39,12 @@ namespace LIMS.Controllers
         [Authorize(Roles = Roles.Privileged)]
         public async Task<ActionResult> Create(TestsCreateViewModel model)
         {
-            var existingTest = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestCode);
-            if (existingTest != null)
-                ModelState.AddModelError(nameof(TestsCreateViewModel.TestCode), "Test code must be unique.");
-
             if (!ModelState.IsValid)
                 return View(model);
 
             try
             {
-                var test = new Test
-                {
-                    TestId = model.TestCode,
-                    Name = model.Name,
-                    Description = model.Description,
-                };
-
-                DbContext.Tests.Add(test);
-                await DbContext.SaveChangesAsync();
-
-                await LogAsync($"Test ID '{model.TestCode}' created");
+                await TestsDao.Create(this, model);
             }
             catch (Exception e)
             {
@@ -118,13 +88,7 @@ namespace LIMS.Controllers
 
             try
             {
-                // changing test code is not allowed.
-                test.Name = model.Name;
-                test.Description = model.Description;
-
-                await DbContext.SaveChangesAsync();
-
-                await LogAsync($"Test ID '{test.TestId}' edited");
+                await TestsDao.Update(this, test, model);
             }
             catch (Exception e)
             {
@@ -159,15 +123,12 @@ namespace LIMS.Controllers
             {
                 try
                 {
-                    DbContext.Tests.Remove(test);
-                    await DbContext.SaveChangesAsync();
+                    await TestsDao.Delete(this, test);
                 }
                 catch (Exception)
                 {
                     return RedirectToAction("Delete", new { test = test.TestId, cannotDelete = true });
                 }
-
-                await LogAsync($"Deleted test ID '{test.TestId}'");
             }
 
             return RedirectToAction("Index");

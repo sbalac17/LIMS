@@ -55,7 +55,7 @@ namespace LIMS.Models
         [Display(Name = "Test Code")]
         [StringLength(20, MinimumLength = 3)]
         [RegularExpression("^[A-Z0-9]*$", ErrorMessage = "Test Code may only contain A-Z and 0-9.")]
-        public string TestCode { get; set; }
+        public string TestCode { get; }
 
         [Display(Name = "Name")]
         [Required]
