@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LIMS.Controllers;
 using LIMS.Models;
+using LIMS.Models.Api;
 
 namespace LIMS.DataAccess
 {
@@ -348,6 +349,9 @@ namespace LIMS.DataAccess
 
         public static async Task<UsedReagent> RemoveReagent(IRequestContext context, long labId, long usedReagentId, int returnQuantity)
         {
+            if (returnQuantity < 0)
+                throw new ArgumentOutOfRangeException(nameof(returnQuantity), "Return quantity must be a positive number.");
+
             var usedReagent = await context.DbContext.UsedReagents
                 .Include(ur => ur.Reagent)
                 .FirstOrDefaultAsync(ur => ur.UsedReagentId == usedReagentId);
@@ -405,6 +409,7 @@ namespace LIMS.DataAccess
                 .ToListAsync();
         }
 
+        // TODO: move to samples DAO
         public static async Task<List<Sample>> ListAddableSamples(IRequestContext context, string testId, string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -475,12 +480,14 @@ namespace LIMS.DataAccess
             };
         }
 
-        public static async Task<LabSampleComment> PostComment(IRequestContext context, long labId, long sampleId, string message, LabSampleStatus? statusChange = null)
+        public static async Task<LabSampleComment> PostComment(IRequestContext context, long labId, long sampleId, LabsApiCommentModel model)
         {
+            var statusChange = model.RequestedStatus;
+
             if (!await IsLabManager(context, labId) && statusChange.HasValue)
                 throw new InvalidOperationException("Not authorized to change sample status.");
 
-            var labSample = await context.DbContext.LabSamples.SingleOrDefaultAsync(ls => ls.LabId == labId && ls.SampleId == sampleId);
+            var labSample = await GetLabSample(context, labId, sampleId);
             if (labSample == null)
                 return null;
 
@@ -493,7 +500,7 @@ namespace LIMS.DataAccess
                 UserId = context.UserId,
                 Date = DateTimeOffset.Now,
                 NewStatus = statusChange,
-                Message = string.IsNullOrWhiteSpace(message) ? null : message,
+                Message = string.IsNullOrWhiteSpace(model.Message) ? null : model.Message,
             };
 
             context.DbContext.LabSampleComments.Add(comment);
@@ -504,11 +511,41 @@ namespace LIMS.DataAccess
             return comment;
         }
 
+        public static async Task<LabSample> UpdateSample(IRequestContext context, long labId, long sampleId, LabsApiEditSampleModel model)
+        {
+            var labSample = await GetLabSample(context, labId, sampleId);
+            if (labSample == null)
+                return null;
+
+            labSample.Notes = model.Notes;
+            await context.DbContext.SaveChangesAsync();
+
+            await context.LogAsync($"Edited lab ID {labId} sample ID {sampleId}");
+
+            return labSample;
+        }
+
+        public static async Task<LabSample> RemoveSample(IRequestContext context, long labId, long sampleId)
+        {
+            var labSample = await GetLabSample(context, labId, sampleId);
+            if (labSample == null)
+                return null;
+
+            context.DbContext.LabSamples.Remove(labSample);
+            await context.DbContext.SaveChangesAsync();
+
+            await context.LogAsync($"Removed sample ID {sampleId} from lab ID {labId}");
+
+            return labSample;
+        }
+
+        private static Task<LabSample> GetLabSample(IRequestContext context, long labId, long sampleId) =>
+            context.DbContext.LabSamples.SingleOrDefaultAsync(ls => ls.LabId == labId && ls.SampleId == sampleId);
+
         private static async Task<bool> IsLabManager(IRequestContext context, long labId)
         {
             var membership = await context.DbContext.LabMembers.SingleOrDefaultAsync(lm => lm.LabId == labId && lm.UserId == context.UserId);
             return membership?.IsLabManager ?? false;
         }
-            
     }
 }

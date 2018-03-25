@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using LIMS.Models.Api;
 using Newtonsoft.Json;
 
 namespace LIMS.Models
@@ -263,7 +264,7 @@ namespace LIMS.Models
         public List<Sample> Results { get; set; }
     }
 
-    public class LabsSampleDetailsViewModel : IValidatableObject
+    public class LabsSampleDetailsViewModel : Api.LabsApiCommentModel
     {
         public LabSample LabSample { get; set; }
 
@@ -271,19 +272,14 @@ namespace LIMS.Models
 
         public bool IsLabManager { get; set; }
 
-        [Display(Name = "Comment")]
-        [StringLength(1000, MinimumLength = 0)]
-        [JsonIgnore]
-        public string Message { get; set; }
-
         [Required]
         [Range(0, 3)]
         [JsonIgnore]
-        public int SelectedButton { get; set; }
-
-        [JsonIgnore]
-        public LabSampleStatus? RequestedStatus =>
-            SelectedButton > 0 ? (LabSampleStatus?)(SelectedButton - 1) : null;
+        public int SelectedButton
+        {
+            get => RequestedStatus.HasValue ? (int)RequestedStatus.Value + 1 : 0;
+            set => RequestedStatus = value != 0 ? (LabSampleStatus?)(value - 1) : null;
+        }
 
         public class Result : IUserWithLabManager
         {
@@ -296,26 +292,13 @@ namespace LIMS.Models
 
             public bool IsLabManager { get; set; }
         }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (!RequestedStatus.HasValue && string.IsNullOrWhiteSpace(Message))
-            {
-                yield return new ValidationResult("Comment is required.", new[] { nameof(Message) });
-            }
-        }
     }
 
-    public class LabsEditSampleViewModel
+    public class LabsEditSampleViewModel : LabsApiEditSampleModel
     {
         public Lab Lab { get; set; }
 
         public LabSample LabSample { get; set; }
-
-        [Display(Name = "Notes")]
-        [Required]
-        [StringLength(100000)]
-        public string Notes { get; set; }
     }
 
     public class LabsRemoveSampleViewModel

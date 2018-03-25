@@ -395,7 +395,7 @@ namespace LIMS.Controllers
 
             try
             {
-                await LabsDao.PostComment(this, lab.LabId, sample.SampleId, model.Message, model.RequestedStatus);
+                await LabsDao.PostComment(this, lab.LabId, sample.SampleId, model);
             }
             catch (Exception e)
             {
@@ -437,22 +437,12 @@ namespace LIMS.Controllers
             if (sample == null)
                 return HttpNotFound();
 
-            var labSample = await DbContext.LabSamples
-                .Include(ls => ls.Sample)
-                .FirstOrDefaultAsync(ls => ls.LabId == lab.LabId && ls.SampleId == sample.SampleId);
-
-            if (labSample == null)
-                return HttpNotFound();
-
             if (!ModelState.IsValid)
                 return View(model);
 
             try
             {
-                labSample.Notes = model.Notes;
-                await DbContext.SaveChangesAsync();
-
-                await LogAsync($"Edited lab ID {lab.LabId} sample ID {sample.SampleId}");
+                await LabsDao.UpdateSample(this, lab.LabId, sample.SampleId, model);
             }
             catch (Exception e)
             {
@@ -502,10 +492,7 @@ namespace LIMS.Controllers
 
             try
             {
-                DbContext.LabSamples.Remove(labSample);
-                await DbContext.SaveChangesAsync();
-
-                await LogAsync($"Removed sample ID {sample.SampleId} from lab ID {lab.LabId}");
+                await LabsDao.RemoveSample(this, lab.LabId, sample.SampleId);
             }
             catch (Exception e)
             {

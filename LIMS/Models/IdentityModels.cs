@@ -117,6 +117,7 @@ namespace LIMS.Models
         /// <summary>
         /// The users participating in this lab.
         /// </summary>
+        [JsonIgnore]
         public virtual ICollection<LabMember> Members { get; set; }
 
         public bool UserIsLabManager(ApplicationUser user)
