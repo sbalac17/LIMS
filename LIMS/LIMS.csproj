@@ -204,6 +204,7 @@
     <Compile Include="Controllers\Api\ApiControllerBase.cs" />
     <Compile Include="Controllers\Api\LabIdMemberAttribute.cs" />
     <Compile Include="Controllers\Api\LabsApiController.cs" />
+    <Compile Include="Controllers\Api\SamplesApiController.cs" />
     <Compile Include="Controllers\Api\TestsApiController.cs" />
     <Compile Include="Controllers\Api\LogsApiController.cs" />
     <Compile Include="Controllers\Api\ReagentsApiController.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="DataAccess\LabsDao.cs" />
     <Compile Include="DataAccess\LogsDao.cs" />
     <Compile Include="DataAccess\ReagentsDao.cs" />
+    <Compile Include="DataAccess\SamplesDao.cs" />
     <Compile Include="DataAccess\TestsDao.cs" />
     <Compile Include="Date.cs" />
     <Compile Include="DateWithTime.cs" />

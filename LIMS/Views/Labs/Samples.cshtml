@@ -58,7 +58,7 @@ else
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(m => result.SampleDescription)
+                    @Html.ActionLink(result.SampleDescription, "Details", "Samples", new { sample = result.SampleId }, null)
                 </td>
                 <td>
                     @Html.Partial("_LabSampleStatus", result.Status)

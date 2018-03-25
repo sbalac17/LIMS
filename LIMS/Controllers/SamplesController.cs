@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using LIMS.DataAccess;
 using LIMS.Models;
 
 namespace LIMS.Controllers
@@ -17,18 +16,10 @@ namespace LIMS.Controllers
                 return View(new SamplesSearchViewModel());
             }
 
-            var queryResults =
-                from s in DbContext.Samples
-                where s.Description.Contains(query)
-                join lsJoin in DbContext.LabSamples on s.SampleId equals lsJoin.SampleId into lsGroup
-                from ls in lsGroup.DefaultIfEmpty(null)
-                orderby s.AddedDate descending
-                select new SamplesSearchViewModel.Result { Sample = s, LabSample = ls };
-
             var model = new SamplesSearchViewModel
             {
                 Query = query,
-                Results = await queryResults.ToListAsync()
+                Results = await SamplesDao.Find(this, query)
             };
 
             return View(model);
@@ -44,28 +35,13 @@ namespace LIMS.Controllers
         [Authorize(Roles = Roles.Privileged)]
         public async Task<ActionResult> Create(SamplesCreateViewModel model)
         {
-            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestId);
-            if (test == null)
-                ModelState.AddModelError(nameof(SamplesEditViewModel.TestId), "Test does not exist.");
-
             if (!ModelState.IsValid)
                 return View(model);
 
-            long newSampleId;
+            Sample sample;
             try
             {
-                var sample = new Sample
-                {
-                    Test = test,
-                    Description = model.Description,
-                    AddedDate = model.AddedDate
-                };
-
-                DbContext.Samples.Add(sample);
-                await DbContext.SaveChangesAsync();
-
-                newSampleId = sample.SampleId;
-                await LogAsync($"Sample ID {newSampleId} created");
+                sample = await SamplesDao.Create(this, model);
             }
             catch (Exception e)
             {
@@ -73,7 +49,7 @@ namespace LIMS.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Details", new { sample = newSampleId });
+            return RedirectToAction("Details", new { sample = sample.SampleId });
         }
 
         [Route("Samples/{sample:int}/")]
@@ -106,23 +82,13 @@ namespace LIMS.Controllers
         {
             if (sample == null)
                 return HttpNotFound();
-
-            var test = await DbContext.Tests.FirstOrDefaultAsync(t => t.TestId == model.TestId);
-            if (test == null)
-                ModelState.AddModelError(nameof(SamplesEditViewModel.TestId), "Test does not exist.");
-
+            
             if (!ModelState.IsValid)
                 return View(model);
 
             try
             {
-                sample.Test = test;
-                sample.Description = model.Description;
-                sample.AddedDate = model.AddedDate;
-
-                await DbContext.SaveChangesAsync();
-
-                await LogAsync($"Edited sample ID {sample.SampleId}");
+                await SamplesDao.Update(this, sample, model);
             }
             catch (Exception e)
             {
@@ -151,10 +117,7 @@ namespace LIMS.Controllers
         {
             if (sample != null)
             {
-                DbContext.Samples.Remove(sample);
-                await DbContext.SaveChangesAsync();
-
-                await LogAsync($"Deleted sample ID {sample.SampleId}");
+                await SamplesDao.Delete(this, sample);
             }
 
             return RedirectToAction("Index");
