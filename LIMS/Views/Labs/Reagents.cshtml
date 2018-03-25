@@ -46,7 +46,7 @@ else
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(m => result.ReagentName)
+                    @Html.ActionLink(result.ReagentName, "Details", "Reagents", new { reagent = result.ReagentId }, null)
                 </td>
                 <td>
                     @Html.DisplayFor(m => result.ReagentManufacturerCode)

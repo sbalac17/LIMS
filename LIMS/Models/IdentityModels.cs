@@ -322,9 +322,11 @@ namespace LIMS.Models
         public long LabSampleCommentId { get; set; }
 
         [Required]
+        [JsonIgnore]
         public long LabId { get; set; }
 
         [Required]
+        [JsonIgnore]
         public long SampleId { get; set; }
 
         [Required]
@@ -332,6 +334,7 @@ namespace LIMS.Models
         public LabSample LabSample { get; set; }
 
         [Required]
+        [JsonIgnore]
         public string UserId { get; set; }
 
         [Required]

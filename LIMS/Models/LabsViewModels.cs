@@ -177,9 +177,13 @@ namespace LIMS.Models
             public string ReagentManufacturerCode { get; set; }
             
             [Display(Name = "Expires")]
+            [DataType(DataType.Text)]
+            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
             public DateTimeOffset ReagentExpiryDate { get; set; }
             
             [Display(Name = "Use Date")]
+            [DataType(DataType.Text)]
+            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
             public DateTimeOffset UsedDate { get; set; }
             
             [Display(Name = "Quantity")]
@@ -234,8 +238,9 @@ namespace LIMS.Models
 
         public class Result
         {
+            [JsonIgnore]
             public long LabId { get; set; }
-
+            
             public long SampleId { get; set; }
 
             [Display(Name = "Test Code")]
@@ -245,9 +250,13 @@ namespace LIMS.Models
             public string SampleDescription { get; set; }
             
             [Display(Name = "Taken")]
+            [DataType(DataType.Text)]
+            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
             public DateTimeOffset SampleAddedDate { get; set; }
             
             [Display(Name = "Assigned At")]
+            [DataType(DataType.Text)]
+            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
             public DateTimeOffset AssignedDate { get; set; }
             
             [Display(Name = "Status")]
@@ -288,7 +297,12 @@ namespace LIMS.Models
             [Display(Name = "Username")]
             public string UserName { get; set; }
 
+            [JsonIgnore]
             public LabSampleComment Comment { get; set; }
+
+            public DateTimeOffset Date => Comment.Date;
+            public string Message => Comment.Message;
+            public LabSampleStatus? NewStatus => Comment.NewStatus;
 
             public bool IsLabManager { get; set; }
         }
