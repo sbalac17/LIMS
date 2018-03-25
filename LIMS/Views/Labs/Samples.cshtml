@@ -40,13 +40,13 @@ else
         <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(m => m.LabSamples.First().Sample.Description)
+                @Html.DisplayNameFor(m => m.LabSamples.First().SampleDescription)
             </th>
             <th>
                 @Html.DisplayNameFor(m => m.LabSamples.First().Status)
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.LabSamples.First().Sample.AddedDate)
+                @Html.DisplayNameFor(m => m.LabSamples.First().SampleAddedDate)
             </th>
             <th class="w-25">
                 Operations
@@ -58,13 +58,13 @@ else
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(m => result.Sample.Description)
+                    @Html.DisplayFor(m => result.SampleDescription)
                 </td>
                 <td>
                     @Html.Partial("_LabSampleStatus", result.Status)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => result.Sample.AddedDate)
+                    @Html.DisplayFor(m => result.SampleAddedDate)
                 </td>
                 <td>
                     <div class="btn-group">

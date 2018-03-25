@@ -28,7 +28,7 @@ else if (Model.Results != null)
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(m => m.Results.First().User.UserName)
+                    @Html.DisplayNameFor(m => m.Results.First().UserName)
                 </th>
                 <th class="w-25">
                     Operations
@@ -47,12 +47,12 @@ else if (Model.Results != null)
                     {
                         if (!result.IsLabManager)
                         {
-                            @Html.ActionLink("Remove", "RemoveMember", "Labs", new { lab = Model.Lab.LabId, userId = result.User.Id }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Remove", "RemoveMember", "Labs", new { lab = Model.Lab.LabId, userId = result.UserId }, new { @class = "btn btn-danger" })
                         }
                     }
                     else
                     {
-                        using (Html.BeginForm("PostAddMember", "Labs", new { lab = Model.Lab.LabId, userId = result.User.Id }))
+                        using (Html.BeginForm("PostAddMember", "Labs", new { lab = Model.Lab.LabId, userId = result.UserId }))
                         {
                             @Html.AntiForgeryToken()
                             <input type="submit" value="Add" class="btn btn-success" />

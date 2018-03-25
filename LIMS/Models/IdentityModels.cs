@@ -166,6 +166,9 @@ namespace LIMS.Models
         [Key, Column(Order = 1)]
         public string UserId { get; set; }
 
+        [Display(Name = "Username")]
+        public string UserName => User.UserName;
+
         [JsonIgnore]
         public ApplicationUser User { get; set; }
 
@@ -236,7 +239,10 @@ namespace LIMS.Models
         [Required]
         public long ReagentId { get; set; }
         
+        [JsonIgnore]
         public Lab Lab { get; set; }
+
+        [JsonIgnore]
         public Reagent Reagent { get; set; }
 
         [Required]
@@ -269,6 +275,7 @@ namespace LIMS.Models
         public string TestId { get; set; }
 
         [Display(Name = "Test")]
+        [JsonIgnore]
         public Test Test { get; set; }
     }
 
@@ -282,12 +289,16 @@ namespace LIMS.Models
         [Required]
         [Key, Column(Order = 0)]
         public long LabId { get; set; }
+
+        [JsonIgnore]
         public Lab Lab { get; set; }
 
         [Required]
         [Key, Column(Order = 1)]
         [Index(IsUnique = true)]
         public long SampleId { get; set; }
+
+        [JsonIgnore]
         public Sample Sample { get; set; }
         
         [Display(Name = "Assigned At")]
@@ -306,12 +317,24 @@ namespace LIMS.Models
 
     public class LabSampleComment
     {
+        [JsonIgnore]
         public long LabSampleCommentId { get; set; }
 
         [Required]
+        public long LabId { get; set; }
+
+        [Required]
+        public long SampleId { get; set; }
+
+        [Required]
+        [JsonIgnore]
         public LabSample LabSample { get; set; }
 
         [Required]
+        public string UserId { get; set; }
+
+        [Required]
+        [JsonIgnore]
         public ApplicationUser User { get; set; }
 
         [Required]

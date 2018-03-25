@@ -48,7 +48,7 @@
             <td>
                 @if (Model.IsLabManager && !result.IsLabManager)
                 {
-                    @Html.ActionLink("Remove", "RemoveMember", "Labs", new { lab = Model.Lab.LabId, userId = result.User.Id }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Remove", "RemoveMember", "Labs", new { lab = Model.Lab.LabId, userId = result.UserId }, new { @class = "btn btn-danger" })
                 }
             </td>
         </tr>

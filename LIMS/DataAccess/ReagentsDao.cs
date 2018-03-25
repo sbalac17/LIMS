@@ -17,14 +17,14 @@ namespace LIMS.DataAccess
             if (string.IsNullOrWhiteSpace(query))
             {
                 results = from r in context.DbContext.Reagents
-                    orderby r.Name
+                    orderby r.Name, r.ExpiryDate
                     select r;
             }
             else
             {
                 results = from r in context.DbContext.Reagents
                     where r.Name.Contains(query)
-                    orderby r.Name
+                    orderby r.Name, r.ExpiryDate
                     select r;
             }
 
@@ -50,7 +50,7 @@ namespace LIMS.DataAccess
             return reagent;
         }
 
-        public static async Task<Reagent> Read(IRequestContext context, int reagentId)
+        public static async Task<Reagent> Read(IRequestContext context, long reagentId)
         {
             var query = from r in context.DbContext.Reagents
                 where r.ReagentId == reagentId
@@ -73,7 +73,7 @@ namespace LIMS.DataAccess
             return reagent;
         }
 
-        public static async Task<Reagent> Delete(IRequestContext context, int reagentId)
+        public static async Task<Reagent> Delete(IRequestContext context, long reagentId)
         {
             var reagent = await Read(context, reagentId);
             if (reagent == null)

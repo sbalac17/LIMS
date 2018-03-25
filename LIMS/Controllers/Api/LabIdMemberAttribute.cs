@@ -26,8 +26,8 @@ namespace LIMS.Controllers.Api
                 return;
             }
 
-            if (!(labParam is int labId))
-                throw new InvalidOperationException("'labId' parameter is not an Int32.");
+            if (!(labParam is long labId))
+                throw new InvalidOperationException("'labId' parameter is not an Int64.");
 
             var owinContext = actionContext.Request.GetOwinContext();
             var userId = actionContext.RequestContext.Principal?.Identity?.GetUserId();

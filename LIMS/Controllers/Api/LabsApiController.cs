@@ -30,7 +30,7 @@ namespace LIMS.Controllers.Api
         [HttpGet]
         [Authorize]
         [LabIdMember]
-        public async Task<IHttpActionResult> Read(int labId)
+        public async Task<IHttpActionResult> Read(long labId)
         {
             var result = await LabsDao.Read(this, labId);
             if (result == null)
@@ -44,7 +44,7 @@ namespace LIMS.Controllers.Api
         [Authorize]
         [LabIdMember(LabManager = true)]
         [ValidateModel]
-        public async Task<IHttpActionResult> Update(int labId, LabsEditViewModel model)
+        public async Task<IHttpActionResult> Update(long labId, LabsEditViewModel model)
         {
             var lab = await LabsDao.Read(this, labId);
             if (lab == null)
@@ -57,7 +57,7 @@ namespace LIMS.Controllers.Api
         [Route("api/labs/{labId:int}")]
         [HttpDelete]
         [Authorize(Roles = Roles.Administrator)]
-        public async Task<IHttpActionResult> Delete(int labId)
+        public async Task<IHttpActionResult> Delete(long labId)
         {
             var result = await LabsDao.Delete(this, labId);
             if (result == null)

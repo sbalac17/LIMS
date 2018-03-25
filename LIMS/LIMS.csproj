@@ -281,6 +281,10 @@
     <Compile Include="Migrations\201801030207096_Comments2.Designer.cs">
       <DependentUpon>201801030207096_Comments2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803250215063_LabSampleCommentIdFields.cs" />
+    <Compile Include="Migrations\201803250215063_LabSampleCommentIdFields.Designer.cs">
+      <DependentUpon>201803250215063_LabSampleCommentIdFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
@@ -510,6 +514,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801030207096_Comments2.resx">
       <DependentUpon>201801030207096_Comments2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803250215063_LabSampleCommentIdFields.resx">
+      <DependentUpon>201803250215063_LabSampleCommentIdFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace LIMS.Models
 {
@@ -90,7 +91,10 @@ namespace LIMS.Models
         
         public class Result : IUserWithLabManager
         {
-            public ApplicationUser User { get; set; }
+            public string UserId { get; set; }
+            
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
 
             public bool IsLabManager { get; set; }
 
@@ -111,7 +115,10 @@ namespace LIMS.Models
 
         public class Result : IUserWithLabManager
         {
-            public ApplicationUser User { get; set; }
+            public string UserId { get; set; }
+
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
 
             public bool IsMember { get; set; }
 
@@ -123,7 +130,7 @@ namespace LIMS.Models
     {
         public Lab Lab { get; set; }
 
-        [Display(Name = "UserName")]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
         public string UserId { get; set; }
@@ -154,7 +161,29 @@ namespace LIMS.Models
 
         public bool IsLabManager { get; set; }
 
-        public List<UsedReagent> UsedReagents { get; set; }
+        public List<Result> UsedReagents { get; set; }
+
+        public class Result
+        {
+            public long UsedReagentId { get; set; }
+
+            public long ReagentId { get; set; }
+            
+            [Display(Name = "Name")]
+            public string ReagentName { get; set; }
+            
+            [Display(Name = "Manufacturer Code")]
+            public string ReagentManufacturerCode { get; set; }
+            
+            [Display(Name = "Expires")]
+            public DateTimeOffset ReagentExpiryDate { get; set; }
+            
+            [Display(Name = "Use Date")]
+            public DateTimeOffset UsedDate { get; set; }
+            
+            [Display(Name = "Quantity")]
+            public int Quantity { get; set; }
+        }
     }
 
     public class LabsAddReagentViewModel
@@ -198,9 +227,31 @@ namespace LIMS.Models
 
         public string Query { get; set; }
 
-        public List<LabSample> LabSamples { get; set; }
+        public List<Result> LabSamples { get; set; }
 
         public bool IsLabManager { get; set; }
+
+        public class Result
+        {
+            public long LabId { get; set; }
+
+            public long SampleId { get; set; }
+
+            [Display(Name = "Test Code")]
+            public string SampleTestId { get; set; }
+            
+            [Display(Name = "Description")]
+            public string SampleDescription { get; set; }
+            
+            [Display(Name = "Taken")]
+            public DateTimeOffset SampleAddedDate { get; set; }
+            
+            [Display(Name = "Assigned At")]
+            public DateTimeOffset AssignedDate { get; set; }
+            
+            [Display(Name = "Status")]
+            public LabSampleStatus Status { get; set; }
+        }
     }
 
     public class LabsAddSampleViewModel
@@ -212,7 +263,7 @@ namespace LIMS.Models
         public List<Sample> Results { get; set; }
     }
 
-    public class LabsSampleDetailsViewModel
+    public class LabsSampleDetailsViewModel : IValidatableObject
     {
         public LabSample LabSample { get; set; }
 
@@ -222,19 +273,36 @@ namespace LIMS.Models
 
         [Display(Name = "Comment")]
         [StringLength(1000, MinimumLength = 0)]
+        [JsonIgnore]
         public string Message { get; set; }
 
         [Required]
         [Range(0, 3)]
+        [JsonIgnore]
         public int SelectedButton { get; set; }
+
+        [JsonIgnore]
+        public LabSampleStatus? RequestedStatus =>
+            SelectedButton > 0 ? (LabSampleStatus?)(SelectedButton - 1) : null;
 
         public class Result : IUserWithLabManager
         {
-            public ApplicationUser User { get; set; }
+            public string UserId { get; set; }
+            
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
 
             public LabSampleComment Comment { get; set; }
 
             public bool IsLabManager { get; set; }
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (!RequestedStatus.HasValue && string.IsNullOrWhiteSpace(Message))
+            {
+                yield return new ValidationResult("Comment is required.", new[] { nameof(Message) });
+            }
         }
     }
 
@@ -269,7 +337,10 @@ namespace LIMS.Models
 
         public class MemberResult : IUserWithLabManager
         {
-            public ApplicationUser User { get; set; }
+            public string UserId { get; set; }
+
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
 
             public bool IsLabManager { get; set; }
         }
