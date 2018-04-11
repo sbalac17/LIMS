@@ -367,7 +367,7 @@ namespace LIMS.DataAccess
 
             await context.DbContext.SaveChangesAsync();
 
-            await context.LogAsync($"Removed used-reagent ID {usedReagentId}, returning {returnQuantity} to reagent ID {usedReagent.Reagent.ReagentId}");
+            await context.LogAsync($"Removed used-reagent ID {usedReagentId}, returning {returnQuantity} to reagent ID {usedReagent.ReagentId}");
 
             return usedReagent;
         }
