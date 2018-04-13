@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Globalization;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 
 namespace LIMS
 {
     [ModelBinder(typeof(DateWithTimeModelBinder))]
+    [JsonConverter(typeof(DateWithTimeSerializer))]
     public struct DateWithTime : IFormattable
     {
-        public const string Format = "{0:dd/MM/yyyy h:mm:ss tt}";
+        public const string Format = "dd/MM/yyyy h:mm:ss tt";
+        public const string Placeholder = "{0:" + Format + "}";
 
         private readonly DateTimeOffset _date;
 
@@ -28,7 +31,7 @@ namespace LIMS
 
         public override string ToString()
         {
-            return _date.ToString();
+            return _date.ToString(Format, null);
         }
 
         public string ToString(string format, IFormatProvider formatProvider)
@@ -45,7 +48,21 @@ namespace LIMS
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var result = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-            return new DateWithTime(DateTimeOffset.ParseExact(result.AttemptedValue, "dd/MM/yyyy h:mm:ss tt", null, DateTimeStyles.AssumeLocal));
+            return new DateWithTime(DateTimeOffset.ParseExact(result.AttemptedValue, DateWithTime.Format, null, DateTimeStyles.AssumeLocal));
+        }
+    }
+
+    public class DateWithTimeSerializer : JsonConverter<DateWithTime>
+    {
+        public override void WriteJson(JsonWriter writer, DateWithTime value, JsonSerializer serializer)
+        {
+            writer.WriteValue(value.ToString(DateWithTime.Format, CultureInfo.InvariantCulture));
+        }
+
+        public override DateWithTime ReadJson(JsonReader reader, Type objectType, DateWithTime existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            var value = reader.ReadAsString();
+            return new DateWithTime(DateTimeOffset.ParseExact(value, DateWithTime.Format, null, DateTimeStyles.AssumeLocal));
         }
     }
 }
