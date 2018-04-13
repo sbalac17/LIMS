@@ -12,6 +12,9 @@ namespace LIMS
         public const string Format = "dd/MM/yyyy h:mm:ss tt";
         public const string Placeholder = "{0:" + Format + "}";
 
+        public const string FormatDate = "dd/MM/yyyy";
+        public const string PlaceholderDate = "{0:" + FormatDate + "}";
+
         private readonly DateTimeOffset _date;
 
         public DateWithTime(DateTimeOffset date)

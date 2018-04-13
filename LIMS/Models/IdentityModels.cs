@@ -177,7 +177,7 @@ namespace LIMS.Models
         public bool IsLabManager { get; set; }
         
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
         public DateTimeOffset? LastOpened { get; set; }
     }
 
@@ -196,7 +196,7 @@ namespace LIMS.Models
         
         [Display(Name = "Date")]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
         public DateTimeOffset Date { get; set; }
     }
     
@@ -216,13 +216,13 @@ namespace LIMS.Models
         [Display(Name = "Added")]
         [Required]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = DateWithTime.PlaceholderDate, ApplyFormatInEditMode = true)]
         public DateTimeOffset AddedDate { get; set; }
         
         [Display(Name = "Expires")]
         [Required]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = DateWithTime.PlaceholderDate, ApplyFormatInEditMode = true)]
         public DateTimeOffset ExpiryDate { get; set; }
         
         [Display(Name = "Manufacturer Code")]
@@ -252,7 +252,7 @@ namespace LIMS.Models
         [Display(Name = "Use Date")]
         [Required]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
         public DateTimeOffset UsedDate { get; set; }
     }
 
@@ -268,7 +268,7 @@ namespace LIMS.Models
         [Display(Name = "Taken")]
         [Required]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
         public DateTimeOffset AddedDate { get; set; }
         
         // TestId isn't required to fix SQL error ("may cause cycles or multiple cascade paths")
@@ -305,7 +305,7 @@ namespace LIMS.Models
         [Display(Name = "Assigned At")]
         [Required]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
         public DateTimeOffset AssignedDate { get; set; }
 
         [Display(Name = "Notes")]
@@ -343,7 +343,7 @@ namespace LIMS.Models
 
         [Required]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
         public DateTimeOffset Date {get; set; }
 
         public string Message { get; set; }

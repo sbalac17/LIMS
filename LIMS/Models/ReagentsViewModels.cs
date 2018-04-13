@@ -25,7 +25,7 @@ namespace LIMS.Models
         [Display(Name = "Expires")]
         [Required]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = DateWithTime.PlaceholderDate, ApplyFormatInEditMode = true)]
         public Date ExpiryDate { get; set; }
         
         [Display(Name = "Manufacturer Code")]

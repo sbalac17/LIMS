@@ -37,7 +37,7 @@ namespace LIMS.Models
         [Display(Name = "Taken")]
         [Required]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
         public DateWithTime AddedDate { get; set; }
     }
 

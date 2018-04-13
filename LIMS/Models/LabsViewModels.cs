@@ -178,12 +178,12 @@ namespace LIMS.Models
             
             [Display(Name = "Expires")]
             [DataType(DataType.Text)]
-            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+            [DisplayFormat(DataFormatString = DateWithTime.PlaceholderDate, ApplyFormatInEditMode = true)]
             public DateTimeOffset ReagentExpiryDate { get; set; }
             
             [Display(Name = "Use Date")]
             [DataType(DataType.Text)]
-            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+            [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
             public DateTimeOffset UsedDate { get; set; }
             
             [Display(Name = "Quantity")]
@@ -251,12 +251,12 @@ namespace LIMS.Models
             
             [Display(Name = "Taken")]
             [DataType(DataType.Text)]
-            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+            [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
             public DateTimeOffset SampleAddedDate { get; set; }
             
             [Display(Name = "Assigned At")]
             [DataType(DataType.Text)]
-            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+            [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
             public DateTimeOffset AssignedDate { get; set; }
             
             [Display(Name = "Status")]
@@ -351,7 +351,7 @@ namespace LIMS.Models
             
             [Display(Name = "Assigned")]
             [DataType(DataType.Text)]
-            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+            [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
             public DateTimeOffset AssignedDate { get; set; }
         }
 
