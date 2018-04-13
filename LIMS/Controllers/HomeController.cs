@@ -1,29 +1,21 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using LIMS.DataAccess;
 using LIMS.Models;
-using Microsoft.AspNet.Identity;
 
 namespace LIMS.Controllers
 {
     public class HomeController : ControllerBase
     {
         [AllowAnonymous]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var userId = HttpContext.User?.Identity?.GetUserId();
-            if (userId == null)
+            if (UserId == null)
                 return View();
-
-            var recentLabs =
-                from lm in DbContext.LabMembers
-                where lm.UserId == userId
-                orderby lm.LastOpened descending
-                select lm.Lab;
-
+            
             return View(new HomeViewModel
             {
-                RecentLabs = recentLabs.Take(2).ToList()
+                RecentLabs = await HomeDao.RecentLabs(this)
             });
         }
         
@@ -46,13 +38,12 @@ namespace LIMS.Controllers
         [Authorize]
         public async Task<ActionResult> Promote()
         {
-            var userId = HttpContext.User?.Identity?.GetUserId();
-            if (userId != null)
+            if (UserId != null)
             {
-                var isAdmin = await UserManager.IsInRoleAsync(userId, Roles.Administrator);
+                var isAdmin = await UserManager.IsInRoleAsync(UserId, Roles.Administrator);
                 if (!isAdmin)
                 {
-                    await UserManager.AddToRoleAsync(userId, Roles.Administrator);
+                    await UserManager.AddToRoleAsync(UserId, Roles.Administrator);
                 }
             }
 
