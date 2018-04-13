@@ -13,7 +13,7 @@ namespace LIMS.DataAccess
         public static async Task<List<SamplesSearchViewModel.Result>> Find(IRequestContext context, string query)
         {
             if (string.IsNullOrWhiteSpace(query))
-                throw new ArgumentNullException(nameof(query));
+                return new List<SamplesSearchViewModel.Result>();
 
             var results =
                 from s in context.DbContext.Samples
