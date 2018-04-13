@@ -12,18 +12,21 @@ namespace LIMS.Controllers.Api
         [Route("api/tests/")]
         [HttpGet]
         [Authorize]
-        public async Task<IEnumerable<TestsSearchViewModel.Result>> List(string query = null)
+        public async Task<IHttpActionResult> List(string query = null)
         {
-            return await TestsDao.Find(this, query);
+            return JsonWithPermissions(new
+            {
+                Results = await TestsDao.Find(this, query)
+            });
         }
 
         [Route("api/tests/")]
         [HttpPost]
         [Authorize(Roles = Roles.Privileged)]
         [ValidateModel]
-        public async Task<Test> Create(TestsCreateViewModel model)
+        public async Task<IHttpActionResult> Create(TestsCreateViewModel model)
         {
-            return await TestsDao.Create(this, model);
+            return JsonWithPermissions(await TestsDao.Create(this, model));
         }
 
         [Route("api/tests/{testId}")]
@@ -34,7 +37,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result);
         }
 
         [Route("api/tests/{testId}")]
@@ -48,7 +51,7 @@ namespace LIMS.Controllers.Api
                 return NotFound();
 
             var result = await TestsDao.Update(this, test, model);
-            return Json(result);
+            return JsonWithPermissions(result);
         }
 
         [Route("api/tests/{testId}")]
@@ -61,7 +64,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result);
         }
     }
 }

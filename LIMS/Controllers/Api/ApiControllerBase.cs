@@ -1,10 +1,14 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
+using System.Web.Mvc;
 using LIMS.DataAccess;
 using LIMS.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LIMS.Controllers.Api
 {
@@ -34,6 +38,23 @@ namespace LIMS.Controllers.Api
         public Task LogAsync(string message)
         {
             return LogsDao.Create(this, message);
+        }
+
+        protected IHttpActionResult JsonWithPermissions<T>(T value) =>
+            JsonWithPermissions(value, User.IsPrivileged(), User.IsPrivileged(), User.IsAdmin());
+
+        protected IHttpActionResult JsonWithPermissions<T>(T value, bool canCreate, bool canUpdate, bool canDelete)
+        {
+            var result = JObject.FromObject(value);
+            var permissions = new JObject
+            {
+                { "CanCreate", canCreate },
+                { "CanUpdate", canUpdate },
+                { "CanDelete", canDelete },
+            };
+            result.Add("$permissions", permissions);
+
+            return Json(result);
         }
     }
 }

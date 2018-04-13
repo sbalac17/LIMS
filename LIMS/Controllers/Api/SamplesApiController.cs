@@ -12,18 +12,21 @@ namespace LIMS.Controllers.Api
         [Route("api/samples/")]
         [HttpGet]
         [Authorize]
-        public async Task<IEnumerable<SamplesSearchViewModel.Result>> List(string query = null)
+        public async Task<IHttpActionResult> List(string query = null)
         {
-            return await SamplesDao.Find(this, query);
+            return JsonWithPermissions(new
+            {
+                Results = await SamplesDao.Find(this, query)
+            });
         }
 
         [Route("api/samples/")]
         [HttpPost]
         [Authorize(Roles = Roles.Privileged)]
         [ValidateModel]
-        public async Task<Sample> Create(SamplesCreateViewModel model)
+        public async Task<IHttpActionResult> Create(SamplesCreateViewModel model)
         {
-            return await SamplesDao.Create(this, model);
+            return JsonWithPermissions(await SamplesDao.Create(this, model));
         }
 
         [Route("api/samples/{sampleId:int}")]
@@ -34,7 +37,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result);
         }
 
         [Route("api/samples/{sampleId:int}")]
@@ -48,7 +51,7 @@ namespace LIMS.Controllers.Api
                 return NotFound();
 
             var result = await SamplesDao.Update(this, sample, model);
-            return Json(result);
+            return JsonWithPermissions(result);
         }
 
         [Route("api/samples/{sampleId:int}")]
@@ -60,7 +63,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result);
         }
     }
 }

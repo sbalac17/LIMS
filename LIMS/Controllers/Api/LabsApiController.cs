@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using LIMS.DataAccess;
 using LIMS.Models;
 using LIMS.Models.Api;
+using Microsoft.AspNet.Identity;
 
 namespace LIMS.Controllers.Api
 {
@@ -13,18 +13,21 @@ namespace LIMS.Controllers.Api
         [Route("api/labs/")]
         [HttpGet]
         [Authorize]
-        public async Task<IEnumerable<LabsSearchResult>> List(string query = null)
+        public async Task<IHttpActionResult> List(string query = null)
         {
-            return await LabsDao.Find(this, query);
+            return JsonWithPermissions(new
+            {
+                Results = await LabsDao.Find(this, query)
+            });
         }
 
         [Route("api/labs/")]
         [HttpPost]
         [Authorize(Roles = Roles.Privileged)]
         [ValidateModel]
-        public async Task<Lab> Create(LabsCreateViewModel model)
+        public async Task<IHttpActionResult> Create(LabsCreateViewModel model)
         {
-            return await LabsDao.Create(this, model);
+            return JsonWithPermissions(await LabsDao.Create(this, model), true, true, User.IsAdmin());
         }
 
         [Route("api/labs/{labId:int}")]
@@ -33,11 +36,13 @@ namespace LIMS.Controllers.Api
         [LabIdMember]
         public async Task<IHttpActionResult> Read(long labId)
         {
+            var (_, isLabManager) = await GetLab(labId);
+
             var result = await LabsDao.Read(this, labId);
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result, User.IsPrivileged(), isLabManager, User.IsAdmin());
         }
 
         [Route("api/labs/{labId:int}")]
@@ -47,12 +52,14 @@ namespace LIMS.Controllers.Api
         [ValidateModel]
         public async Task<IHttpActionResult> Update(long labId, LabsEditViewModel model)
         {
+            var (_, isLabManager) = await GetLab(labId);
+
             var lab = await LabsDao.Read(this, labId);
             if (lab == null)
                 return NotFound();
 
             var result = await LabsDao.Update(this, lab, model);
-            return Json(result);
+            return JsonWithPermissions(result, User.IsPrivileged(), isLabManager, User.IsAdmin());
         }
 
         [Route("api/labs/{labId:int}")]
@@ -60,11 +67,13 @@ namespace LIMS.Controllers.Api
         [Authorize(Roles = Roles.Administrator)]
         public async Task<IHttpActionResult> Delete(long labId)
         {
+            var (_, isLabManager) = await GetLab(labId);
+
             var result = await LabsDao.Delete(this, labId);
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result, User.IsPrivileged(), isLabManager, User.IsAdmin());
         }
 
         [Route("api/labs/{labId:int}/report")]
@@ -77,7 +86,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result);
         }
         
         /*******************************************/
@@ -88,16 +97,18 @@ namespace LIMS.Controllers.Api
         [LabIdMember]
         public async Task<IHttpActionResult> Members(long labId)
         {
-            return Json(await LabsDao.ListMembers(this, labId));
+            var (_, isLabManager) = await GetLab(labId);
+            return JsonWithPermissions(await LabsDao.ListMembers(this, labId), isLabManager, isLabManager, isLabManager);
         }
-
+            
         [Route("api/labs/{labId:int}/addableMembers")]
         [HttpGet]
         [Authorize]
         [LabIdMember(LabManager = true)]
         public async Task<IHttpActionResult> AddableMembers(long labId, string query = null)
         {
-            return Json(await LabsDao.ListAddableMembers(this, labId, query));
+            var (_, isLabManager) = await GetLab(labId);
+            return JsonWithPermissions(await LabsDao.ListAddableMembers(this, labId, query), isLabManager, isLabManager, isLabManager);
         }
 
         [Route("api/labs/{labId:int}/addMember/{userId}")]
@@ -106,7 +117,8 @@ namespace LIMS.Controllers.Api
         [LabIdMember(LabManager = true)]
         public async Task<IHttpActionResult> AddMember(long labId, string userId)
         {
-            return Json(await LabsDao.AddMember(this, labId, userId));
+            var (_, isLabManager) = await GetLab(labId);
+            return JsonWithPermissions(await LabsDao.AddMember(this, labId, userId), isLabManager, isLabManager, isLabManager);
         }
 
         [Route("api/labs/{labId:int}/removeMember/{userId}")]
@@ -115,7 +127,8 @@ namespace LIMS.Controllers.Api
         [LabIdMember(LabManager = true)]
         public async Task<IHttpActionResult> RemoveMember(long labId, string userId)
         {
-            return Json(await LabsDao.RemoveMember(this, labId, userId));
+            var (_, isLabManager) = await GetLab(labId);
+            return JsonWithPermissions(await LabsDao.RemoveMember(this, labId, userId), isLabManager, isLabManager, isLabManager);
         }
         
         /*******************************************/
@@ -126,20 +139,23 @@ namespace LIMS.Controllers.Api
         [LabIdMember]
         public async Task<IHttpActionResult> Reagents(long labId)
         {
-            return Json(await LabsDao.ListReagents(this, labId));
+            var (_, isLabManager) = await GetLab(labId);
+            return JsonWithPermissions(await LabsDao.ListReagents(this, labId), true, isLabManager, isLabManager);
         }
 
         [Route("api/labs/{labId:int}/addReagent/{reagentId:int}")]
         [HttpPost]
         [Authorize]
-        [LabIdMember(LabManager = true)]
+        [LabIdMember]
         public async Task<IHttpActionResult> AddReagent(long labId, long reagentId, int quantity = 1)
         {
+            var (_, isLabManager) = await GetLab(labId);
+
             var result = await LabsDao.AddReagent(this, labId, reagentId, quantity);
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result, true, isLabManager, isLabManager);
         }
 
         [Route("api/labs/{labId:int}/removeReagent/{reagentId:int}")]
@@ -152,7 +168,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result, true, true, true);
         }
         
         /*******************************************/
@@ -163,7 +179,8 @@ namespace LIMS.Controllers.Api
         [LabIdMember]
         public async Task<IHttpActionResult> Samples(long labId, string query = null)
         {
-            return Json(await LabsDao.ListSamples(this, labId, query));
+            var (_, isLabManager) = await GetLab(labId);
+            return JsonWithPermissions(await LabsDao.ListSamples(this, labId, query), isLabManager, isLabManager, isLabManager);
         }
         
         [Route("api/labs/{labId:int}/samples/{sampleId:int}")]
@@ -176,7 +193,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result, result.IsLabManager, result.IsLabManager, result.IsLabManager);
         }
         
         [Route("api/labs/{labId:int}/samples/{sampleId:int}/comment")]
@@ -190,7 +207,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result, true, false, false);
         }
         
         [Route("api/labs/{labId:int}/samples/{sampleId:int}")]
@@ -204,7 +221,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result, true, true, true);
         }
         
         [Route("api/labs/{labId:int}/addSample/{sampleId:int}")]
@@ -217,7 +234,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result, true, true, true);
         }
 
         [Route("api/labs/{labId:int}/removeSample/{sampleId:int}")]
@@ -230,7 +247,19 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result, true, true, true);
+        }
+
+        private async Task<(Lab lab, bool isLabManager)> GetLab(long labId)
+        {
+            var lab = await LabsDao.Read(this, labId);
+            var isLabManager = IsLabManager(lab);
+            return (lab, isLabManager);
+        }
+
+        private bool IsLabManager(Lab lab)
+        {
+            return lab.UserIsLabManager(User.Identity.GetUserId());
         }
     }
 }

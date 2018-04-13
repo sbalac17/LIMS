@@ -12,18 +12,21 @@ namespace LIMS.Controllers.Api
         [Route("api/reagents/")]
         [HttpGet]
         [Authorize]
-        public async Task<IEnumerable<Reagent>> List(string query = null)
+        public async Task<IHttpActionResult> List(string query = null)
         {
-            return await ReagentsDao.Find(this, query);
+            return JsonWithPermissions(new
+            {
+                Results = await ReagentsDao.Find(this, query)
+            });
         }
 
         [Route("api/reagents/")]
         [HttpPost]
         [Authorize(Roles = Roles.Privileged)]
         [ValidateModel]
-        public async Task<Reagent> Create(ReagentsCreateViewModel model)
+        public async Task<IHttpActionResult> Create(ReagentsCreateViewModel model)
         {
-            return await ReagentsDao.Create(this, model);
+            return JsonWithPermissions(await ReagentsDao.Create(this, model));
         }
 
         [Route("api/reagents/{reagentId:int}")]
@@ -34,7 +37,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result);
         }
 
         [Route("api/reagents/{reagentId:int}")]
@@ -48,7 +51,7 @@ namespace LIMS.Controllers.Api
                 return NotFound();
 
             var result = await ReagentsDao.Update(this, reagent, model);
-            return Json(result);
+            return JsonWithPermissions(result);
         }
 
         [Route("api/reagents/{reagentId:int}")]
@@ -60,7 +63,7 @@ namespace LIMS.Controllers.Api
             if (result == null)
                 return NotFound();
 
-            return Json(result);
+            return JsonWithPermissions(result);
         }
     }
 }
