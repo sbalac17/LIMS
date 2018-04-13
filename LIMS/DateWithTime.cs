@@ -12,9 +12,6 @@ namespace LIMS
         public const string Format = "dd/MM/yyyy h:mm:ss tt";
         public const string Placeholder = "{0:" + Format + "}";
 
-        public const string FormatDate = "dd/MM/yyyy";
-        public const string PlaceholderDate = "{0:" + FormatDate + "}";
-
         private readonly DateTimeOffset _date;
 
         public DateWithTime(DateTimeOffset date)
@@ -57,6 +54,9 @@ namespace LIMS
 
     public class DateWithTimeSerializer : JsonConverter<DateWithTime>
     {
+        public override bool CanRead => true;
+        public override bool CanWrite => true;
+
         public override void WriteJson(JsonWriter writer, DateWithTime value, JsonSerializer serializer)
         {
             writer.WriteValue(value.ToString(DateWithTime.Format, CultureInfo.InvariantCulture));

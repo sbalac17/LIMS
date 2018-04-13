@@ -101,8 +101,16 @@ namespace LIMS.Models
 
             [Display(Name = "Last Active")]
             [DataType(DataType.Text)]
-            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy h:mm:ss tt}", ApplyFormatInEditMode = true)]
+            [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
+            [JsonIgnore]
             public DateTimeOffset? LastActive { get; set; }
+
+            [JsonProperty(nameof(LastActive))]
+            public DateWithTime? LastActiveJson
+            {
+                get => LastActive;
+                set => LastActive = value;
+            }
         }
     }
 
@@ -178,13 +186,29 @@ namespace LIMS.Models
             
             [Display(Name = "Expires")]
             [DataType(DataType.Text)]
-            [DisplayFormat(DataFormatString = DateWithTime.PlaceholderDate, ApplyFormatInEditMode = true)]
+            [DisplayFormat(DataFormatString = Date.Placeholder, ApplyFormatInEditMode = true)]
+            [JsonIgnore]
             public DateTimeOffset ReagentExpiryDate { get; set; }
             
+            [JsonProperty(nameof(ReagentExpiryDate))]
+            public DateWithTime ReagentExpiryDateJson
+            {
+                get => ReagentExpiryDate;
+                set => ReagentExpiryDate = value;
+            }
+
             [Display(Name = "Use Date")]
             [DataType(DataType.Text)]
             [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
+            [JsonIgnore]
             public DateTimeOffset UsedDate { get; set; }
+
+            [JsonProperty(nameof(UsedDate))]
+            public DateWithTime UsedDateJson
+            {
+                get => UsedDate;
+                set => UsedDate = value;
+            }
             
             [Display(Name = "Quantity")]
             public int Quantity { get; set; }
@@ -252,12 +276,28 @@ namespace LIMS.Models
             [Display(Name = "Taken")]
             [DataType(DataType.Text)]
             [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
+            [JsonIgnore]
             public DateTimeOffset SampleAddedDate { get; set; }
+
+            [JsonProperty(nameof(SampleAddedDate))]
+            public DateWithTime UsedDateJson
+            {
+                get => SampleAddedDate;
+                set => SampleAddedDate = value;
+            }
             
             [Display(Name = "Assigned At")]
             [DataType(DataType.Text)]
             [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
+            [JsonIgnore]
             public DateTimeOffset AssignedDate { get; set; }
+
+            [JsonProperty(nameof(AssignedDate))]
+            public DateWithTime AssignedDateJson
+            {
+                get => AssignedDate;
+                set => AssignedDate = value;
+            }
             
             [Display(Name = "Status")]
             public LabSampleStatus Status { get; set; }
@@ -300,7 +340,12 @@ namespace LIMS.Models
             [JsonIgnore]
             public LabSampleComment Comment { get; set; }
 
+            [JsonIgnore]
             public DateTimeOffset Date => Comment.Date;
+
+            [JsonProperty(nameof(Date))]
+            public DateWithTime DateJson => Comment.Date;
+
             public string Message => Comment.Message;
             public LabSampleStatus? NewStatus => Comment.NewStatus;
 
@@ -353,6 +398,13 @@ namespace LIMS.Models
             [DataType(DataType.Text)]
             [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
             public DateTimeOffset AssignedDate { get; set; }
+
+            [JsonProperty(nameof(AssignedDate))]
+            public DateWithTime AssignedDateJson
+            {
+                get => AssignedDate;
+                set => AssignedDate = value;
+            }
         }
 
         public class ReagentResult

@@ -178,7 +178,16 @@ namespace LIMS.Models
         
         [DataType(DataType.Text)]
         [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
+        [JsonIgnore]
         public DateTimeOffset? LastOpened { get; set; }
+
+        [JsonProperty(nameof(LastOpened))]
+        [NotMapped]
+        public DateWithTime? LastOpenedJson
+        {
+            get => LastOpened;
+            set => LastOpened = value;
+        }
     }
 
     public class LogEntry
@@ -197,7 +206,16 @@ namespace LIMS.Models
         [Display(Name = "Date")]
         [DataType(DataType.Text)]
         [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
+        [JsonIgnore]
         public DateTimeOffset Date { get; set; }
+
+        [JsonProperty(nameof(Date))]
+        [NotMapped]
+        public DateWithTime DateJson
+        {
+            get => Date;
+            set => Date = value;
+        }
     }
     
     [ModelBinder(typeof(ReagentModelBinder))]
@@ -216,15 +234,33 @@ namespace LIMS.Models
         [Display(Name = "Added")]
         [Required]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = DateWithTime.PlaceholderDate, ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = Date.Placeholder, ApplyFormatInEditMode = true)]
+        [JsonIgnore]
         public DateTimeOffset AddedDate { get; set; }
+
+        [JsonProperty(nameof(AddedDate))]
+        [NotMapped]
+        public DateWithTime AddedDateJson
+        {
+            get => AddedDate;
+            set => AddedDate = value;
+        }
         
         [Display(Name = "Expires")]
         [Required]
         [DataType(DataType.Text)]
-        [DisplayFormat(DataFormatString = DateWithTime.PlaceholderDate, ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = Date.Placeholder, ApplyFormatInEditMode = true)]
+        [JsonIgnore]
         public DateTimeOffset ExpiryDate { get; set; }
-        
+
+        [JsonProperty(nameof(ExpiryDate))]
+        [NotMapped]
+        public DateWithTime ExpiryDateJson
+        {
+            get => ExpiryDate;
+            set => ExpiryDate = value;
+        }
+
         [Display(Name = "Manufacturer Code")]
         [Required]
         public string ManufacturerCode { get; set; }
@@ -253,7 +289,16 @@ namespace LIMS.Models
         [Required]
         [DataType(DataType.Text)]
         [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
+        [JsonIgnore]
         public DateTimeOffset UsedDate { get; set; }
+
+        [JsonProperty(nameof(UsedDate))]
+        [NotMapped]
+        public DateWithTime UsedDateJson
+        {
+            get => UsedDate;
+            set => UsedDate = value;
+        }
     }
 
     [ModelBinder(typeof(SampleModelBinder))]
@@ -269,7 +314,16 @@ namespace LIMS.Models
         [Required]
         [DataType(DataType.Text)]
         [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
+        [JsonIgnore]
         public DateTimeOffset AddedDate { get; set; }
+
+        [JsonProperty(nameof(AddedDate))]
+        [NotMapped]
+        public DateWithTime AddedDateJson
+        {
+            get => AddedDate;
+            set => AddedDate = value;
+        }
         
         // TestId isn't required to fix SQL error ("may cause cycles or multiple cascade paths")
         [Display(Name = "Test Code")]
@@ -306,7 +360,16 @@ namespace LIMS.Models
         [Required]
         [DataType(DataType.Text)]
         [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
+        [JsonIgnore]
         public DateTimeOffset AssignedDate { get; set; }
+
+        [JsonProperty(nameof(AssignedDate))]
+        [NotMapped]
+        public DateWithTime AssignedDateJson
+        {
+            get => AssignedDate;
+            set => AssignedDate = value;
+        }
 
         [Display(Name = "Notes")]
         [StringLength(10000)]
@@ -344,7 +407,16 @@ namespace LIMS.Models
         [Required]
         [DataType(DataType.Text)]
         [DisplayFormat(DataFormatString = DateWithTime.Placeholder, ApplyFormatInEditMode = true)]
+        [JsonIgnore]
         public DateTimeOffset Date {get; set; }
+
+        [JsonProperty(nameof(Date))]
+        [NotMapped]
+        public DateWithTime DateJson
+        {
+            get => Date;
+            set => Date = value;
+        }
 
         public string Message { get; set; }
 
