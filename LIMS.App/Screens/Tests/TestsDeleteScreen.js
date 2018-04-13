@@ -40,17 +40,10 @@ export default class TestsDeleteScreen extends React.Component {
                     <Text h4>Description</Text>
                     <Text>{this.state.Description}</Text>
 
-                    <View style={{ flex: 1, flexDirection: 'row', margin: 15 }}>
-                        <View style={{ flex: 1 }}>
-                            <Button title='Delete'
-                                buttonStyle={{ backgroundColor: '#a33' }}
-                                onPress={() => this._delete()} />
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <Button title='Cancel'
-                                buttonStyle={{ backgroundColor: '#33c' }}
-                                onPress={() => this.goBack()} />
-                        </View>
+                    <View style={{ marginTop: 15 }}>
+                        <Button title='Delete'
+                            buttonStyle={{ backgroundColor: '#a33' }}
+                            onPress={() => this._delete()} />
                     </View>
                 </ScrollView>
             </View>

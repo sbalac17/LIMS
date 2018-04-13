@@ -61,18 +61,11 @@ export default class TestsCreateScreen extends React.Component {
 
                     <ErrorList errors={this.state.errors} />
 
-                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 15 }}>
-                        <View style={{ flex: 1 }}>
-                            <Button title='Cancel'
-                                buttonStyle={{ backgroundColor: '#a33' }}
-                                onPress={() => this.goBack()} />
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <Button title='Create'
-                                loading={saving}
-                                buttonStyle={{ backgroundColor: '#3a3' }}
-                                onPress={() => this._save()} />
-                        </View>
+                    <View style={{ marginTop: 15 }}>
+                        <Button title='Create'
+                            loading={saving}
+                            buttonStyle={{ backgroundColor: '#3a3' }}
+                            onPress={() => this._save()} />
                     </View>
                 </ScrollView>
                 </View>

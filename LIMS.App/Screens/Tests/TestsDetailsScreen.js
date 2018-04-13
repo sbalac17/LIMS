@@ -40,7 +40,7 @@ export default class TestsDetailsScreen extends React.Component {
                                 {permissions.CanUpdate &&
                                     <View style={{ flex: 1 }}>
                                         <Button title='Edit'
-                                            buttonStyle={{ backgroundColor: '#3a3' }}
+                                            buttonStyle={{ backgroundColor: '#34f' }}
                                             onPress={() => navigate('TestsEdit', this.state.test)} />
                                     </View>
                                 }
@@ -48,7 +48,7 @@ export default class TestsDetailsScreen extends React.Component {
                                 {permissions.CanDelete && 
                                     <View style={{ flex: 1 }}>
                                         <Button title='Delete'
-                                            buttonStyle={{ backgroundColor: '#a33' }}
+                                            buttonStyle={{ backgroundColor: '#c33' }}
                                             onPress={() => navigate('TestsDelete', this.state.test)} />
                                     </View>
                                 }

@@ -45,7 +45,7 @@ export default class TestsListScreen extends React.Component {
                 {permissions.CanCreate &&
                     <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 15 }}>
                         <View style={{ flex: 1 }}>
-                            <Button title='Create'
+                            <Button title='Create new'
                                 buttonStyle={{ backgroundColor: '#3a3' }}
                                 onPress={() => navigate('TestsCreate')} />
                         </View>
@@ -89,6 +89,7 @@ export default class TestsListScreen extends React.Component {
             let tests = await list(query);
             this.setState({ loaded: true, permissions: tests.$permissions, query, tests });
         } catch(e) {
+            // TODO: display error
             this.setState({ loaded: true, permissions: this.state.permissions, query, tests: {} });
         }
     }

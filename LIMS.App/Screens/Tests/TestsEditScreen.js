@@ -55,18 +55,11 @@ export default class TestsEditScreen extends React.Component {
 
                     <ErrorList errors={errors} />
 
-                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 15 }}>
-                        <View style={{ flex: 1 }}>
-                            <Button title='Cancel'
-                                buttonStyle={{ backgroundColor: '#a33' }}
-                                onPress={() => this.goBack()} />
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <Button title='Save'
-                                loading={saving}
-                                buttonStyle={{ backgroundColor: '#3a3' }}
-                                onPress={() => this._save()} />
-                        </View>
+                    <View style={{ marginTop: 15 }}>
+                        <Button title='Save'
+                            loading={saving}
+                            buttonStyle={{ backgroundColor: '#3a3' }}
+                            onPress={() => this._save()} />
                     </View>
                 </ScrollView>
                 </View>
