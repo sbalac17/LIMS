@@ -61,7 +61,10 @@ namespace LIMS
 
         public override DateWithTime ReadJson(JsonReader reader, Type objectType, DateWithTime existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            var value = reader.ReadAsString();
+            if (reader.TokenType != JsonToken.String)
+                throw new Exception("DateWithTime value must be a string.");
+
+            var value = reader.Value.ToString();
             return new DateWithTime(DateTimeOffset.ParseExact(value, DateWithTime.Format, null, DateTimeStyles.AssumeLocal));
         }
     }
