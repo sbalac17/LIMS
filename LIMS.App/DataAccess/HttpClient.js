@@ -61,7 +61,7 @@ async function doRequest(method, url, body) {
     } else if (!response.ok) {
         // server exception
         if (response.status == 500) {
-            throw new HttpError(obj.Message);
+            throw new HttpError(obj.ExceptionMessage || obj.Message);
         }
 
         // form validation errors

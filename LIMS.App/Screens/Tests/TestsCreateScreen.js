@@ -7,7 +7,7 @@ import { extractErrorMessages } from '../../DataAccess/HttpClient';
 
 export default class TestsCreateScreen extends React.Component {
     static navigationOptions = {
-        title: 'Tests',
+        title: 'Create Test',
         drawerLabel: 'Tests'
     };
 

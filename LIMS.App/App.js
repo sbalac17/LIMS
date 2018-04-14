@@ -6,11 +6,18 @@ import * as NavigationService from './NavigationService';
 import HomeScreen from './Screens/HomeScreen';
 import LoginScreen from './Screens/LoginScreen';
 import LoadingScreen from './Screens/LoadingScreen';
+
 import TestsListScreen from './Screens/Tests/TestsListScreen';
 import TestsDetailsScreen from './Screens/Tests/TestsDetailsScreen';
 import TestsEditScreen from './Screens/Tests/TestsEditScreen';
 import TestsDeleteScreen from './Screens/Tests/TestsDeleteScreen';
 import TestsCreateScreen from './Screens/Tests/TestsCreateScreen';
+
+import SamplesListScreen from './Screens/Samples/SamplesListScreen';
+import SamplesDetailsScreen from './Screens/Samples/SamplesDetailsScreen';
+import SamplesEditScreen from './Screens/Samples/SamplesEditScreen';
+import SamplesDeleteScreen from './Screens/Samples/SamplesDeleteScreen';
+import SamplesCreateScreen from './Screens/Samples/SamplesCreateScreen';
 
 function renderHeader(headerProps) {
     const options = headerProps.getScreenDetails(headerProps.scene).options;
@@ -41,9 +48,23 @@ const TestsStack = StackNavigator({
     }
 });
 
+const SamplesStack = StackNavigator({
+    SamplesList: { screen: SamplesListScreen },
+    SamplesDetails: { screen: SamplesDetailsScreen },
+    SamplesEdit: { screen: SamplesEditScreen },
+    SamplesDelete: { screen: SamplesDeleteScreen },
+    SamplesCreate: { screen: SamplesCreateScreen },
+}, {
+    initialRouteName: 'SamplesList',
+    navigationOptions: {
+        header: renderHeader
+    }
+});
+
 const AppDrawer = DrawerNavigator({
     HomeStack: { screen: HomeStack },
     TestsStack: { screen: TestsStack },
+    SamplesStack: { screen: SamplesStack },
 }, {
     initialRouteName: 'HomeStack'
 });

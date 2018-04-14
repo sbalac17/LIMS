@@ -55,7 +55,7 @@ export default class HomeScreen extends React.Component {
                 {this.state.loaded &&
                     <FlatList data={this.state.recents}
                         renderItem={renderLab}
-                        keyExtractor={lab => lab.LabId} />
+                        keyExtractor={lab => `lab-${lab.LabId}`} />
                 }
             </View>
         );

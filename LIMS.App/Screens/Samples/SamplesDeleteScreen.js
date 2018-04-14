@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
 import { Text, Button, Divider } from 'react-native-elements';
-import { remove } from '../../DataAccess/TestsDao';
+import { remove } from '../../DataAccess/SamplesDao';
 
-export default class TestsDeleteScreen extends React.Component {
+export default class SamplesDeleteScreen extends React.Component {
     static navigationOptions = {
-        title: 'Delete Test',
-        drawerLabel: 'Tests'
+        title: 'Delete Sample',
+        drawerLabel: 'Samples'
     };
 
     constructor(props) {
@@ -16,9 +16,9 @@ export default class TestsDeleteScreen extends React.Component {
         this.navigate = navigate;
         this.goBack = goBack;
 
-        let test = this.props.navigation.state.params;
-        this.testId = test.TestId;
-        this.state = test;
+        let sample = this.props.navigation.state.params;
+        this.sampleId = sample.SampleId;
+        this.state = sample;
     }
     
     // TODO: need to refresh when coming back
@@ -27,18 +27,18 @@ export default class TestsDeleteScreen extends React.Component {
             <View style={styles.container}>
                 <ScrollView style={styles.wrap}>
 
-                    <Text h4>Delete Test</Text>
-                    <Text>Are you sure you want to delete the following test?</Text>
+                    <Text h4>Delete Sample</Text>
+                    <Text>Are you sure you want to delete the following sample?</Text>
                     <Divider style={{ margin: 10 }} />
 
                     <Text h4>Test Code</Text>
                     <Text>{this.state.TestId}</Text>
 
-                    <Text h4>Name</Text>
-                    <Text>{this.state.Name}</Text>
-                    
                     <Text h4>Description</Text>
                     <Text>{this.state.Description}</Text>
+                    
+                    <Text h4>Taken</Text>
+                    <Text>{this.state.AddedDate}</Text>
 
                     <View style={{ marginTop: 15 }}>
                         <Button title='Delete'
@@ -52,8 +52,8 @@ export default class TestsDeleteScreen extends React.Component {
 
     async _delete() {
         try {
-            await remove(this.testId);
-            this.navigate('TestsList');
+            await remove(this.sampleId);
+            this.navigate('SamplesList');
         } catch(e) {
             // TODO: report error
         }

@@ -1,21 +1,21 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
 import { Text, Button } from 'react-native-elements';
-import { read } from '../../DataAccess/TestsDao';
+import { read } from '../../DataAccess/SamplesDao';
 
-export default class TestsDetailsScreen extends React.Component {
+export default class SamplesDetailsScreen extends React.Component {
     static navigationOptions = {
-        title: 'Test Details',
-        drawerLabel: 'Tests'
+        title: 'Sample Details',
+        drawerLabel: 'Samples'
     };
 
     constructor(props) {
         super(props);
 
-        this.testId = this.props.navigation.state.params.testId;
+        this.sampleId = this.props.navigation.state.params.sampleId;
         this.state = {
             loaded: false,
-            test: {},
+            sample: {},
         };
 
         this._refresh();
@@ -24,7 +24,7 @@ export default class TestsDetailsScreen extends React.Component {
     // TODO: need to refresh when coming backs
     render() {
         const { navigate } = this.props.navigation;
-        let permissions = this.state.test.$permissions;
+        let permissions = this.state.sample.$permissions;
 
         return (
             <View style={styles.container}>
@@ -41,7 +41,7 @@ export default class TestsDetailsScreen extends React.Component {
                                     <View style={{ flex: 1 }}>
                                         <Button title='Edit'
                                             buttonStyle={{ backgroundColor: '#34f' }}
-                                            onPress={() => navigate('TestsEdit', this.state.test)} />
+                                            onPress={() => navigate('SamplesEdit', this.state.sample)} />
                                     </View>
                                 }
 
@@ -49,20 +49,20 @@ export default class TestsDetailsScreen extends React.Component {
                                     <View style={{ flex: 1 }}>
                                         <Button title='Delete'
                                             buttonStyle={{ backgroundColor: '#c33' }}
-                                            onPress={() => navigate('TestsDelete', this.state.test)} />
+                                            onPress={() => navigate('SamplesDelete', this.state.sample)} />
                                     </View>
                                 }
                             </View>
                         }
 
                         <Text h4>Test Code</Text>
-                        <Text>{this.state.test.TestId}</Text>
+                        <Text>{this.state.sample.TestId}</Text>
     
-                        <Text h4>Name</Text>
-                        <Text>{this.state.test.Name}</Text>
-                        
                         <Text h4>Description</Text>
-                        <Text>{this.state.test.Description}</Text>
+                        <Text>{this.state.sample.Description}</Text>
+                        
+                        <Text h4>Taken</Text>
+                        <Text>{this.state.sample.AddedDate}</Text>
                     </ScrollView>
                 }
             </View>
@@ -71,8 +71,8 @@ export default class TestsDetailsScreen extends React.Component {
 
     async _refresh() {
         try {
-            let test = await read(this.testId);
-            this.setState({ loaded: true, test });
+            let sample = await read(this.sampleId);
+            this.setState({ loaded: true, sample });
         } catch(e) {
             // TODO: report error
         }

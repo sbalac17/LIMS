@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, ScrollView, TextInput } from 'react-native';
 import { Text, Button } from 'react-native-elements';
+import DatePicker from 'react-native-datepicker';
 import ErrorList from '../../Components/ErrorList';
-import { update } from '../../DataAccess/TestsDao';
+import { update } from '../../DataAccess/SamplesDao';
 import { extractErrorMessages } from '../../DataAccess/HttpClient';
 
-export default class TestsEditScreen extends React.Component {
+export default class SamplesEditScreen extends React.Component {
     static navigationOptions = {
-        title: 'Edit Test',
-        drawerLabel: 'Tests'
+        title: 'Edit Sample',
+        drawerLabel: 'Samples'
     };
 
     constructor(props) {
@@ -18,19 +19,19 @@ export default class TestsEditScreen extends React.Component {
         this.navigate = navigate;
         this.goBack = goBack;
 
-        let test = this.props.navigation.state.params;
-        this.testId = test.TestId;
+        let sample = this.props.navigation.state.params;
+        this.sampleId = sample.SampleId;
         this.state = {
             saving: false,
             errors: [],
-            test
+            sample
         };
     }
     
     render() {
         let saving = this.state.saving;
         let errors = this.state.errors;
-        let test = this.state.test;
+        let sample = this.state.sample;
 
         // TODO: the view needs to expand back when keyboard closes
         return (
@@ -38,20 +39,20 @@ export default class TestsEditScreen extends React.Component {
                 <View>
                 <ScrollView style={styles.wrap}>
                     <Text h4>Test Code</Text>
-                    <Text>{test.TestId}</Text>
+                    <Text>{sample.TestId}</Text>
 
-                    <Text h4>Name</Text>
-                    <TextInput
-                        value={test.Name}
-                        style={styles.input}
-                        onChangeText={text => this.setState({ saving, errors, test: { TestId: test.TestId, Name: text, Description: test.Description }})} />
-                    
                     <Text h4>Description</Text>
                     <TextInput
-                        value={test.Description}
+                        value={sample.Description}
                         multiline={true}
                         style={styles.input}
-                        onChangeText={text => this.setState({ saving, errors, test: { TestId: test.TestId, Name: test.Name, Description: text }})} />
+                        onChangeText={text => this.setState({ saving, errors, sample: { TestId: sample.TestId, Description: text, AddedDate: sample.AddedDate }})} />
+                    
+                    <Text h4>Taken</Text>
+                    <DatePicker date={sample.AddedDate} style={{ width: '100%' }}
+                        mode="datetime" format="DD/MM/YYYY h:mm:ss A"
+                        minDate="01/01/2000 12:00:00 AM" maxDate="01/01/2050 12:00:00 AM"
+                        onDateChange={text => this.setState({ saving, errors, sample: { TestId: sample.TestId, Description: sample.Description, AddedDate: text }})} />
 
                     <ErrorList errors={errors} />
 
@@ -68,13 +69,13 @@ export default class TestsEditScreen extends React.Component {
     }
 
     async _save() {
-        this.setState({ saving: true, errors: [], test: this.state.test });
+        this.setState({ saving: true, errors: [], sample: this.state.sample });
 
         try {
-            await update(this.testId, this.state.test);
+            await update(this.sampleId, this.state.sample);
             this.goBack();
         } catch (e) {
-            this.setState({ saving: false, errors: extractErrorMessages(e), test: this.state.test });
+            this.setState({ saving: false, errors: extractErrorMessages(e), sample: this.state.sample });
         }
     }
 }

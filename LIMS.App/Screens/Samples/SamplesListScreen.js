@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { SearchBar, ListItem, Button } from 'react-native-elements';
-import { list } from '../../DataAccess/TestsDao';
+import { list } from '../../DataAccess/SamplesDao';
 import { debounce } from 'lodash';
 
-export default class TestsListScreen extends React.Component {
+export default class SamplesListScreen extends React.Component {
     static navigationOptions = {
-        title: 'Tests',
-        drawerLabel: 'Tests'
+        title: 'Samples',
+        drawerLabel: 'Samples'
     };
 
     constructor(props) {
@@ -17,7 +17,7 @@ export default class TestsListScreen extends React.Component {
             loaded: false,
             permissions: {},
             query: '',
-            tests: {},
+            samples: {},
         };
 
         this.search = debounce(query => this._refresh(query), 300);
@@ -26,17 +26,15 @@ export default class TestsListScreen extends React.Component {
     
     render() {
         const { navigate } = this.props.navigation;
-        let tests = this.state.tests;
-        let permissions = this.state.permissions || tests.$permissions;
+        let samples = this.state.samples;
+        let permissions = this.state.permissions || samples.$permissions;
         let loaded = this.state.loaded;
 
-        function renderItem({ item }) { 
+        function renderItem({ item }) {
             return (
-                <ListItem key={item.TestId}
-                    title={item.Name}
-                    onPress={() => {
-                        console.log('navigate to test details'); 
-                        navigate('TestsDetails', { testId: item.TestId })}} />
+                <ListItem key={item.Sample.SampleId}
+                    title={item.Sample.Description}
+                    onPress={() => navigate('SamplesDetails', { sampleId: item.Sample.SampleId })} />
             );
         }
 
@@ -45,9 +43,9 @@ export default class TestsListScreen extends React.Component {
                 {permissions.CanCreate &&
                     <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 15 }}>
                         <View style={{ flex: 1 }}>
-                            <Button title='Create new'
+                            <Button title='Add'
                                 buttonStyle={{ backgroundColor: '#3a3' }}
-                                onPress={() => navigate('TestsCreate')} />
+                                onPress={() => navigate('SamplesCreate')} />
                         </View>
                     </View>
                 }
@@ -64,8 +62,8 @@ export default class TestsListScreen extends React.Component {
 
                 {loaded &&
                     <View style={{ flex: 1 }}>
-                        <FlatList data={tests.Results}
-                            keyExtractor={item => item.TestId}
+                        <FlatList data={samples.Results}
+                            keyExtractor={item => `sample-${item.Sample.SampleId}`}
                             renderItem={renderItem}
                             refreshing={!loaded}
                             onRefresh={() => this._refresh()} />
@@ -80,17 +78,17 @@ export default class TestsListScreen extends React.Component {
             loaded: false,
             permissions: this.state.permissions,
             query: searchQuery || '',
-            tests: this.state.tests
+            samples: this.state.samples
         });
 
         let query = this.state.query;
 
         try {
-            let tests = await list(query);
-            this.setState({ loaded: true, permissions: tests.$permissions, query, tests });
+            let samples = await list(query);
+            this.setState({ loaded: true, permissions: samples.$permissions, query, samples });
         } catch(e) {
             // TODO: display error
-            this.setState({ loaded: true, permissions: this.state.permissions, query, tests: {} });
+            this.setState({ loaded: true, permissions: this.state.permissions, query, samples: {} });
         }
     }
 }
