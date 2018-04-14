@@ -1,7 +1,7 @@
 import * as HttpClient from './HttpClient';
 import Config from '../Config';
 
-const baseUrl = Config.apiServer + "api/reagents/";
+const baseUrl = Config.apiServer + "api/reagents";
 
 export function list(query) {
     if (query) {

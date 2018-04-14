@@ -49,7 +49,12 @@ async function doRequest(method, url, body) {
 
     let obj = null;
     try {
-        obj = await response.json();
+        //obj = await response.json();
+
+        // TODO: development only
+        let text = await response.text();
+        console.log(text);
+        obj = JSON.parse(text);
     } catch(e) {
         console.error(e);
     }
@@ -58,8 +63,6 @@ async function doRequest(method, url, body) {
         // no json
         console.error('Server did not send valid JSON');
     }
-
-    console.log(obj);
     
     if (!response.ok || !obj) {
         // server exception

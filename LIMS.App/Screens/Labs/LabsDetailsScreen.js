@@ -69,6 +69,11 @@ export default class LabsDetailsScreen extends React.Component {
                         
                         <Text h4>Location</Text>
                         <Text>{this.state.lab.Location}</Text>
+
+                        <Button title='Samples'
+                            containerViewStyle={{ marginTop: 15 }}
+                            buttonStyle={{ backgroundColor: '#34f' }}
+                            onPress={() => navigate('LabsSamplesList', this.state.lab)} />
                     </ScrollView>
                 }
             </View>

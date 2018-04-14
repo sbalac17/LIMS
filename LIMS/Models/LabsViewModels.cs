@@ -317,6 +317,8 @@ namespace LIMS.Models
     {
         public LabSample LabSample { get; set; }
 
+        public Sample Sample => LabSample.Sample;
+
         public List<Result> Comments { get; set; }
 
         public bool IsLabManager { get; set; }

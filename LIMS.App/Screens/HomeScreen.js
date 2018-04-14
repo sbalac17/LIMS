@@ -34,7 +34,7 @@ export default class HomeScreen extends React.Component {
                     <Button title="Open »"
                         containerViewStyle={{ marginTop: 20 }}
                         backgroundColor="#34f"
-                        onPress={() => {}} />
+                        onPress={() => navigate('LabsDetails', { labId: item.LabId })} />
                 </Card>
             );
         }
