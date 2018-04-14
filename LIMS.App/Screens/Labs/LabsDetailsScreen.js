@@ -71,9 +71,14 @@ export default class LabsDetailsScreen extends React.Component {
                         <Text>{this.state.lab.Location}</Text>
 
                         <Button title='Samples'
-                            containerViewStyle={{ marginTop: 15 }}
+                            containerViewStyle={styles.spacing}
                             buttonStyle={{ backgroundColor: '#34f' }}
                             onPress={() => navigate('LabsSamplesList', this.state.lab)} />
+
+                        <Button title='Reagents'
+                            containerViewStyle={styles.spacing}
+                            buttonStyle={{ backgroundColor: '#34f' }}
+                            onPress={() => navigate('LabsReagentsList', this.state.lab)} />
                     </ScrollView>
                 }
             </View>
@@ -97,5 +102,8 @@ const styles = StyleSheet.create({
     },
     wrap: {
         margin: 15,
+    },
+    spacing: {
+        marginTop: 15,
     },
 });

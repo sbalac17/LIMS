@@ -164,13 +164,13 @@ namespace LIMS.Controllers.Api
             return JsonWithPermissions(result, true, isLabManager, isLabManager);
         }
 
-        [Route("api/labs/{labId:int}/removeReagent/{reagentId:int}")]
+        [Route("api/labs/{labId:int}/removeReagent/{usedReagentId:int}")]
         [HttpPost]
         [Authorize]
         [LabIdMember(LabManager = true)]
-        public async Task<IHttpActionResult> RemoveReagent(long labId, long reagentId, int returnQuantity = 0)
+        public async Task<IHttpActionResult> RemoveReagent(long labId, long usedReagentId, int returnQuantity = 0)
         {
-            var result = await LabsDao.RemoveReagent(this, labId, reagentId, returnQuantity);
+            var result = await LabsDao.RemoveReagent(this, labId, usedReagentId, returnQuantity);
             if (result == null)
                 return NotFound();
 

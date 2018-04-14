@@ -50,3 +50,11 @@ export function removeSample(labId, sampleId) {
 export function postComment(labId, sampleId, commentObj) {
     return HttpClient.post(`${baseUrl}/${labId}/samples/${sampleId}/comment`, commentObj);
 }
+
+export function reagentsList(labId) {
+    return HttpClient.get(`${baseUrl}/${labId}/reagents`);
+}
+
+export function removeReagent(labId, usedReagentId, returnQuantity) {
+    return HttpClient.post(`${baseUrl}/${labId}/removeReagent/${usedReagentId}?returnQuantity=${returnQuantity}`);
+}
