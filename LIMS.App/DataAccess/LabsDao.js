@@ -39,6 +39,14 @@ export function sampleDetails(labId, sampleId) {
     return HttpClient.get(`${baseUrl}/${labId}/samples/${sampleId}`);
 }
 
+export function updateSample(labId, sampleId, obj) {
+    return HttpClient.put(`${baseUrl}/${labId}/samples/${sampleId}`, obj);
+}
+
+export function removeSample(labId, sampleId) {
+    return HttpClient.del(`${baseUrl}/${labId}/removeSample/${sampleId}`)
+}
+
 export function postComment(labId, sampleId, commentObj) {
     return HttpClient.post(`${baseUrl}/${labId}/samples/${sampleId}/comment`, commentObj);
 }

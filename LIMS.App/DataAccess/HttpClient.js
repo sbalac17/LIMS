@@ -53,25 +53,21 @@ async function doRequest(method, url, body) {
 
         // TODO: development only
         let text = await response.text();
-        console.log(text);
+        console.log(method, url, text);
         obj = JSON.parse(text);
     } catch(e) {
         console.error(e);
     }
 
-    if (!obj) {
-        // no json
-        console.error('Server did not send valid JSON');
-    }
-    
-    if (!response.ok || !obj) {
+    if (!response.ok) {
         // server exception
         if (response.status == 500 || response.status == 404) {
-            throw new HttpError(obj.ExceptionMessage || obj.Message || 'Internal server error');
+            let message = obj && (obj.ExceptionMessage || obj.Message);
+            throw new HttpError(message || 'Internal server error');
         }
 
         // form validation errors
-        let modelState = obj.ModelState;
+        let modelState = obj && obj.ModelState;
         if (response.status == 400 && modelState) {
             let errors = flatMap(Object.keys(modelState), key => modelState[key]);
             throw new HttpError(...errors);
@@ -80,6 +76,12 @@ async function doRequest(method, url, body) {
         // unknown error message
         console.error('response = ', response, 'obj = ', obj);
         throw new HttpError();
+    }
+    
+    if (!obj) {
+        // no json
+        console.error('Server did not send valid JSON', response.status, response.statusText);
+        throw new HttpError('Internal server error');
     }
 
     return obj;
