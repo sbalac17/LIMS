@@ -27,7 +27,7 @@ namespace LIMS.DataAccess
                     where lm.IsLabManager
                     select new LabsSearchResult
                     {
-                        Id = r.LabId,
+                        LabId = r.LabId,
                         IsMember = true,
                         CollegeName = r.Lab.CollegeName,
                         CourseCode = r.Lab.CourseCode,
@@ -48,7 +48,7 @@ namespace LIMS.DataAccess
                     let labManager = r.Members.FirstOrDefault(lm => lm.IsLabManager)
                     select new LabsSearchResult
                     {
-                        Id = r.LabId,
+                        LabId = r.LabId,
                         IsMember = isMember,
                         CollegeName = r.CollegeName,
                         CourseCode = r.CourseCode,

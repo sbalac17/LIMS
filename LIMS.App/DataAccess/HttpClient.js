@@ -58,10 +58,12 @@ async function doRequest(method, url, body) {
         // no json
         console.error('Server did not send valid JSON');
     }
+
+    console.log(obj);
     
     if (!response.ok || !obj) {
         // server exception
-        if (response.status == 500) {
+        if (response.status == 500 || response.status == 404) {
             throw new HttpError(obj.ExceptionMessage || obj.Message || 'Internal server error');
         }
 

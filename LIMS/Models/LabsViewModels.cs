@@ -16,7 +16,7 @@ namespace LIMS.Models
 
     public class LabsSearchResult
     {
-        public long Id { get; set; }
+        public long LabId { get; set; }
 
         public bool IsMember { get; set; }
 
