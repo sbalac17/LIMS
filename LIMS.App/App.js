@@ -19,6 +19,12 @@ import SamplesEditScreen from './Screens/Samples/SamplesEditScreen';
 import SamplesDeleteScreen from './Screens/Samples/SamplesDeleteScreen';
 import SamplesCreateScreen from './Screens/Samples/SamplesCreateScreen';
 
+import ReagentsListScreen from './Screens/Reagents/ReagentsListScreen';
+import ReagentsDetailsScreen from './Screens/Reagents/ReagentsDetailsScreen';
+import ReagentsEditScreen from './Screens/Reagents/ReagentsEditScreen';
+import ReagentsDeleteScreen from './Screens/Reagents/ReagentsDeleteScreen';
+import ReagentsCreateScreen from './Screens/Reagents/ReagentsCreateScreen';
+
 function renderHeader(headerProps) {
     const options = headerProps.getScreenDetails(headerProps.scene).options;
     return (
@@ -61,10 +67,24 @@ const SamplesStack = StackNavigator({
     }
 });
 
+const ReagentsStack = StackNavigator({
+    ReagentsList: { screen: ReagentsListScreen },
+    ReagentsDetails: { screen: ReagentsDetailsScreen },
+    ReagentsEdit: { screen: ReagentsEditScreen },
+    ReagentsDelete: { screen: ReagentsDeleteScreen },
+    ReagentsCreate: { screen: ReagentsCreateScreen },
+}, {
+    initialRouteName: 'ReagentsList',
+    navigationOptions: {
+        header: renderHeader
+    }
+});
+
 const AppDrawer = DrawerNavigator({
     HomeStack: { screen: HomeStack },
-    TestsStack: { screen: TestsStack },
+    ReagentsStack: { screen: ReagentsStack },
     SamplesStack: { screen: SamplesStack },
+    TestsStack: { screen: TestsStack },
 }, {
     initialRouteName: 'HomeStack'
 });

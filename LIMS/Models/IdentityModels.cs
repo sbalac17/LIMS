@@ -240,7 +240,7 @@ namespace LIMS.Models
 
         [JsonProperty(nameof(AddedDate))]
         [NotMapped]
-        public DateWithTime AddedDateJson
+        public Date AddedDateJson
         {
             get => AddedDate;
             set => AddedDate = value;
@@ -255,7 +255,7 @@ namespace LIMS.Models
 
         [JsonProperty(nameof(ExpiryDate))]
         [NotMapped]
-        public DateWithTime ExpiryDateJson
+        public Date ExpiryDateJson
         {
             get => ExpiryDate;
             set => ExpiryDate = value;

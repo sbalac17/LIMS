@@ -50,18 +50,19 @@ async function doRequest(method, url, body) {
     let obj = null;
     try {
         obj = await response.json();
-    } catch(e) { }
-
-    console.log("response", obj);
+    } catch(e) {
+        console.error(e);
+    }
 
     if (!obj) {
         // no json
         console.error('Server did not send valid JSON');
-        throw new HttpError('Internal server error');
-    } else if (!response.ok) {
+    }
+    
+    if (!response.ok || !obj) {
         // server exception
         if (response.status == 500) {
-            throw new HttpError(obj.ExceptionMessage || obj.Message);
+            throw new HttpError(obj.ExceptionMessage || obj.Message || 'Internal server error');
         }
 
         // form validation errors
@@ -72,7 +73,7 @@ async function doRequest(method, url, body) {
         }
 
         // unknown error message
-        console.error(obj);
+        console.error('response = ', response, 'obj = ', obj);
         throw new HttpError();
     }
 

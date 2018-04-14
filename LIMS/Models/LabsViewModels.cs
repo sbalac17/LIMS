@@ -191,7 +191,7 @@ namespace LIMS.Models
             public DateTimeOffset ReagentExpiryDate { get; set; }
             
             [JsonProperty(nameof(ReagentExpiryDate))]
-            public DateWithTime ReagentExpiryDateJson
+            public Date ReagentExpiryDateJson
             {
                 get => ReagentExpiryDate;
                 set => ReagentExpiryDate = value;
