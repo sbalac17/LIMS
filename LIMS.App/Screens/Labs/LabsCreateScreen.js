@@ -89,6 +89,8 @@ export default class LabsCreateScreen extends React.Component {
     }
 
     async _save() {
+        if (this.state.saving) return;
+        
         let lab = this.state.lab;
         this.setState({ saving: true, errors: [], lab });
 

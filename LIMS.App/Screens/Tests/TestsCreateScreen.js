@@ -74,6 +74,8 @@ export default class TestsCreateScreen extends React.Component {
     }
 
     async _save() {
+        if (this.state.saving) return;
+        
         let test = this.state.test;
         this.setState({ saving: true, errors: [], test });
 

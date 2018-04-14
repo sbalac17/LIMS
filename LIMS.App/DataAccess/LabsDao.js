@@ -55,6 +55,10 @@ export function reagentsList(labId) {
     return HttpClient.get(`${baseUrl}/${labId}/reagents`);
 }
 
+export function addReagent(labId, reagentId, quantity) {
+    return HttpClient.post(`${baseUrl}/${labId}/addReagent/${reagentId}?quantity=${quantity}`);
+}
+
 export function removeReagent(labId, usedReagentId, returnQuantity) {
     return HttpClient.post(`${baseUrl}/${labId}/removeReagent/${usedReagentId}?returnQuantity=${returnQuantity}`);
 }

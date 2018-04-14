@@ -82,6 +82,8 @@ export default class ReagentsCreateScreen extends React.Component {
     }
 
     async _save() {
+        if (this.state.saving) return;
+        
         let reagent = this.state.reagent;
         this.setState({ saving: true, errors: [], reagent });
 

@@ -75,6 +75,8 @@ export default class SamplesCreateScreen extends React.Component {
     }
 
     async _save() {
+        if (this.state.saving) return;
+        
         let sample = this.state.sample;
         this.setState({ saving: true, errors: [], sample });
 

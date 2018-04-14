@@ -37,6 +37,8 @@ import LabsSamplesEditScreen from './Screens/Labs/LabsSamplesEditScreen';
 import LabsSamplesDeleteScreen from './Screens/Labs/LabsSamplesDeleteScreen';
 import LabsReagentsListScreen from './Screens/Labs/LabsReagentsListScreen';
 import LabsReagentDeleteScreen from './Screens/Labs/LabsReagentsDeleteScreen';
+import LabsReagentsSelectionScreen from './Screens/Labs/LabsReagentsSelectionScreen';
+import LabsReagentsAddScreen from './Screens/Labs/LabsReagentsAddScreen';
 
 function renderHeader(headerProps) {
     const options = headerProps.getScreenDetails(headerProps.scene).options;
@@ -105,6 +107,8 @@ const LabsStack = StackNavigator({
     LabsSamplesDelete: { screen: LabsSamplesDeleteScreen },
     LabsReagentsList: { screen: LabsReagentsListScreen },
     LabsReagentsDelete: { screen: LabsReagentDeleteScreen },
+    LabsReagentsSelection: { screen: LabsReagentsSelectionScreen },
+    LabsReagentsAdd: { screen: LabsReagentsAddScreen },
 }, {
     initialRouteName: 'LabsList',
     navigationOptions: {

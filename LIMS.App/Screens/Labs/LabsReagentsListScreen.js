@@ -32,15 +32,15 @@ export default class LabsSamplesListScreen extends React.Component {
 
         return (
             <View style={styles.container}>
-                {/*permissions.CanCreate &&
+                {permissions.CanCreate &&
                     <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 15 }}>
                         <View style={{ flex: 1 }}>
                             <Button title='Add'
                                 buttonStyle={{ backgroundColor: '#3a3' }}
-                                onPress={() => navigate('LabsSamplesCreate', { lab: this.lab })} />
+                                onPress={() => this.navigate('LabsReagentsSelection', { labId: this.lab.LabId })} />
                         </View>
                     </View>
-                */}
+                }
 
                 {!loaded &&
                     <ActivityIndicator style={{ margin: 20 }} size="large" />
