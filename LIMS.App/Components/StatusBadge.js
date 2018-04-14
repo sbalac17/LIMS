@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     yellow: {
-        backgroundColor: '#aa3',
+        backgroundColor: '#cc3',
     },
     green: {
         backgroundColor: '#3a3',

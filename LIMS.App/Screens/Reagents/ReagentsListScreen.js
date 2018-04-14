@@ -74,12 +74,18 @@ export default class ReagentsListScreen extends React.Component {
     }
 
     async _refresh(searchQuery) {
-        this.setState({
-            loaded: false,
-            permissions: this.state.permissions,
-            query: searchQuery || '',
-            reagents: this.state.reagents
-        });
+        searchQuery = searchQuery || '';
+
+        if (this.state.loaded) {
+            this.setState({
+                loaded: false,
+                permissions: this.state.permissions,
+                query: searchQuery,
+                reagents: this.state.reagents
+            });
+        } else {
+            this.state.query = searchQuery;
+        }
 
         let query = this.state.query;
 

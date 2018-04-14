@@ -76,13 +76,19 @@ export default class TestsListScreen extends React.Component {
     }
 
     async _refresh(searchQuery) {
-        this.setState({
-            loaded: false,
-            permissions: this.state.permissions,
-            query: searchQuery || '',
-            tests: this.state.tests
-        });
+        searchQuery = searchQuery || '';
 
+        if (this.state.loaded) {
+            this.setState({
+                loaded: false,
+                permissions: this.state.permissions,
+                query: searchQuery || '',
+                tests: this.state.tests
+            });
+        } else {
+            this.state.query = searchQuery;
+        }
+        
         let query = this.state.query;
 
         try {

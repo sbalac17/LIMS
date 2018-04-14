@@ -6,8 +6,12 @@ export default class ErrorList extends React.Component {
     render() {
         let errors = this.props.errors;
 
+        if (!errors) {
+            return null;
+        }
+
         // wrap in an array for FlatList
-        if (errors && typeof errors === "string") {
+        if (typeof errors === "string") {
             errors = [ errors ];
         }
 

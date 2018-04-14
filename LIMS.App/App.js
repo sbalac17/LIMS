@@ -6,6 +6,7 @@ import * as NavigationService from './NavigationService';
 import HomeScreen from './Screens/HomeScreen';
 import LoginScreen from './Screens/LoginScreen';
 import LoadingScreen from './Screens/LoadingScreen';
+import OptionsScreen from './Screens/OptionsScreen';
 
 import TestsListScreen from './Screens/Tests/TestsListScreen';
 import TestsDetailsScreen from './Screens/Tests/TestsDetailsScreen';
@@ -103,12 +104,22 @@ const LabsStack = StackNavigator({
     }
 });
 
+const OptionsStack = StackNavigator({
+    Options: { screen: OptionsScreen },
+}, {
+    initialRouteName: 'Options',
+    navigationOptions: {
+        header: renderHeader
+    }
+});
+
 const AppDrawer = DrawerNavigator({
     HomeStack: { screen: HomeStack },
     LabsStack: { screen: LabsStack },
     ReagentsStack: { screen: ReagentsStack },
     SamplesStack: { screen: SamplesStack },
     TestsStack: { screen: TestsStack },
+    OptionsStack: { screen: OptionsStack },
 }, {
     initialRouteName: 'HomeStack'
 });

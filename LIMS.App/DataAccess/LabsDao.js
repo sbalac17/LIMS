@@ -38,3 +38,7 @@ export function samplesList(labId, query) {
 export function sampleDetails(labId, sampleId) {
     return HttpClient.get(`${baseUrl}/${labId}/samples/${sampleId}`);
 }
+
+export function postComment(labId, sampleId, commentObj) {
+    return HttpClient.post(`${baseUrl}/${labId}/samples/${sampleId}/comment`, commentObj);
+}

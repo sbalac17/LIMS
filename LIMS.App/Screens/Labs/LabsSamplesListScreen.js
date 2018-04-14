@@ -84,12 +84,18 @@ export default class LabsSamplesListScreen extends React.Component {
     }
 
     async _refresh(searchQuery) {
-        this.setState({
-            loaded: false,
-            permissions: this.state.permissions,
-            query: searchQuery || '',
-            obj: this.state.obj
-        });
+        searchQuery = searchQuery || '';
+
+        if (this.state.loaded) {
+            this.setState({
+                loaded: false,
+                permissions: this.state.permissions,
+                query: searchQuery,
+                obj: this.state.obj
+            });
+        } else {
+            this.state.query = searchQuery;
+        }
 
         let query = this.state.query;
 

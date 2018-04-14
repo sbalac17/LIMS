@@ -74,12 +74,18 @@ export default class SamplesListScreen extends React.Component {
     }
 
     async _refresh(searchQuery) {
-        this.setState({
-            loaded: false,
-            permissions: this.state.permissions,
-            query: searchQuery || '',
-            samples: this.state.samples
-        });
+        searchQuery = searchQuery || '';
+        
+        if (this.state.loaded) {
+            this.setState({
+                loaded: false,
+                permissions: this.state.permissions,
+                query: searchQuery,
+                samples: this.state.samples
+            });
+        } else {
+            this.state.query = searchQuery;
+        }
 
         let query = this.state.query;
 

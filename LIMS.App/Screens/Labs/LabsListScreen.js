@@ -75,12 +75,18 @@ export default class LabsListScreen extends React.Component {
     }
 
     async _refresh(searchQuery) {
-        this.setState({
-            loaded: false,
-            permissions: this.state.permissions,
-            query: searchQuery || '',
-            labs: this.state.labs
-        });
+        searchQuery = searchQuery || '';
+
+        if (this.state.loaded) {
+            this.setState({
+                loaded: false,
+                permissions: this.state.permissions,
+                query: searchQuery || '',
+                labs: this.state.labs
+            });
+        } else {
+            this.state.query = searchQuery;
+        }
 
         let query = this.state.query;
 

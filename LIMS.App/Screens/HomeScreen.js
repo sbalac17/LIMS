@@ -62,8 +62,10 @@ export default class HomeScreen extends React.Component {
     }
 
     async _refresh() {
-        this.setState({ loaded: false, recents: [] });
-
+        if (this.state.loaded) {
+            this.setState({ loaded: false, recents: [] });
+        }
+        
         try {
             let recents = await getRecentLabs();
             console.log('recents', recents);

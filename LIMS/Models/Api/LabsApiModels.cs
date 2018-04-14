@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
 
 namespace LIMS.Models.Api
 {
@@ -8,11 +7,11 @@ namespace LIMS.Models.Api
     {
         [Display(Name = "Comment")]
         [StringLength(1000, MinimumLength = 0)]
-        [JsonIgnore]
         public string Message { get; set; }
+        public bool ShouldSerializeMessage() => false;
 
-        [JsonIgnore]
         public LabSampleStatus? RequestedStatus { get; set; }
+        public bool ShouldSerializeRequestedStatus() => false;
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
