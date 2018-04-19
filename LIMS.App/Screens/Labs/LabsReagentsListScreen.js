@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem, Button, Badge } from 'react-native-elements';
 import { reagentsList } from '../../DataAccess/LabsDao';
+import autoRefresh from '../../AutoRefreshMixin';
 
 export default class LabsSamplesListScreen extends React.Component {
     static navigationOptions = {
@@ -22,8 +23,7 @@ export default class LabsSamplesListScreen extends React.Component {
         };
 
         this.lab = this.props.navigation.state.params;
-
-        this._refresh();
+        autoRefresh(this);
     }
     
     render() {

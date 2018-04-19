@@ -6,6 +6,7 @@ import UserName from '../../Components/UserName';
 import ErrorList from '../../Components/ErrorList';
 import { sampleDetails, postComment } from '../../DataAccess/LabsDao';
 import { extractErrorMessages } from '../../DataAccess/HttpClient';
+import autoRefresh from '../../AutoRefreshMixin';
 
 export default class LabsSamplesDetailsScreen extends React.Component {
     static navigationOptions = {
@@ -28,14 +29,14 @@ export default class LabsSamplesDetailsScreen extends React.Component {
             commentErrors: null,
         };
 
-        this._refresh();
+        autoRefresh(this);
     }
 
     // TODO: need to refresh when coming backs
     render() {
         const { navigate } = this.props.navigation;
         let { loaded, obj, comment, posting, commentErrors } = this.state;
-        let permissions = obj.$permissions;
+        let permissions = obj && obj.$permissions;
 
         // TODO: the view needs to expand back when keyboard closes
         return (
@@ -162,7 +163,7 @@ export default class LabsSamplesDetailsScreen extends React.Component {
 
     async _refresh() {
         if (this.state.loaded) {
-            this.setState({ loaded: false });
+            this.setState({ loaded: false, obj: null });
         }
 
         try {

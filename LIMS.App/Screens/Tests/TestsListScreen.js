@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { SearchBar, ListItem, Button } from 'react-native-elements';
 import { list } from '../../DataAccess/TestsDao';
+import autoRefresh from '../../AutoRefreshMixin';
 import { debounce } from 'lodash';
 
 export default class TestsListScreen extends React.Component {
@@ -21,7 +22,7 @@ export default class TestsListScreen extends React.Component {
         };
 
         this.search = debounce(query => this._refresh(query), 300);
-        this._refresh();
+        autoRefresh(this);
     }
     
     render() {

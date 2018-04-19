@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import { read } from '../../DataAccess/ReagentsDao';
+import autoRefresh from '../../AutoRefreshMixin';
 
 export default class ReagentsDetailsScreen extends React.Component {
     static navigationOptions = {
@@ -18,13 +19,13 @@ export default class ReagentsDetailsScreen extends React.Component {
             reagent: {},
         };
 
-        this._refresh();
+        autoRefresh(this);
     }
 
     // TODO: need to refresh when coming backs
     render() {
         const { navigate } = this.props.navigation;
-        let permissions = this.state.reagent.$permissions;
+        let permissions = this.state.reagent && this.state.reagent.$permissions;
 
         return (
             <View style={styles.container}>
@@ -73,11 +74,16 @@ export default class ReagentsDetailsScreen extends React.Component {
     }
 
     async _refresh() {
+        if (this.state.loaded) {
+            this.setState({ loaded: false, reagent: null });
+        }
+
         try {
             let reagent = await read(this.reagentId);
             this.setState({ loaded: true, reagent });
         } catch(e) {
             // TODO: report error
+            this.setState({ loaded: true, reagent: null });
         }
     }
 }

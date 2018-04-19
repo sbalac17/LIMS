@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import { read } from '../../DataAccess/LabsDao';
+import autoRefresh from '../../AutoRefreshMixin';
 
 export default class LabsDetailsScreen extends React.Component {
     static navigationOptions = {
@@ -18,13 +19,13 @@ export default class LabsDetailsScreen extends React.Component {
             lab: {},
         };
 
-        this._refresh();
+        autoRefresh(this);
     }
 
     // TODO: need to refresh when coming backs
     render() {
         const { navigate } = this.props.navigation;
-        let permissions = this.state.lab.$permissions;
+        let permissions = this.state.lab && this.state.lab.$permissions;
 
         return (
             <View style={styles.container}>
@@ -86,11 +87,16 @@ export default class LabsDetailsScreen extends React.Component {
     }
 
     async _refresh() {
+        if (this.state.loaded) {
+            this.setState({ loaded: false, lab: null });
+        }
+
         try {
             let lab = await read(this.labId);
             this.setState({ loaded: true, lab });
         } catch(e) {
             // TODO: report error
+            this.setState({ loaded: true, lab: null });
         }
     }
 }

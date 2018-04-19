@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-nativ
 import { SearchBar, ListItem, Button } from 'react-native-elements';
 import StatusBadge from '../../Components/StatusBadge';
 import { samplesList } from '../../DataAccess/LabsDao';
+import autoRefresh from '../../AutoRefreshMixin';
 import { debounce } from 'lodash';
 
 export default class LabsSamplesListScreen extends React.Component {
@@ -27,7 +28,7 @@ export default class LabsSamplesListScreen extends React.Component {
         this.lab = this.props.navigation.state.params;
 
         this.search = debounce(query => this._refresh(query), 300);
-        this._refresh();
+        autoRefresh(this);
     }
     
     render() {

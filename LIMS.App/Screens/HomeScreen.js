@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
 import { Divider, Button, Text, Card } from 'react-native-elements';
 import { getRecentLabs } from '../DataAccess/HomeDao';
+import autoRefresh from '../AutoRefreshMixin';
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -17,7 +18,7 @@ export default class HomeScreen extends React.Component {
             recents: [],
         };
 
-        this._refresh();
+        autoRefresh(this);
     }
     
     render() {
@@ -68,7 +69,6 @@ export default class HomeScreen extends React.Component {
         
         try {
             let recents = await getRecentLabs();
-            console.log('recents', recents);
             this.setState({ loaded: true, recents });
         } catch (e) {
             // TODO: display error
