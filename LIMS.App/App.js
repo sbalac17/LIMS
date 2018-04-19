@@ -153,7 +153,7 @@ let TopLevelNavigator = SwitchNavigator({
 export default class App extends React.Component {
     render() {
         return (
-            <TopLevelNavigator ref={NavigationService.setTopLevelNavigator} />
+            <TopLevelNavigator ref={NavigationService.setTopLevelNavigator} style={{ flex: 1 }} />
         );
     }
 }

@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { SearchBar, ListItem, Button } from 'react-native-elements';
 import { list } from '../../DataAccess/ReagentsDao';
-import autoRefresh from '../../AutoRefreshMixin';
 import { debounce } from 'lodash';
+import AutoRefreshable from '../../Components/AutoRefreshable';
 
-export default class LabsReagentsSelectionScreen extends React.Component {
+export default class LabsReagentsSelectionScreen extends AutoRefreshable {
     static navigationOptions = {
         title: 'Add Reagent to Lab',
         drawerLabel: 'Work Setup'
@@ -27,7 +27,6 @@ export default class LabsReagentsSelectionScreen extends React.Component {
         };
 
         this.search = debounce(query => this._refresh(query), 300);
-        autoRefresh(this);
     }
     
     render() {
@@ -66,7 +65,7 @@ export default class LabsReagentsSelectionScreen extends React.Component {
         );
     }
 
-    async _refresh(searchQuery) {
+    async refresh(searchQuery) {
         searchQuery = searchQuery || '';
 
         if (this.state.loaded) {

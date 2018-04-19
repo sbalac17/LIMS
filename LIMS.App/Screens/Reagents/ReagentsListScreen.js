@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { SearchBar, ListItem, Button } from 'react-native-elements';
 import { list } from '../../DataAccess/ReagentsDao';
-import autoRefresh from '../../AutoRefreshMixin';
 import { debounce } from 'lodash';
+import AutoRefreshable from '../../Components/AutoRefreshable';
 
-export default class ReagentsListScreen extends React.Component {
+export default class ReagentsListScreen extends AutoRefreshable {
     static navigationOptions = {
         title: 'Reagents',
         drawerLabel: 'Reagents'
@@ -74,7 +74,7 @@ export default class ReagentsListScreen extends React.Component {
         );
     }
 
-    async _refresh(searchQuery) {
+    async refresh(searchQuery) {
         searchQuery = searchQuery || '';
 
         if (this.state.loaded) {

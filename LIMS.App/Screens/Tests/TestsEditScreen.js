@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, ScrollView, TextInput } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import ErrorList from '../../Components/ErrorList';
+import AutoScrollingView from '../../Components/AutoScrollingView';
 import { update } from '../../DataAccess/TestsDao';
 import { extractErrorMessages } from '../../DataAccess/HttpClient';
 
@@ -32,38 +33,33 @@ export default class TestsEditScreen extends React.Component {
         let errors = this.state.errors;
         let test = this.state.test;
 
-        // TODO: the view needs to expand back when keyboard closes
         return (
-            <KeyboardAvoidingView contentContainerStyle={styles.container} behavior="height" keyboardVerticalOffset={60}>
-                <View>
-                <ScrollView style={styles.wrap}>
-                    <Text h4>Test Code</Text>
-                    <Text>{test.TestId}</Text>
+            <AutoScrollingView>
+                <Text h4>Test Code</Text>
+                <Text>{test.TestId}</Text>
 
-                    <Text h4>Name</Text>
-                    <TextInput
-                        value={test.Name}
-                        style={styles.input}
-                        onChangeText={text => this.setState({ saving, errors, test: { TestId: test.TestId, Name: text, Description: test.Description }})} />
-                    
-                    <Text h4>Description</Text>
-                    <TextInput
-                        value={test.Description}
-                        multiline={true}
-                        style={styles.input}
-                        onChangeText={text => this.setState({ saving, errors, test: { TestId: test.TestId, Name: test.Name, Description: text }})} />
+                <Text h4>Name</Text>
+                <TextInput
+                    value={test.Name}
+                    style={styles.input}
+                    onChangeText={text => this.setState({ saving, errors, test: { TestId: test.TestId, Name: text, Description: test.Description }})} />
+                
+                <Text h4>Description</Text>
+                <TextInput
+                    value={test.Description}
+                    multiline={true}
+                    style={styles.input}
+                    onChangeText={text => this.setState({ saving, errors, test: { TestId: test.TestId, Name: test.Name, Description: text }})} />
 
-                    <ErrorList errors={errors} />
+                <ErrorList errors={errors} />
 
-                    <View style={{ marginTop: 15 }}>
-                        <Button title='Save'
-                            loading={saving}
-                            buttonStyle={{ backgroundColor: '#3a3' }}
-                            onPress={() => this._save()} />
-                    </View>
-                </ScrollView>
+                <View style={{ marginTop: 15 }}>
+                    <Button title='Save'
+                        loading={saving}
+                        buttonStyle={{ backgroundColor: '#3a3' }}
+                        onPress={() => this._save()} />
                 </View>
-            </KeyboardAvoidingView>
+            </AutoScrollingView>
         );
     }
 

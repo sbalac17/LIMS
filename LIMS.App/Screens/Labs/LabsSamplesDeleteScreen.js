@@ -26,7 +26,6 @@ export default class LabsSamplesDeleteScreen extends React.Component {
         };
     }
     
-    // TODO: need to refresh when coming back
     render() {
         let { labSample, sample } = this.state;
 

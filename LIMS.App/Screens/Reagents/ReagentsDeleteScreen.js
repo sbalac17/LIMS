@@ -21,7 +21,6 @@ export default class ReagentsDeleteScreen extends React.Component {
         this.state = reagent;
     }
     
-    // TODO: need to refresh when coming back
     render() {
         return (
             <View style={styles.container}>

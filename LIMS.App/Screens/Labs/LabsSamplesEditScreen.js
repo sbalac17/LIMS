@@ -3,6 +3,7 @@ import { StyleSheet, View, KeyboardAvoidingView, ScrollView, TextInput } from 'r
 import { Text, Button } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import ErrorList from '../../Components/ErrorList';
+import AutoScrollingView from '../../Components/AutoScrollingView';
 import { updateSample } from '../../DataAccess/LabsDao';
 import { extractErrorMessages } from '../../DataAccess/HttpClient';
 
@@ -35,41 +36,36 @@ export default class LabsSamplesEditScreen extends React.Component {
     render() {
         let { saving, errors, labSample, sample, notes } = this.state;
 
-        // TODO: the view needs to expand back when keyboard closes
         return (
-            <KeyboardAvoidingView contentContainerStyle={styles.container} behavior="height" keyboardVerticalOffset={60}>
-                <View>
-                <ScrollView style={styles.wrap}>
-                    <Text h4>Test Code</Text>
-                    <Text>{sample.TestId}</Text>
+            <AutoScrollingView>
+                <Text h4>Test Code</Text>
+                <Text>{sample.TestId}</Text>
 
-                    <Text h4>Description</Text>
-                    <Text>{sample.Description}</Text>
+                <Text h4>Description</Text>
+                <Text>{sample.Description}</Text>
 
-                    <Text h4>Taken</Text>
-                    <Text>{sample.AddedDate}</Text>
+                <Text h4>Taken</Text>
+                <Text>{sample.AddedDate}</Text>
 
-                    <Text h4>Assigned</Text>
-                    <Text>{labSample.AssignedDate}</Text>
+                <Text h4>Assigned</Text>
+                <Text>{labSample.AssignedDate}</Text>
 
-                    <Text h4>Notes</Text>
-                    <TextInput
-                        value={notes}
-                        multiline={true}
-                        style={styles.input}
-                        onChangeText={text => this.setState({ notes: text })} />
+                <Text h4>Notes</Text>
+                <TextInput
+                    value={notes}
+                    multiline={true}
+                    style={styles.input}
+                    onChangeText={text => this.setState({ notes: text })} />
 
-                    <ErrorList errors={this.state.errors} />
+                <ErrorList errors={this.state.errors} />
 
-                    <View style={{ marginTop: 15 }}>
-                        <Button title='Save'
-                            loading={saving}
-                            buttonStyle={{ backgroundColor: '#3a3' }}
-                            onPress={() => this._save()} />
-                    </View>
-                </ScrollView>
+                <View style={{ marginTop: 15 }}>
+                    <Button title='Save'
+                        loading={saving}
+                        buttonStyle={{ backgroundColor: '#3a3' }}
+                        onPress={() => this._save()} />
                 </View>
-            </KeyboardAvoidingView>
+            </AutoScrollingView>
         );
     }
 

@@ -21,7 +21,6 @@ export default class SamplesDeleteScreen extends React.Component {
         this.state = sample;
     }
     
-    // TODO: need to refresh when coming back
     render() {
         return (
             <View style={styles.container}>

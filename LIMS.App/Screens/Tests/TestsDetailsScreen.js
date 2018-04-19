@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import { read } from '../../DataAccess/TestsDao';
-import autoRefresh from '../../AutoRefreshMixin';
+import AutoRefreshable from '../../Components/AutoRefreshable';
 
-export default class TestsDetailsScreen extends React.Component {
+export default class TestsDetailsScreen extends AutoRefreshable {
     static navigationOptions = {
         title: 'Test Details',
         drawerLabel: 'Tests'
@@ -22,7 +22,6 @@ export default class TestsDetailsScreen extends React.Component {
         autoRefresh(this);
     }
 
-    // TODO: need to refresh when coming backs
     render() {
         const { navigate } = this.props.navigation;
         let permissions = this.state.test && this.state.test.$permissions;
@@ -70,7 +69,7 @@ export default class TestsDetailsScreen extends React.Component {
         );
     }
 
-    async _refresh() {
+    async refresh() {
         if (this.state.loaded) {
             this.setState({ loaded: false, test: null });
         }

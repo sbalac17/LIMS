@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import { read } from '../../DataAccess/ReagentsDao';
-import autoRefresh from '../../AutoRefreshMixin';
+import AutoRefreshable from '../../Components/AutoRefreshable';
 
-export default class ReagentsDetailsScreen extends React.Component {
+export default class ReagentsDetailsScreen extends AutoRefreshable {
     static navigationOptions = {
         title: 'Reagent Details',
         drawerLabel: 'Reagents'
@@ -18,11 +18,8 @@ export default class ReagentsDetailsScreen extends React.Component {
             loaded: false,
             reagent: {},
         };
-
-        autoRefresh(this);
     }
 
-    // TODO: need to refresh when coming backs
     render() {
         const { navigate } = this.props.navigation;
         let permissions = this.state.reagent && this.state.reagent.$permissions;
@@ -73,7 +70,7 @@ export default class ReagentsDetailsScreen extends React.Component {
         );
     }
 
-    async _refresh() {
+    async refresh() {
         if (this.state.loaded) {
             this.setState({ loaded: false, reagent: null });
         }

@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
 import { Divider, Button, Text, Card } from 'react-native-elements';
 import { getRecentLabs } from '../DataAccess/HomeDao';
-import autoRefresh from '../AutoRefreshMixin';
+import AutoRefreshable from '../Components/AutoRefreshable';
 
-export default class HomeScreen extends React.Component {
+export default class HomeScreen extends AutoRefreshable {
     static navigationOptions = {
         title: 'Home',
         drawerLabel: 'Home'
@@ -17,8 +17,6 @@ export default class HomeScreen extends React.Component {
             loaded: false,
             recents: [],
         };
-
-        autoRefresh(this);
     }
     
     render() {
@@ -62,7 +60,7 @@ export default class HomeScreen extends React.Component {
         );
     }
 
-    async _refresh() {
+    async refresh() {
         if (this.state.loaded) {
             this.setState({ loaded: false, recents: [] });
         }

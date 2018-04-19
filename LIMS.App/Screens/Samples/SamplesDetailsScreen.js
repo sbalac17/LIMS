@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import { read } from '../../DataAccess/SamplesDao';
-import autoRefresh from '../../AutoRefreshMixin';
+import AutoRefreshable from '../../Components/AutoRefreshable';
 
-export default class SamplesDetailsScreen extends React.Component {
+export default class SamplesDetailsScreen extends AutoRefreshable {
     static navigationOptions = {
         title: 'Sample Details',
         drawerLabel: 'Samples'
@@ -18,11 +18,8 @@ export default class SamplesDetailsScreen extends React.Component {
             loaded: false,
             sample: {},
         };
-
-        autoRefresh(this);
     }
 
-    // TODO: need to refresh when coming backs
     render() {
         const { navigate } = this.props.navigation;
         let permissions = this.state.sample && this.state.sample.$permissions;
@@ -70,7 +67,7 @@ export default class SamplesDetailsScreen extends React.Component {
         );
     }
 
-    async _refresh() {
+    async refresh() {
         if (this.state.loaded) {
             this.setState({ loaded: false, sample: null });
         }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
+import AutoScrollingView from '../Components/AutoScrollingView';
 import { createAccessToken } from '../Authentication/Token';
 
 export default class LoginScreen extends React.Component {
@@ -21,7 +22,7 @@ export default class LoginScreen extends React.Component {
 
     render() {
         return (
-            <KeyboardAvoidingView style={styles.container} behavior="padding">
+            <AutoScrollingView>
                 <Text style={styles.title}>LIMS</Text>
                 <Text style={styles.subtitle}>Centennial College</Text>
 
@@ -44,7 +45,7 @@ export default class LoginScreen extends React.Component {
                     loading={this.state.working}
                     onPress={() => this.login()}
                     style={styles.submit} />
-            </KeyboardAvoidingView>
+            </AutoScrollingView>
         );
     }
 

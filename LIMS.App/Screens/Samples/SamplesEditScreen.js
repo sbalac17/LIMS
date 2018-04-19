@@ -3,6 +3,7 @@ import { StyleSheet, View, KeyboardAvoidingView, ScrollView, TextInput } from 'r
 import { Text, Button } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import ErrorList from '../../Components/ErrorList';
+import AutoScrollingView from '../../Components/AutoScrollingView';
 import { update } from '../../DataAccess/SamplesDao';
 import { extractErrorMessages } from '../../DataAccess/HttpClient';
 
@@ -33,38 +34,33 @@ export default class SamplesEditScreen extends React.Component {
         let errors = this.state.errors;
         let sample = this.state.sample;
 
-        // TODO: the view needs to expand back when keyboard closes
         return (
-            <KeyboardAvoidingView contentContainerStyle={styles.container} behavior="height" keyboardVerticalOffset={60}>
-                <View>
-                <ScrollView style={styles.wrap}>
-                    <Text h4>Test Code</Text>
-                    <Text>{sample.TestId}</Text>
+            <AutoScrollingView>
+                <Text h4>Test Code</Text>
+                <Text>{sample.TestId}</Text>
 
-                    <Text h4>Description</Text>
-                    <TextInput
-                        value={sample.Description}
-                        multiline={true}
-                        style={styles.input}
-                        onChangeText={text => this.setState({ saving, errors, sample: { TestId: sample.TestId, Description: text, AddedDate: sample.AddedDate }})} />
-                    
-                    <Text h4>Taken</Text>
-                    <DatePicker date={sample.AddedDate} style={{ width: '100%' }}
-                        mode="datetime" format="DD/MM/YYYY h:mm:ss A"
-                        minDate="01/01/2000 12:00:00 AM" maxDate="01/01/2050 12:00:00 AM"
-                        onDateChange={text => this.setState({ saving, errors, sample: { TestId: sample.TestId, Description: sample.Description, AddedDate: text }})} />
+                <Text h4>Description</Text>
+                <TextInput
+                    value={sample.Description}
+                    multiline={true}
+                    style={styles.input}
+                    onChangeText={text => this.setState({ saving, errors, sample: { TestId: sample.TestId, Description: text, AddedDate: sample.AddedDate }})} />
+                
+                <Text h4>Taken</Text>
+                <DatePicker date={sample.AddedDate} style={{ width: '100%' }}
+                    mode="datetime" format="DD/MM/YYYY h:mm:ss A"
+                    minDate="01/01/2000 12:00:00 AM" maxDate="01/01/2050 12:00:00 AM"
+                    onDateChange={text => this.setState({ saving, errors, sample: { TestId: sample.TestId, Description: sample.Description, AddedDate: text }})} />
 
-                    <ErrorList errors={errors} />
+                <ErrorList errors={errors} />
 
-                    <View style={{ marginTop: 15 }}>
-                        <Button title='Save'
-                            loading={saving}
-                            buttonStyle={{ backgroundColor: '#3a3' }}
-                            onPress={() => this._save()} />
-                    </View>
-                </ScrollView>
+                <View style={{ marginTop: 15 }}>
+                    <Button title='Save'
+                        loading={saving}
+                        buttonStyle={{ backgroundColor: '#3a3' }}
+                        onPress={() => this._save()} />
                 </View>
-            </KeyboardAvoidingView>
+            </AutoScrollingView>
         );
     }
 

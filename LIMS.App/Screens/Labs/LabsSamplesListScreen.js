@@ -3,10 +3,10 @@ import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-nativ
 import { SearchBar, ListItem, Button } from 'react-native-elements';
 import StatusBadge from '../../Components/StatusBadge';
 import { samplesList } from '../../DataAccess/LabsDao';
-import autoRefresh from '../../AutoRefreshMixin';
 import { debounce } from 'lodash';
+import AutoRefreshable from '../../Components/AutoRefreshable';
 
-export default class LabsSamplesListScreen extends React.Component {
+export default class LabsSamplesListScreen extends AutoRefreshable {
     static navigationOptions = {
         title: 'Lab Samples',
         drawerLabel: 'Work Setup'
@@ -38,16 +38,6 @@ export default class LabsSamplesListScreen extends React.Component {
 
         return (
             <View style={styles.container}>
-                {/*permissions.CanCreate &&
-                    <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 15 }}>
-                        <View style={{ flex: 1 }}>
-                            <Button title='Add'
-                                buttonStyle={{ backgroundColor: '#3a3' }}
-                                onPress={() => navigate('LabsSamplesCreate', { lab: this.lab })} />
-                        </View>
-                    </View>
-                */}
-
                 <SearchBar placeholder="Search" lightTheme
                     onChangeText={this.search}
                     onClearText={this.search}
@@ -84,7 +74,7 @@ export default class LabsSamplesListScreen extends React.Component {
         );
     }
 
-    async _refresh(searchQuery) {
+    async refresh(searchQuery) {
         searchQuery = searchQuery || '';
 
         if (this.state.loaded) {
