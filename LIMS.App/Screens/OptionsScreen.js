@@ -19,7 +19,7 @@ export default class OptionsScreen extends React.Component {
             userName: '',
         };
 
-        this._refresh();
+        this.refresh();
     }
     
     render() {
@@ -33,7 +33,7 @@ export default class OptionsScreen extends React.Component {
         );
     }
 
-    async _refresh() {
+    async refreshImpl() {
         try {
             let token = await tryGetSavedToken();
             this.setState({ userName: token.userName });

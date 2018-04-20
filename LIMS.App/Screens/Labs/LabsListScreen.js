@@ -21,8 +21,7 @@ export default class LabsListScreen extends AutoRefreshable {
             labs: {},
         };
 
-        this.search = debounce(query => this._refresh(query), 300);
-        autoRefresh(this);
+        this.search = debounce(query => this.refresh(query), 300);
     }
     
     render() {
@@ -68,7 +67,7 @@ export default class LabsListScreen extends AutoRefreshable {
                             keyExtractor={item => `lab-${item.LabId}`}
                             renderItem={renderItem}
                             refreshing={!loaded}
-                            onRefresh={() => this._refresh()} />
+                            onRefresh={() => this.refresh()} />
                     </View>
                 }
             </View>

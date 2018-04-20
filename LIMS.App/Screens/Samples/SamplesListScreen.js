@@ -21,7 +21,7 @@ export default class SamplesListScreen extends AutoRefreshable {
             samples: {},
         };
 
-        this.search = debounce(query => this._refresh(query), 300);
+        this.search = debounce(query => this.refresh(query), 300);
     }
     
     render() {
@@ -66,7 +66,7 @@ export default class SamplesListScreen extends AutoRefreshable {
                             keyExtractor={item => `sample-${item.Sample.SampleId}`}
                             renderItem={renderItem}
                             refreshing={!loaded}
-                            onRefresh={() => this._refresh()} />
+                            onRefresh={() => this.refresh()} />
                     </View>
                 }
             </View>

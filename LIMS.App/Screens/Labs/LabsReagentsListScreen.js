@@ -51,7 +51,7 @@ export default class LabsSamplesListScreen extends AutoRefreshable {
                             keyExtractor={item => `usedreagent-${item.UsedReagentId}`}
                             renderItem={item => this.renderItem(item, permissions)}
                             refreshing={!loaded}
-                            onRefresh={() => this._refresh()} />
+                            onRefresh={() => this.refresh()} />
                     </View>
                 }
             </View>
@@ -74,7 +74,7 @@ export default class LabsSamplesListScreen extends AutoRefreshable {
         );
     }
 
-    async refresh() {
+    async refreshImpl() {
         if (this.state.loaded) {
             this.setState({ loaded: false });
         }

@@ -9,10 +9,12 @@ export default class AutoRefreshable extends React.Component {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        if (super.componentDidMount) {
+            super.componentDidMount();
+        }
 
         if (!this.props.navigation) {
-            console.error('no navigation?');
+            console.error('component has no navigation');
             return;
         }
 
@@ -21,13 +23,17 @@ export default class AutoRefreshable extends React.Component {
             const focusKey = event.state.key;
 
             if (componentKey === focusKey) {
-                component._refresh();
+                this.refresh();
             }
         });
+
+        this.refresh();
     }
 
     componentWillUnmount() {
-        super.componentWillUnmount();
+        if (super.componentWillUnmount) {
+            super.componentWillUnmount();
+        }
 
         if (this.listener) {
             this.listener.remove();
@@ -35,12 +41,12 @@ export default class AutoRefreshable extends React.Component {
         }
     }
 
-    async refresh() {
+    async refreshImpl() {
         // descendents will override
         console.error('refresh() is not implemented');
     }
 
-    async _doRefresh() {
+    async refresh() {
         if (this.refreshing) {
             return;
         }
@@ -48,7 +54,7 @@ export default class AutoRefreshable extends React.Component {
         this.refreshing = true;
 
         try {
-            await this.refresh();
+            await this.refreshImpl();
         } finally {
             this.refreshing = false;
         }

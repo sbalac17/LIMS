@@ -19,33 +19,37 @@ export default class LoginScreen extends React.Component {
             working: false
         };
     }
-
+    
     render() {
         return (
-            <AutoScrollingView>
-                <Text style={styles.title}>LIMS</Text>
-                <Text style={styles.subtitle}>Centennial College</Text>
+            <View style={styles.container}>
+                <KeyboardAvoidingView contentContainerStyle={styles.scrollContainer} behavior="padding" keyboardVerticalOffset={0}>
+                    <View style={styles.container}>
+                        <Text style={styles.title}>LIMS</Text>
+                        <Text style={styles.subtitle}>Centennial College</Text>
 
-                <TextInput placeholder="Username"
-                    keyboardType="email-address"
-                    value={this.state.username}
-                    editable={!this.state.working}
-                    onChangeText={text => this.setState({ username: text, password: this.state.password, working: this.state.working })}
-                    style={styles.textbox} />
+                        <TextInput placeholder="Username"
+                            keyboardType="email-address"
+                            value={this.state.username}
+                            editable={!this.state.working}
+                            onChangeText={text => this.setState({ username: text, password: this.state.password, working: this.state.working })}
+                            style={styles.textbox} />
 
-                <TextInput placeholder="Password"
-                    secureTextEntry={true}
-                    value={this.state.password}
-                    editable={!this.state.working}
-                    onChangeText={text => this.setState({ username: this.state.username, password: text, working: this.state.working })}
-                    style={styles.textbox} />
+                        <TextInput placeholder="Password"
+                            secureTextEntry={true}
+                            value={this.state.password}
+                            editable={!this.state.working}
+                            onChangeText={text => this.setState({ username: this.state.username, password: text, working: this.state.working })}
+                            style={styles.textbox} />
 
-                <Button title="Login"
-                    disabled={this.state.working}
-                    loading={this.state.working}
-                    onPress={() => this.login()}
-                    style={styles.submit} />
-            </AutoScrollingView>
+                        <Button title="Login"
+                            disabled={this.state.working}
+                            loading={this.state.working}
+                            onPress={() => this.login()}
+                            style={styles.submit} />
+                    </View>
+                </KeyboardAvoidingView>
+            </View>
         );
     }
 
@@ -68,9 +72,12 @@ export default class LoginScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    scrollContainer: {
         flex: 1,
         backgroundColor: '#fff',
+    },
+    container: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },

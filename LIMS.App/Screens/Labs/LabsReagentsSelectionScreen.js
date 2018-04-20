@@ -26,7 +26,7 @@ export default class LabsReagentsSelectionScreen extends AutoRefreshable {
             reagents: {},
         };
 
-        this.search = debounce(query => this._refresh(query), 300);
+        this.search = debounce(query => this.refresh(query), 300);
     }
     
     render() {
@@ -50,7 +50,7 @@ export default class LabsReagentsSelectionScreen extends AutoRefreshable {
                             keyExtractor={item => `reagent-${item.ReagentId}`}
                             renderItem={item => this.renderItem(item)}
                             refreshing={!loaded}
-                            onRefresh={() => this._refresh()} />
+                            onRefresh={() => this.refresh()} />
                     </View>
                 }
             </View>

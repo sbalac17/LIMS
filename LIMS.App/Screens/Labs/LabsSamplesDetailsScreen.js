@@ -154,7 +154,7 @@ export default class LabsSamplesDetailsScreen extends AutoRefreshable {
         );
     }
 
-    async refresh() {
+    async refreshImpl() {
         if (this.state.loaded) {
             this.setState({ loaded: false, obj: null });
         }
@@ -182,7 +182,7 @@ export default class LabsSamplesDetailsScreen extends AutoRefreshable {
             });
 
             this.setState({ comment: '', posting: false });
-            this._refresh();
+            this.refresh();
         } catch(e) {
             this.setState({ commentErrors: extractErrorMessages(e), posting: false });
         }

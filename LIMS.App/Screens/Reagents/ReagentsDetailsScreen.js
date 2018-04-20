@@ -70,7 +70,7 @@ export default class ReagentsDetailsScreen extends AutoRefreshable {
         );
     }
 
-    async refresh() {
+    async refreshImpl() {
         if (this.state.loaded) {
             this.setState({ loaded: false, reagent: null });
         }

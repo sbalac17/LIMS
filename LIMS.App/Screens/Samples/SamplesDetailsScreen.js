@@ -67,7 +67,7 @@ export default class SamplesDetailsScreen extends AutoRefreshable {
         );
     }
 
-    async refresh() {
+    async refreshImpl() {
         if (this.state.loaded) {
             this.setState({ loaded: false, sample: null });
         }

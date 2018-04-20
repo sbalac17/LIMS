@@ -18,8 +18,6 @@ export default class TestsDetailsScreen extends AutoRefreshable {
             loaded: false,
             test: {},
         };
-
-        autoRefresh(this);
     }
 
     render() {
@@ -69,7 +67,7 @@ export default class TestsDetailsScreen extends AutoRefreshable {
         );
     }
 
-    async refresh() {
+    async refreshImpl() {
         if (this.state.loaded) {
             this.setState({ loaded: false, test: null });
         }

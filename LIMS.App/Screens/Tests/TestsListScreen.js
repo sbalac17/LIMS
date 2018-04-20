@@ -21,7 +21,7 @@ export default class TestsListScreen extends AutoRefreshable {
             tests: {},
         };
 
-        this.search = debounce(query => this._refresh(query), 300);
+        this.search = debounce(query => this.refresh(query), 300);
     }
     
     render() {
@@ -68,7 +68,7 @@ export default class TestsListScreen extends AutoRefreshable {
                             keyExtractor={item => item.TestId}
                             renderItem={renderItem}
                             refreshing={!loaded}
-                            onRefresh={() => this._refresh()} />
+                            onRefresh={() => this.refresh()} />
                     </View>
                 }
             </View>
