@@ -49,9 +49,7 @@ async function doRequest(method, url, body) {
 
     let obj = null;
     try {
-        //obj = await response.json();
-
-        // TODO: development only
+        // TODO: development only, switch to response.json() later
         let text = await response.text();
         console.log(method, url, text);
         obj = JSON.parse(text);

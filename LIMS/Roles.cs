@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace LIMS
+﻿namespace LIMS
 {
     /// <summary>
     /// The global roles for the system. See <see cref="PrincipalExtensions"/> for helper methods.

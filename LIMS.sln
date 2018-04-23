@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LIMS", "LIMS\LIMS.csproj", "{FED520B0-E534-404C-9859-7F275EA8C1FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LIMS.Test", "LIMS.Test\LIMS.Test.csproj", "{1ECF9175-84CD-437B-9E9C-9694E62C910B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FED520B0-E534-404C-9859-7F275EA8C1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FED520B0-E534-404C-9859-7F275EA8C1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FED520B0-E534-404C-9859-7F275EA8C1FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ECF9175-84CD-437B-9E9C-9694E62C910B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ECF9175-84CD-437B-9E9C-9694E62C910B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ECF9175-84CD-437B-9E9C-9694E62C910B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ECF9175-84CD-437B-9E9C-9694E62C910B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
